@@ -1,0 +1,1042 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IA & Métiers France — Observatoire des données</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=IBM+Plex+Mono:wght@400;500&family=Lora:ital,wght@0,400;0,500;1,400&display=swap');
+:root{
+  --bg:#F7F4EF;--bg2:#EDE9E0;--sf:#FFFFFF;--sf2:#FAF8F3;--sf3:#F2EFE8;
+  --br:rgba(0,0,0,0.08);--br2:rgba(0,0,0,0.04);--br3:rgba(0,0,0,0.12);
+  --tx:#18181F;--tx2:#52526A;--tx3:#9898B0;--tx4:#C0C0D0;
+  --acc:#C94A12;--acc2:#1E5CB8;--acc3:#138050;--acc4:#8B3DAA;
+  --t1:#1E5CB8;--t2:#138050;--t3:#C94A12;--t4:#8B3DAA;
+  --shadow:0 1px 4px rgba(0,0,0,0.06),0 4px 16px rgba(0,0,0,0.06);
+}
+[data-theme="dark"]{
+  --bg:#0D0D16;--bg2:#141420;--sf:#18182A;--sf2:#1E1E2E;--sf3:#242434;
+  --br:rgba(255,255,255,0.07);--br2:rgba(255,255,255,0.03);--br3:rgba(255,255,255,0.12);
+  --tx:#E8E8F4;--tx2:#8888A8;--tx3:#484860;--tx4:#303048;
+  --acc:#F06030;--acc2:#5B8FF0;--acc3:#3DC890;--acc4:#C87AE8;
+  --t1:#5B8FF0;--t2:#3DC890;--t3:#F06030;--t4:#C87AE8;
+  --shadow:0 1px 4px rgba(0,0,0,0.2),0 4px 16px rgba(0,0,0,0.25);
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+html,body{background:var(--bg);color:var(--tx);font-family:'IBM Plex Mono',monospace;min-height:100vh;transition:background .22s,color .22s;font-size:13px;}
+
+/* ── HEADER ── */
+.hd{background:var(--sf);border-bottom:1px solid var(--br);padding:12px 20px;display:flex;align-items:center;gap:14px;}
+.hd-t{flex:1;}
+.hd-t h1{font-family:'Syne',sans-serif;font-size:15px;font-weight:800;letter-spacing:-.3px;color:var(--tx);}
+.hd-t .sub{font-size:9px;color:var(--tx3);font-family:'IBM Plex Mono',monospace;margin-top:2px;}
+.hd-r{display:flex;gap:6px;align-items:center;flex-shrink:0;}
+.badge{font-size:9px;font-family:'IBM Plex Mono',monospace;padding:3px 8px;border-radius:4px;border:1px solid var(--br);color:var(--tx2);background:var(--bg2);}
+.badge b{color:var(--tx);}
+.th-btn{width:32px;height:18px;border-radius:9px;border:1px solid var(--br);background:var(--bg2);cursor:pointer;position:relative;transition:background .2s;flex-shrink:0;}
+.th-btn::after{content:'';position:absolute;top:2px;left:2px;width:12px;height:12px;border-radius:50%;background:var(--acc);transition:transform .2s;}
+[data-theme="dark"] .th-btn::after{transform:translateX(14px);}
+
+/* ── TABS ── */
+.tabs{background:var(--sf);border-bottom:1px solid var(--br);display:flex;overflow-x:auto;scrollbar-width:none;-ms-overflow-style:none;}
+.tabs::-webkit-scrollbar{display:none;}
+.tab{font-family:'Syne',sans-serif;font-size:10px;font-weight:700;padding:9px 14px;border:none;background:transparent;color:var(--tx3);cursor:pointer;white-space:nowrap;letter-spacing:.3px;position:relative;transition:color .15s;}
+.tab::after{content:'';position:absolute;bottom:0;left:0;right:0;height:2px;background:var(--acc);transform:scaleX(0);transition:transform .2s;}
+.tab.on{color:var(--acc);}
+.tab.on::after{transform:scaleX(1);}
+.tab:hover{color:var(--tx2);}
+.tab-content{display:none;}
+.tab-content.on{display:block;}
+
+
+
+/* ── TOOLBAR ── */
+.tb{background:var(--sf);border-bottom:1px solid var(--br);padding:7px 20px;display:flex;align-items:center;gap:7px;flex-wrap:wrap;}
+.tbl{font-size:8.5px;font-family:'IBM Plex Mono',monospace;color:var(--tx3);text-transform:uppercase;letter-spacing:.8px;white-space:nowrap;}
+.chips{display:flex;gap:3px;flex-wrap:wrap;}
+.chip{font-size:9px;font-family:'Syne',sans-serif;font-weight:700;padding:2px 8px;border-radius:20px;border:1px solid var(--br);background:transparent;color:var(--tx2);cursor:pointer;transition:all .15s;}
+.chip:hover{border-color:var(--acc);color:var(--acc);} .chip.on{background:var(--acc);border-color:var(--acc);color:#fff;}
+.chip-d{font-size:8px;padding:2px 6px;}
+.vbtns{display:flex;gap:2px;}
+.vbtn{font-size:9px;font-family:'IBM Plex Mono',monospace;padding:3px 8px;border-radius:3px;border:1px solid var(--br);background:transparent;color:var(--tx3);cursor:pointer;transition:all .15s;}
+.vbtn.on{background:var(--tx);color:var(--bg);border-color:var(--tx);}
+.srch{font-size:11px;font-family:'IBM Plex Mono',monospace;padding:4px 10px;border-radius:5px;border:1px solid var(--br);background:var(--bg2);color:var(--tx);outline:none;width:150px;}
+.srch:focus{border-color:var(--acc);} .srch::placeholder{color:var(--tx3);}
+
+/* ── MATRIX TAB ── */
+.main-wrap{display:flex;min-height:0;}
+.cwrap{flex:1;min-width:0;overflow:hidden;}
+#ssvg{width:100%;display:block;}
+.panel{width:0;overflow:hidden;transition:width .25s cubic-bezier(.4,0,.2,1);border-left:1px solid transparent;background:var(--sf);}
+.panel.open{width:270px;border-left-color:var(--br);}
+.pin{width:270px;padding:14px 14px 10px;height:100%;overflow-y:auto;}
+.pcls{display:flex;justify-content:flex-end;margin-bottom:5px;}
+.pcls button{font-size:14px;background:none;border:none;color:var(--tx3);cursor:pointer;padding:1px 3px;}
+.pcode{font-size:8.5px;font-family:'IBM Plex Mono',monospace;color:var(--tx3);margin-bottom:2px;}
+.ptitle{font-family:'Syne',sans-serif;font-size:13px;font-weight:700;color:var(--tx);line-height:1.25;margin-bottom:4px;}
+.pdom{font-size:8.5px;color:var(--tx2);margin-bottom:9px;font-family:'IBM Plex Mono',monospace;}
+.psr{display:flex;align-items:center;gap:8px;margin-bottom:9px;}
+.psn{font-family:'IBM Plex Mono',monospace;font-size:20px;font-weight:500;line-height:1;color:var(--tx);}
+.psd{flex:1;} .pslab{font-size:8.5px;color:var(--tx3);margin-bottom:2px;font-family:'IBM Plex Mono',monospace;}
+.pbar{height:3px;border-radius:2px;background:var(--br);overflow:hidden;margin-bottom:3px;}
+.pbf{height:100%;border-radius:2px;}
+.qtag{display:inline-block;font-size:8px;font-family:'Syne',sans-serif;font-weight:700;padding:2px 6px;border-radius:3px;letter-spacing:.3px;}
+.pmeta{display:grid;grid-template-columns:1fr 1fr;gap:5px;margin:9px 0;padding:8px;background:var(--bg2);border-radius:6px;}
+.pmk{font-size:8px;color:var(--tx3);font-family:'IBM Plex Mono',monospace;margin-bottom:1px;}
+.pmv{font-size:10.5px;font-weight:500;color:var(--tx);}
+.prat{font-size:10px;color:var(--tx2);line-height:1.6;margin-bottom:9px;font-family:'IBM Plex Mono',monospace;}
+.psec{font-family:'Syne',sans-serif;font-size:8.5px;font-weight:700;letter-spacing:.7px;text-transform:uppercase;color:var(--acc);margin-bottom:7px;display:flex;align-items:center;gap:5px;}
+.psec::after{content:'';flex:1;height:1px;background:var(--br);}
+.rcard{padding:7px 9px;background:var(--sf2);border:1px solid var(--br2);border-radius:5px;margin-bottom:4px;transition:border-color .15s;}
+.rcard:hover{border-color:var(--acc);}
+.rt2{font-size:9.5px;font-weight:500;color:var(--tx);font-family:'Syne',sans-serif;margin-bottom:2px;}
+.rd2{font-size:9px;color:var(--tx2);line-height:1.5;font-family:'IBM Plex Mono',monospace;}
+
+/* ── LIST VIEW ── */
+#lview{display:none;padding:0 20px 14px;overflow-y:auto;max-height:500px;}
+.lt{width:100%;border-collapse:collapse;}
+.lt th{font-family:'IBM Plex Mono',monospace;font-size:8px;text-transform:uppercase;letter-spacing:.6px;color:var(--tx3);padding:5px 7px;border-bottom:2px solid var(--br);text-align:left;position:sticky;top:0;background:var(--sf);z-index:2;}
+.lt td{padding:5px 7px;border-bottom:1px solid var(--br2);vertical-align:middle;}
+.lt tr:hover td{background:var(--bg2);cursor:pointer;}
+.tll{font-weight:600;color:var(--tx);font-family:'Syne',sans-serif;font-size:10.5px;}
+.tld{color:var(--tx3);font-size:8.5px;font-family:'IBM Plex Mono',monospace;}
+.spill{display:flex;align-items:center;gap:4px;}
+.sdot{width:7px;height:7px;border-radius:50%;flex-shrink:0;}
+.rpill{font-size:8.5px;font-family:'IBM Plex Mono',monospace;color:var(--tx3);background:var(--bg2);padding:2px 5px;border-radius:3px;}
+
+/* ── LEGEND ── */
+.lgd{padding:7px 20px;display:flex;gap:8px;flex-wrap:wrap;border-top:1px solid var(--br);font-size:9px;align-items:center;background:var(--sf);}
+.lgsep{width:1px;height:11px;background:var(--br);}
+.lgi{display:flex;align-items:center;gap:3px;color:var(--tx2);}
+.lgsw{width:8px;height:8px;border-radius:50%;}
+.lgq{display:flex;gap:5px;flex-wrap:wrap;}
+.qb{font-size:8px;font-family:'Syne',sans-serif;font-weight:700;padding:2px 5px;border-radius:3px;}
+.anote{margin-left:auto;font-size:8px;color:var(--tx3);font-family:'IBM Plex Mono',monospace;}
+.sbar{padding:7px 20px;display:flex;gap:14px;flex-wrap:wrap;border-top:1px solid var(--br);}
+.sv{font-family:'IBM Plex Mono',monospace;font-size:14px;font-weight:500;color:var(--tx);}
+.sk{font-size:8px;color:var(--tx3);margin-top:1px;font-family:'IBM Plex Mono',monospace;text-transform:uppercase;letter-spacing:.5px;}
+
+/* ── PREDICTIONS TAB ── */
+.pred-wrap{padding:20px 24px;}
+.pred-intro{font-size:12px;color:var(--tx2);line-height:1.7;max-width:760px;margin-bottom:20px;}
+.pred-intro b{color:var(--tx);font-family:'Syne',sans-serif;}
+.pred-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:12px;}
+.pred-tile{background:var(--sf);border:1px solid var(--br);border-radius:10px;padding:14px 16px;cursor:pointer;transition:border-color .15s,box-shadow .15s;position:relative;}
+.pred-tile:hover{border-color:var(--br3);box-shadow:var(--shadow);}
+.pred-tile.expanded{border-color:var(--acc);box-shadow:var(--shadow);}
+.pred-tile-header{display:flex;align-items:flex-start;gap:10px;margin-bottom:8px;}
+.pred-num{font-family:'IBM Plex Mono',monospace;font-size:22px;font-weight:500;color:var(--tx);line-height:1;flex-shrink:0;}
+.pred-num-unit{font-size:11px;font-weight:400;color:var(--tx2);margin-left:1px;}
+.pred-title{font-family:'Syne',sans-serif;font-size:12px;font-weight:700;color:var(--tx);line-height:1.3;flex:1;}
+.pred-trend{font-size:14px;flex-shrink:0;}
+.pred-desc{font-size:10.5px;color:var(--tx2);line-height:1.55;margin-bottom:8px;}
+.pred-sources{display:none;margin-top:8px;border-top:1px solid var(--br2);padding-top:8px;}
+.pred-tile.expanded .pred-sources{display:block;}
+.pred-src-row{display:flex;align-items:center;gap:6px;padding:3px 0;font-size:9.5px;font-family:'IBM Plex Mono',monospace;}
+.pred-src-tier{width:6px;height:6px;border-radius:50%;flex-shrink:0;}
+.pred-src-name{color:var(--tx2);flex:1;}
+.pred-src-val{color:var(--tx);font-weight:500;}
+.pred-src-year{color:var(--tx3);}
+.pred-tier-dist{display:flex;gap:3px;margin-top:6px;}
+.ptd-seg{height:4px;border-radius:2px;transition:width .3s;}
+
+/* ── PRODUCTIVITY TAB ── */
+.prod-wrap{padding:20px 24px;}
+.prod-intro{font-size:12px;color:var(--tx2);line-height:1.7;max-width:760px;margin-bottom:20px;}
+.prod-intro b{color:var(--tx);font-family:'Syne',sans-serif;}
+.prod-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-bottom:20px;}
+@media(max-width:640px){.prod-grid{grid-template-columns:1fr 1fr;}}
+.prod-bar-col{display:flex;flex-direction:column;align-items:center;gap:6px;}
+.prod-bar-wrap{width:100%;display:flex;flex-direction:column;justify-content:flex-end;height:200px;position:relative;}
+.prod-bar-fill{width:100%;border-radius:4px 4px 0 0;transition:height .4s;cursor:pointer;position:relative;}
+.prod-bar-fill:hover{opacity:.85;}
+.prod-bar-label{font-size:9px;font-family:'IBM Plex Mono',monospace;color:var(--tx2);text-align:center;line-height:1.3;}
+.prod-bar-pct{font-family:'IBM Plex Mono',monospace;font-size:11px;font-weight:500;color:var(--tx);}
+.prod-economists{background:var(--sf);border:1px solid var(--br);border-radius:10px;padding:14px 16px;}
+.prod-econ-title{font-family:'Syne',sans-serif;font-size:11px;font-weight:700;color:var(--tx);margin-bottom:10px;letter-spacing:.3px;}
+.prod-econ-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:8px;}
+.prod-econ-card{background:var(--bg2);border-radius:6px;padding:8px 10px;}
+.prod-econ-name{font-family:'Syne',sans-serif;font-size:10px;font-weight:700;color:var(--tx);margin-bottom:2px;}
+.prod-econ-inst{font-size:8.5px;color:var(--tx3);font-family:'IBM Plex Mono',monospace;margin-bottom:4px;}
+.prod-econ-bars{display:flex;flex-direction:column;gap:2px;}
+.prod-econ-bar{display:flex;align-items:center;gap:5px;}
+.prod-econ-bar-fill{height:4px;border-radius:2px;}
+.prod-econ-bar-pct{font-size:8px;font-family:'IBM Plex Mono',monospace;color:var(--tx3);min-width:24px;}
+
+/* ── USAGE TAB ── */
+.usage-wrap{padding:16px 20px;}
+.usage-intro{font-size:11px;color:var(--tx2);line-height:1.65;max-width:760px;margin-bottom:16px;}
+.usage-intro b{color:var(--tx);font-family:'Syne',sans-serif;}
+.usage-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+@media(max-width:600px){.usage-grid{grid-template-columns:1fr;}}
+.usage-card{background:var(--sf);border:1px solid var(--br);border-radius:8px;padding:12px 14px;min-width:0;overflow:hidden;}
+.usage-card-title{font-family:'Syne',sans-serif;font-size:11px;font-weight:700;color:var(--tx);letter-spacing:.2px;margin-bottom:3px;}
+.usage-card-src{font-size:8px;color:var(--tx3);font-family:'IBM Plex Mono',monospace;margin-bottom:10px;}
+#age-svg,#freq-svg,#tools-svg,#tasks-svg{width:100%;display:block;overflow:visible;}
+
+/* ── DISPLACEMENT TAB ── */
+.disp-wrap{padding:20px 24px;}
+.disp-intro{font-size:12px;color:var(--tx2);line-height:1.7;max-width:760px;margin-bottom:20px;}
+.disp-intro b{color:var(--tx);font-family:'Syne',sans-serif;}
+.timeline-wrap{position:relative;padding-left:28px;max-width:760px;}
+.timeline-line{position:absolute;left:10px;top:0;bottom:0;width:1px;background:var(--br);}
+.timeline-item{position:relative;margin-bottom:16px;}
+.tl-dot{position:absolute;left:-22px;top:4px;width:10px;height:10px;border-radius:50%;border:2px solid var(--sf);z-index:1;}
+.tl-year{font-size:9px;font-family:'IBM Plex Mono',monospace;color:var(--tx3);margin-bottom:3px;}
+.tl-title{font-family:'Syne',sans-serif;font-size:12px;font-weight:700;color:var(--tx);margin-bottom:3px;}
+.tl-body{font-size:10.5px;color:var(--tx2);line-height:1.55;}
+.tl-meta{display:flex;align-items:center;gap:6px;margin-top:4px;flex-wrap:wrap;}
+.tl-source{font-size:8.5px;font-family:'IBM Plex Mono',monospace;color:var(--tx3);}
+.tl-value{font-size:10px;font-family:'IBM Plex Mono',monospace;font-weight:500;}
+
+/* ── METHODOLOGY TAB ── */
+.meth-wrap{padding:20px 24px;max-width:820px;}
+.meth-kpi{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:24px;}
+@media(max-width:600px){.meth-kpi{grid-template-columns:1fr 1fr;}}
+.meth-kpi-card{background:var(--sf);border:1px solid var(--br);border-radius:8px;padding:12px 14px;}
+.meth-kpi-val{font-family:'IBM Plex Mono',monospace;font-size:22px;font-weight:500;color:var(--tx);line-height:1;}
+.meth-kpi-lbl{font-size:8.5px;color:var(--tx3);margin-top:3px;text-transform:uppercase;letter-spacing:.5px;}
+.meth-section{margin-bottom:22px;}
+.meth-h{font-family:'Syne',sans-serif;font-size:11px;font-weight:700;color:var(--acc);letter-spacing:.5px;text-transform:uppercase;margin-bottom:10px;padding-bottom:5px;border-bottom:1px solid var(--br);}
+.meth-p{font-size:11px;color:var(--tx2);line-height:1.7;margin-bottom:8px;font-family:'IBM Plex Mono',monospace;}
+.meth-p b{color:var(--tx);}
+.meth-table{width:100%;border-collapse:collapse;font-family:'IBM Plex Mono',monospace;font-size:10px;margin-bottom:8px;}
+.meth-table th{font-size:8.5px;text-transform:uppercase;letter-spacing:.5px;color:var(--tx3);padding:5px 8px;border-bottom:2px solid var(--br);text-align:left;}
+.meth-table td{padding:6px 8px;border-bottom:1px solid var(--br2);vertical-align:top;color:var(--tx2);line-height:1.5;}
+.meth-table td:first-child{color:var(--tx);font-weight:500;white-space:nowrap;}
+.meth-swatch{display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:4px;vertical-align:middle;}
+.meth-score-row{display:flex;align-items:center;gap:8px;padding:5px 0;border-bottom:1px solid var(--br2);}
+.meth-score-bar{height:8px;border-radius:4px;}
+.meth-score-lbl{font-size:9px;font-family:'IBM Plex Mono',monospace;color:var(--tx2);min-width:80px;}
+.meth-score-val{font-size:9px;font-family:'Syne',sans-serif;font-weight:700;color:var(--tx);min-width:30px;}
+.meth-vs{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px;}
+@media(max-width:500px){.meth-vs{grid-template-columns:1fr;}}
+.meth-vs-col{background:var(--sf);border:1px solid var(--br);border-radius:7px;padding:10px 12px;}
+.meth-vs-title{font-family:'Syne',sans-serif;font-size:10px;font-weight:700;color:var(--tx);margin-bottom:6px;}
+.meth-vs-item{font-size:9.5px;font-family:'IBM Plex Mono',monospace;color:var(--tx2);padding:2px 0;display:flex;gap:5px;}
+.meth-vs-item span{color:var(--acc3);}
+.meth-vs-item.minus span{color:var(--tx3);}
+.meth-snapshot{font-size:9px;font-family:'IBM Plex Mono',monospace;color:var(--tx3);margin-top:16px;padding:8px 12px;background:var(--bg2);border-radius:5px;border-left:2px solid var(--br3);}
+
+/* ── FOOTER ── */
+footer{padding:8px 24px;font-size:9px;color:var(--tx3);border-top:1px solid var(--br);display:flex;gap:10px;flex-wrap:wrap;font-family:'IBM Plex Mono',monospace;background:var(--sf);}
+footer a{color:var(--tx2);text-decoration:none;}
+
+@media(max-width:640px){
+  .hd,.tb,.lgd,.sbar,footer,.pred-wrap,.prod-wrap,.usage-wrap,.disp-wrap{padding-left:14px;padding-right:14px;}
+  .panel.open{width:100%;border-left:none;border-top:1px solid var(--br);}
+  .main-wrap{flex-direction:column;}
+  .srch{width:130px;}
+  .hd-r .badge:nth-child(2){display:none;}
+}
+</style>
+</head>
+<body>
+
+<header class="hd">
+  <div class="hd-t">
+    <h1>IA & Métiers Français — Observatoire des données</h1>
+    <div class="sub">ROME 4.0 · INSEE EEC 2024 · DARES FAP 2021 · Ipsos · Ifop · Scoring multi-sources pondéré</div>
+  </div>
+  <div class="hd-r">
+    <div class="badge"><b id="bt">38</b> métiers</div>
+    <div class="badge">Moy. pondérée <b id="ba">—</b>/10</div>
+    <button class="th-btn" id="thbtn" aria-label="Thème clair/nuit"></button>
+  </div>
+</header>
+
+<!-- TABS -->
+<nav class="tabs">
+  <button class="tab on" data-tab="matrix">Matrice IA</button>
+  <button class="tab" data-tab="disp">Exposition → Emploi</button>
+  <button class="tab" data-tab="pred">Prédictions (8)</button>
+  <button class="tab" data-tab="prod">Productivité & IA</button>
+  <button class="tab" data-tab="usage">Usage IA France</button>
+  <button class="tab" data-tab="meth">Méthodologie</button>
+</nav>
+
+
+
+<!-- ═══════════════════════════════════════════════════════ TAB 1: MATRIX ═══ -->
+<div id="tab-matrix" class="tab-content on">
+  <div class="tb">
+    <span class="tbl">Domaine</span>
+    <div class="chips" id="dchips"><div class="chip on" data-d="all">Tous</div></div>
+    <span style="width:1px;height:11px;background:var(--br);display:inline-block"></span>
+    <span class="tbl">Expo</span>
+    <div class="chips">
+      <div class="chip on" data-s="all">Tous</div>
+      <div class="chip" data-s="0-3">0-3</div>
+      <div class="chip" data-s="4-6">4-6</div>
+      <div class="chip" data-s="7-10">7-10</div>
+    </div>
+    <input class="srch" type="search" id="srch" placeholder="Rechercher…">
+    <div class="vbtns" style="margin-left:auto"><button class="vbtn on" id="bsc">Treemap</button><button class="vbtn" id="bls">Liste</button></div>
+  </div>
+
+  <div class="main-wrap" id="mwrap">
+    <div class="cwrap" id="cwrap"><svg id="ssvg"></svg></div>
+    <div class="panel" id="panel">
+      <div class="pin">
+        <div class="pcls"><button id="pclose">✕</button></div>
+        <div class="pcode" id="pcode"></div>
+        <div class="ptitle" id="ptitle"></div>
+        <div class="pdom" id="pdom"></div>
+        <div class="psr"><div class="psn" id="psn"></div><div class="psd"><div class="pslab" id="pslab"></div><div class="pbar"><div class="pbf" id="pbf"></div></div><div class="qtag" id="pqtag"></div></div></div>
+        <div class="pmeta" id="pmeta"></div>
+        <p class="prat" id="prat"></p>
+        <div class="psec">Pistes de réinvention</div>
+        <div id="preinv"></div>
+      </div>
+    </div>
+  </div>
+
+  <div id="lview">
+    <table class="lt">
+      <thead><tr><th>Métier</th><th>Domaine</th><th>Score pondéré</th><th>Salaire</th><th>Effectifs</th><th>Réinvention</th></tr></thead>
+      <tbody id="lbody"></tbody>
+    </table>
+  </div>
+
+  <div class="lgd">
+    <div style="font-size:8px;font-family:'IBM Plex Mono',monospace;color:var(--tx3);text-transform:uppercase;letter-spacing:.6px">Exposition IA</div>
+    <div class="lgq">
+      <span class="qb" style="background:#4ECDC4;color:#fff">0-2 Minimale</span>
+      <span class="qb" style="background:#62BFA3;color:#fff">3-4 Faible</span>
+      <span class="qb" style="background:#F7B731;color:#fff">5-6 Modérée</span>
+      <span class="qb" style="background:#FF8C69;color:#fff">7-8 Élevée</span>
+      <span class="qb" style="background:#FF6B6B;color:#fff">9-10 Très élevée</span>
+    </div>
+    <div class="lgsep"></div>
+    <div id="dlgd" class="lgq"></div>
+    <span class="anote">Surface = effectifs · cliquer pour le détail</span>
+  </div>
+  <div class="sbar" id="sbar" style="display:none">
+    <div><div class="sv" id="sm">—</div><div class="sk">métiers</div></div>
+    <div><div class="sv" id="se">—</div><div class="sk">emplois</div></div>
+    <div><div class="sv" id="sa">—</div><div class="sk">score moyen</div></div>
+    <div><div class="sv" id="sv2">—</div><div class="sk">très exposés</div></div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════ TAB 2: DISPLACEMENT ═══ -->
+<div id="tab-disp" class="tab-content">
+  <div class="disp-wrap">
+    <p class="disp-intro">
+      <b>De l'exposition à la perte d'emploi.</b> L'adoption de l'IA s'accélère et transforme le travail, mais l'impact net sur l'emploi reste incertain. Cette timeline retrace les signaux observés en France et en Europe entre 2022 et 2025, classés par niveau de preuve.
+    </p>
+    <div class="timeline-wrap">
+      <div class="timeline-line"></div>
+      <div id="timeline-items"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════ TAB 3: PREDICTIONS ═══ -->
+<div id="tab-pred" class="tab-content">
+  <div class="pred-wrap">
+    <p class="pred-intro">
+      <b>8 prédictions</b> sur le déplacement d'emploi, les salaires et l'adoption de l'IA en France — chacune construite à partir de multiples sources pondérées par niveau de preuve et par récence. Cliquez sur une tuile pour voir les sources détaillées. Les chiffres sont des <b>moyennes pondérées recalculées en temps réel</b> selon vos filtres de niveaux de preuve.
+    </p>
+    <div class="pred-grid" id="pred-grid"></div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════ TAB 4: PRODUCTIVITY ═══ -->
+<div id="tab-prod" class="tab-content">
+  <div class="prod-wrap">
+    <p class="prod-intro">
+      <b>Ce que les économistes attendent de la productivité IA.</b> Estimations de probabilité pour la croissance de la productivité 2025–2035 en France et dans les pays avancés, inspirées de l'exercice de Jason Furman (févr. 2026) et croisées avec les prévisions BCE, OCDE et Banque de France. Les barres représentent les probabilités moyennes sur les 5 scénarios de croissance de la productivité totale des facteurs.
+    </p>
+    <div class="prod-grid" id="prod-bars"></div>
+    <div class="prod-economists" style="margin-top:16px">
+      <div class="prod-econ-title">ÉCONOMISTES & INSTITUTIONS SUIVIS (France & international)</div>
+      <div class="prod-econ-grid" id="econ-grid"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════ TAB 5: USAGE ═══ -->
+<div id="tab-usage" class="tab-content">
+  <div class="usage-wrap">
+    <p class="usage-intro">
+      <b>Usage des IA génératives en France par tranche d'âge.</b> Sources : Ipsos-CESI (fév. 2025, n=1 048), Ifop-Jedha (oct. 2025, n=1 003, 16-25 ans), Born AI / Heaven (2025, n=495, 18-25 ans). Les données montrent un <b>effet générationnel majeur</b> : les 16-25 ans utilisent l'IA générative deux fois plus que la moyenne nationale.
+    </p>
+    <div class="usage-grid">
+      <div class="usage-card">
+        <div class="usage-card-title">Adoption par tranche d'âge</div>
+        <div class="usage-card-src">Sources : Ipsos-CESI fév. 2025 · Ifop-Jedha oct. 2025 · Born AI 2025</div>
+        <svg id="age-svg"></svg>
+      </div>
+      <div class="usage-card">
+        <div class="usage-card-title">Fréquence d'usage (16-25 ans vs population générale)</div>
+        <div class="usage-card-src">Source : Ifop-Jedha oct. 2025 (16-25 ans) · Ipsos-CESI fév. 2025 (pop. gén.)</div>
+        <svg id="freq-svg"></svg>
+      </div>
+      <div class="usage-card">
+        <div class="usage-card-title">Outils les plus utilisés en France (utilisateurs IA)</div>
+        <div class="usage-card-src">Source : Ipsos-CESI fév. 2025 · SE Ranking oct. 2025</div>
+        <svg id="tools-svg"></svg>
+      </div>
+      <div class="usage-card">
+        <div class="usage-card-title">Principales tâches assistées par IA</div>
+        <div class="usage-card-src">Source : Ipsos-CESI fév. 2025</div>
+        <svg id="tasks-svg"></svg>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════ TAB 6: METHODOLOGY ═══ -->
+<div id="tab-meth" class="tab-content">
+  <div class="meth-wrap">
+    <div class="meth-kpi">
+      <div class="meth-kpi-card"><div class="meth-kpi-val" id="mk-n">—</div><div class="meth-kpi-lbl">Métiers analysés</div></div>
+      <div class="meth-kpi-card"><div class="meth-kpi-val" id="mk-e">—</div><div class="meth-kpi-lbl">Emplois couverts</div></div>
+      <div class="meth-kpi-card"><div class="meth-kpi-val" id="mk-s">—</div><div class="meth-kpi-lbl">Score moyen pondéré</div></div>
+      <div class="meth-kpi-card"><div class="meth-kpi-val" id="mk-h">—</div><div class="meth-kpi-lbl">% fortement exposés (≥7)</div></div>
+    </div>
+
+    <div class="meth-section">
+      <div class="meth-h">Sources de données</div>
+      <table class="meth-table">
+        <thead><tr><th>Source</th><th>Contenu</th><th>Millésime</th><th>Licence</th></tr></thead>
+        <tbody>
+          <tr><td>ROME 4.0 — France Travail</td><td>1 584 fiches métiers, compétences, appellations, codes FAP</td><td>2024</td><td>Licence Ouverte v2.0</td></tr>
+          <tr><td>EEC — INSEE</td><td>Enquête Emploi en Continu : effectifs réels par PCS et FAP</td><td>2024</td><td>Licence Ouverte v2.0</td></tr>
+          <tr><td>Base Tous Salariés — INSEE</td><td>Salaire net médian mensuel par PCS à temps complet</td><td>2023</td><td>Licence Ouverte v2.0</td></tr>
+          <tr><td>BMO — DARES</td><td>Besoins en main-d'œuvre, taux de tension par métier FAP</td><td>2024</td><td>Licence Ouverte v2.0</td></tr>
+          <tr><td>FAP 2021 — DARES</td><td>Nomenclature des 228 familles professionnelles (croisement PCS × ROME)</td><td>2021</td><td>Licence Etalab</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="meth-section">
+      <div class="meth-h">Méthode de scoring</div>
+      <p class="meth-p">Chaque métier reçoit un <b>score pondéré multi-sources</b> (0–10) reflétant l'exposition de ses tâches à l'IA générative. Contrairement à un scoring LLM unique, cette approche croise des études académiques, institutionnelles et journalistiques, chacune pondérée par son niveau de preuve et sa récence.</p>
+      <p class="meth-p"><b>Formule :</b> score = Σ(valeur × poids_tier × poids_récence) / Σpoids — où le poids de récence varie de 1× (source la plus ancienne) à 2× (source la plus récente).</p>
+      <div style="margin:10px 0 12px">
+        <div class="meth-score-row"><div class="meth-score-bar" style="width:80px;background:#1E5CB8"></div><div class="meth-score-lbl">T1 — Recherche</div><div class="meth-score-val">×4</div><div class="meth-p" style="margin:0">Peer-reviewed, NBER, NEJM, Science, JAMA, BIS Working Papers</div></div>
+        <div class="meth-score-row"><div class="meth-score-bar" style="width:60px;background:#138050"></div><div class="meth-score-lbl">T2 — Institutionnel</div><div class="meth-score-val">×2</div><div class="meth-p" style="margin:0">McKinsey, BCE, FMI, OCDE, France Stratégie, Commission EU</div></div>
+        <div class="meth-score-row"><div class="meth-score-bar" style="width:40px;background:#C94A12"></div><div class="meth-score-lbl">T3 — Presse</div><div class="meth-score-val">×1</div><div class="meth-p" style="margin:0">Les Échos, Le Monde, Reuters, FT — données originales ou citations directes</div></div>
+        <div class="meth-score-row"><div class="meth-score-bar" style="width:20px;background:#8B3DAA"></div><div class="meth-score-lbl">T4 — Expert</div><div class="meth-score-val">×0.5</div><div class="meth-p" style="margin:0">Opinions d'experts, sondages sectoriels, estimations de praticiens</div></div>
+      </div>
+    </div>
+
+    <div class="meth-section">
+      <div class="meth-h">Échelle de score</div>
+      <table class="meth-table">
+        <thead><tr><th>Score</th><th>Couleur</th><th>Interprétation</th><th>Exemples</th></tr></thead>
+        <tbody>
+          <tr><td>0 – 2</td><td><span class="meth-swatch" style="background:#4ECDC4"></span>Teal</td><td>Exposition minimale — tâches manuelles, relationnelles ou créatives non-reproductibles</td><td>Aide à domicile, Maçon, Cuisinier</td></tr>
+          <tr><td>3 – 4</td><td><span class="meth-swatch" style="background:#62BFA3"></span>Vert</td><td>Faible — certaines tâches assistables mais le cœur reste humain</td><td>Infirmier, Policier, Musicien</td></tr>
+          <tr><td>5 – 6</td><td><span class="meth-swatch" style="background:#F7B731"></span>Jaune</td><td>Modérée — mix de tâches exposées et résistantes</td><td>Médecin généraliste, Logisticien, Architecte</td></tr>
+          <tr><td>7 – 8</td><td><span class="meth-swatch" style="background:#FF8C69"></span>Corail</td><td>Élevée — majorité des tâches partiellement automatisables</td><td>Conseiller bancaire, Ingénieur process, DRH</td></tr>
+          <tr><td>9 – 10</td><td><span class="meth-swatch" style="background:#FF6B6B"></span>Rouge</td><td>Très élevée — tâches majoritairement reproductibles par l'IA</td><td>Rédacteur web, Traducteur, Analyste financier, Data scientist</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="meth-section">
+      <div class="meth-h">Comparaison avec indice-ia.fr</div>
+      <p class="meth-p">Ce dashboard est indépendant du projet <a href="https://indice-ia.fr" target="_blank" style="color:var(--acc2)">indice-ia.fr</a> (Yann Decoopman, mars 2026), qui couvre 228 métiers FAP 2021 avec un scoring LLM unique. Les deux projets partagent la même source d'inspiration (<a href="https://joshkale.github.io/jobs" target="_blank" style="color:var(--acc2)">joshkale.github.io/jobs</a> / Andrej Karpathy) et les mêmes données open data françaises.</p>
+      <div class="meth-vs">
+        <div class="meth-vs-col">
+          <div class="meth-vs-title">Nos avantages</div>
+          <div class="meth-vs-item"><span>+</span>Scoring multi-sources pondéré par niveau de preuve</div>
+          <div class="meth-vs-item"><span>+</span>3 pistes de réinvention par métier</div>
+          <div class="meth-vs-item"><span>+</span>5 onglets analytiques (timeline, prédictions, productivité, usage)</div>
+          <div class="meth-vs-item"><span>+</span>Données usage IA France (Ipsos, Ifop, Born AI)</div>
+          <div class="meth-vs-item"><span>+</span>Granularité ROME 4.0 (1 584 fiches vs 228 FAP)</div>
+        </div>
+        <div class="meth-vs-col">
+          <div class="meth-vs-title">Avantages indice-ia.fr</div>
+          <div class="meth-vs-item"><span>+</span>228 métiers FAP 2021 complets (vs 38 démo)</div>
+          <div class="meth-vs-item"><span>+</span>Pages Diplômes, Salaires, Classement Top/Flop</div>
+          <div class="meth-vs-item"><span>+</span>Interface épurée, URL courte</div>
+          <div class="meth-vs-item minus"><span>–</span>Scoring LLM unique (sans croisement sources)</div>
+          <div class="meth-vs-item minus"><span>–</span>Pas de pistes de réinvention</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="meth-section">
+      <div class="meth-h">Limites & précautions</div>
+      <table class="meth-table">
+        <thead><tr><th>Limite</th><th>Impact</th></tr></thead>
+        <tbody>
+          <tr><td>Exposition ≠ suppression</td><td>Un métier fortement exposé peut évoluer plutôt que disparaître. Le score mesure les tâches, pas la probabilité de remplacement.</td></tr>
+          <tr><td>Données démo (38 métiers)</td><td>Le pipeline complet cible 1 584 fiches ROME. Les effectifs sont des estimations EEC 2024 approximatives pour la démo.</td></tr>
+          <tr><td>Hétérogénéité des sources</td><td>Les sources T1 à T4 peuvent définir « exposition » différemment. La pondération atténue ce biais mais ne l'élimine pas.</td></tr>
+          <tr><td>Obsolescence rapide</td><td>Les capacités des modèles évoluent vite. Ce snapshot date de mars 2026 — les scores sont à réévaluer tous les 6 mois.</td></tr>
+          <tr><td>Limites géographiques</td><td>Certaines études sont américaines ou européennes. L'extrapolation au marché français introduit un biais de marché du travail.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="meth-snapshot">Snapshot : mars 2026 · Pipeline Python open source disponible sur GitHub · Données : ROME 4.0, INSEE EEC 2024, DARES BMO 2024 · Licence Ouverte v2.0</div>
+  </div>
+</div>
+
+<footer>
+  <span>Sources : <a href="https://www.data.gouv.fr/datasets/repertoire-operationnel-des-metiers-et-des-emplois-rome" target="_blank">ROME 4.0 — France Travail</a> · <a href="https://www.data.gouv.fr/" target="_blank">data.gouv.fr</a> · INSEE Base Tous Salariés 2023 · DARES Enquête BMO 2024 · Ipsos-CESI fév. 2025 (n=1 048) · Ifop-Jedha oct. 2025 (n=1 003) · Born AI / Heaven 2025 (n=495) · BIS WP 1239 (2025) · NBER w31161 · NBER w34851 · Licence Ouverte v2.0</span>
+  <span style="margin-left:auto;opacity:.6">Données démo · Méthodologie pondérée inspirée de <a href="https://jobsdata.ai/about" target="_blank">jobsdata.ai</a></span>
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script>
+<script>
+// ═══════════════════════════════ CONSTANTS ═════════════════════════════
+const DC={A:"#6B9E3A",B:"#C07830",C:"#3A78C0",D:"#D4521A",E:"#7C4DC4",F:"#7A7070",G:"#D4A017",H:"#1A8A8A",I:"#2A9E60",J:"#C42A2A",K:"#7A3AAA",L:"#C42A7A",M:"#2A5EC4",N:"#8A4A15"};
+const DN={A:"Agriculture",B:"Arts",C:"Banque/Assur.",D:"Commerce",E:"Communication",F:"BTP",G:"Hôtellerie",H:"Industrie",I:"Maintenance",J:"Santé",K:"Serv. Pers.",L:"Spectacle",M:"Support Ent.",N:"Transport"};
+const ED={A:"CAP/BEP",B:"Bac",C:"Bac+2/3",D:"Bac/2",E:"Bac+3/5",F:"CAP/BEP",G:"CAP",H:"CAP/BEP",I:"CAP/BEP",J:"Bac+3/5",K:"CAP",L:"Bac/3",M:"Bac+2/5",N:"CAP/BEP"};
+const TE={A:62,B:38,C:45,D:42,E:41,F:71,G:63,H:68,I:73,J:69,K:67,L:35,M:44,N:58};
+const TIER_W={1:4,2:2,3:1,4:0.5};
+const TIER_C={1:"#1E5CB8",2:"#138050",3:"#C94A12",4:"#8B3DAA"};
+
+function recencyWeight(year,minYear,maxYear){if(maxYear===minYear)return 1;return 1+((year-minYear)/(maxYear-minYear));}
+function getWScore(job){
+  const srcs=job.sources;
+  const years=srcs.map(s=>s.year);
+  const mn=Math.min(...years),mx=Math.max(...years);
+  let n=0,d=0;
+  srcs.forEach(s=>{const w=TIER_W[s.tier]*recencyWeight(s.year,mn,mx);n+=s.val*w;d+=w;});
+  return d>0?n/d:0;
+}
+
+function scCol(s){if(s<=1.5)return"#4ECDC4";if(s<=3)return"#62BFA3";if(s<=5)return"#F7B731";if(s<=7)return"#FF8C69";if(s<=9)return"#FF6B6B";return"#E84040";}
+function scLab(s){const n=+s.toFixed(1);if(n<=1)return"Minimale";if(n<=3)return"Faible";if(n<=5)return"Modérée";if(n<=7)return"Élevée";if(n<=9)return"Très élevée";return"Maximale";}
+function qd(sal,exp){if(sal<2500&&exp>=5)return{l:"Vulnérable",c:"#E84040",b:"rgba(232,64,64,0.08)"};if(sal>=2500&&exp>=5)return{l:"Transformation",c:"#C94A12",b:"rgba(201,74,18,0.08)"};if(sal<2500&&exp<5)return{l:"Stable",c:"#138050",b:"rgba(19,128,80,0.08)"};return{l:"Protégé",c:"#1E5CB8",b:"rgba(30,92,184,0.08)"};}
+function fmt(n){if(!n)return"—";if(n>=1e6)return(n/1e6).toFixed(1)+"M";if(n>=1e3)return Math.round(n/1e3)+"K";return n.toString();}
+
+// ═══════════════════════════════════════ JOB DATA — EEC 2024 + FAP 2021 + ROME 4.0 ══
+// Effectifs : INSEE Enquête Emploi en Continu 2024 | Salaires : Base Tous Salariés INSEE 2023
+// fap : code FAP 2021 (DARES) | Sources scorées par niveau de preuve (T1×4, T2×2, T3×1, T4×0.5)
+const D=[
+  // ── AGRICULTURE ──────────────────────────────────────────────────────────
+  {l:"Agriculteur céréalier",d:"A",fap:"A0Z10",sal:1820,eff:165000,sources:[{tier:2,val:2,year:2023,src:"France Stratégie — automatisation agriculture"},{tier:1,val:3,year:2024,src:"Frey & Osborne 2024 update"},{tier:3,val:3,year:2024,src:"Le Monde — IA et agriculture"}],rat:"Présence terrain et conduite d'engins limitent l'automatisation. Les outils d'aide à la décision progressent mais restent en appui.",rn:[{t:"Agri-tech consultant",x:"Capteurs IoT, drones, IA d'irrigation."},{t:"Expert agro-data",x:"Données satellites pour prévisions de rendement."},{t:"Formateur agriculture de précision",x:"GPS, télédétection, plateformes data."}]},
+  {l:"Maraîcher",d:"A",fap:"A0Z20",sal:1650,eff:52000,sources:[{tier:2,val:2,year:2022,src:"OCDE — automatisation agriculture"},{tier:1,val:2,year:2023,src:"Acemoglu & Restrepo — travail manuel"}],rat:"Travail physique saisonnier et grande variabilité des produits limitent l'automatisation.",rn:[{t:"Circuits courts numériques",x:"Vente directe, abonnements paniers, AMAP digitales."},{t:"Consultant agroécologie",x:"Transition vers pratiques bas-intrants."},{t:"Expert nutrition terrain",x:"Restauration collective, agriculture urbaine."}]},
+  {l:"Éleveur bovin",d:"A",fap:"A1Z10",sal:1750,eff:98000,sources:[{tier:2,val:2,year:2023,src:"INRAE — robots de traite"},{tier:3,val:3,year:2024,src:"La France Agricole — robots et IA"}],rat:"Robots de traite existent mais la gestion du troupeau reste très humaine.",rn:[{t:"Spécialiste bien-être animal & traçabilité",x:"Capteurs santé, IoT bétail."},{t:"Producteur lait différencié AOP",x:"Valorisation terroir, vente directe."},{t:"Conseiller zootechnique",x:"Optimisation génétique, nutrition."}]},
+  // ── BANQUE / ASSURANCE ────────────────────────────────────────────────────
+  {l:"Conseiller bancaire",d:"C",fap:"C2Z10",sal:2680,eff:158000,sources:[{tier:1,val:7,year:2024,src:"NBER w31161 — LLMs & finance jobs"},{tier:2,val:7,year:2024,src:"BCE — IA secteur bancaire"},{tier:2,val:6,year:2023,src:"McKinsey — bancassurance"},{tier:3,val:8,year:2025,src:"Les Échos — robo-advisors"}],rat:"Analyse financière et conseil patrimonial très exposés aux LLMs et robo-advisors. La relation de confiance personnelle résiste.",rn:[{t:"Conseiller investissement durable ISR",x:"ESG, placements à impact, taxonomie verte."},{t:"Expert open banking & fintech",x:"API banking, nouveaux services intégrés."},{t:"Formateur éducation financière",x:"Ateliers gestion budget, retraite, prévoyance."}]},
+  {l:"Actuaire",d:"C",fap:"C2Z30",sal:4350,eff:6200,sources:[{tier:1,val:9,year:2023,src:"NBER — modélisation ML & assurance"},{tier:1,val:8,year:2024,src:"Brynjolfsson — tâches analytiques"},{tier:2,val:9,year:2024,src:"IMF WP — assurance & IA"}],rat:"Modélisation statistique = cœur automatisable par ML spécialisés. Valeur migre vers l'interprétation et la gouvernance.",rn:[{t:"Actuaire IA & modèles génératifs",x:"Tarification par IA, audit de modèles."},{t:"Expert risques climatiques CAT modeling",x:"Réassurance verte, risques physiques."},{t:"Responsable conformité IA / Solvabilité II",x:"Réglementation prudentielle européenne."}]},
+  {l:"Analyste risques",d:"C",fap:"C2Z20",sal:3680,eff:22000,sources:[{tier:1,val:8,year:2023,src:"Eloundou et al. (OpenAI) — LLM exposure"},{tier:2,val:7,year:2024,src:"BIS — IA & risques financiers"},{tier:3,val:8,year:2024,src:"Reuters — IA compliance"}],rat:"Analyse documentaire et scoring facilement automatisables. L'expertise de jugement dans les cas complexes résiste.",rn:[{t:"Risk manager IA (AI Act / DORA)",x:"Audit risques systémiques des outils IA."},{t:"Spécialiste cyber-risques IA",x:"Deepfakes, fraude générée, attaques adversariales."},{t:"Expert gestion de crise & PCA",x:"Scénarios disruption technologique."}]},
+  {l:"Agent immobilier",d:"C",fap:"C3Z10",sal:2420,eff:148000,sources:[{tier:2,val:5,year:2023,src:"McKinsey — proptech & agences"},{tier:3,val:5,year:2024,src:"Le Figaro Immo — visites virtuelles"},{tier:4,val:6,year:2025,src:"PropTech France — baromètre"}],rat:"Visites virtuelles et scoring automatique progressent ; négociation et réseau local résistent.",rn:[{t:"Consultant proptech & smart building",x:"Jumeaux numériques, immeubles connectés."},{t:"Expert immobilier durable RE2020",x:"DPE, MaPrimeRénov', rénovation énergétique."},{t:"Gestionnaire patrimoine locatif",x:"Yield management automatisé."}]},
+  // ── COMMERCE ─────────────────────────────────────────────────────────────
+  {l:"Commercial B2B",d:"D",fap:"D1Z10",sal:2890,eff:242000,sources:[{tier:2,val:5,year:2024,src:"Gartner — SDR automation"},{tier:1,val:4,year:2023,src:"Autor et al. — tâches vs emplois"},{tier:3,val:6,year:2025,src:"Harvard Business Review — IA & vente"}],rat:"Prospection automatisable par IA ; confiance, relation longue durée et négociation complexe résistent.",rn:[{t:"Revenue Operations (RevOps) manager",x:"CRM augmenté, automatisation pipeline."},{t:"Consultant go-to-market SaaS",x:"Acquisition, pricing, expansion internationale."},{t:"Key Account Manager ESG",x:"Solutions décarbonation, financement vert."}]},
+  {l:"E-commerce manager",d:"D",fap:"D1Z20",sal:3150,eff:28000,sources:[{tier:1,val:7,year:2024,src:"Eloundou et al. — marketing & LLMs"},{tier:2,val:7,year:2024,src:"McKinsey — e-commerce automation"},{tier:3,val:7,year:2025,src:"Journal du Net — IA e-commerce"}],rat:"Catalogue, SEO, personnalisation très automatisables. Stratégie de marque et expérience client résistent.",rn:[{t:"Directeur expérience client omnicanal",x:"Cohérence touchpoints digitaux/physiques."},{t:"Expert commerce social & live",x:"TikTok Shop, Instagram Commerce, live shopping."},{t:"Consultant marchés émergents",x:"Afrique subsaharienne, Asie du Sud-Est."}]},
+  {l:"Vendeur automobile",d:"D",fap:"D2Z10",sal:2250,eff:58000,sources:[{tier:2,val:4,year:2023,src:"McKinsey — automotive retail"},{tier:3,val:4,year:2024,src:"L'Argus — IA concessions"}],rat:"Configurateurs en ligne progressent mais la découverte physique et la négociation restent essentielles.",rn:[{t:"Expert mobilité électrique & bornes",x:"Conseil VE, gestion de flotte."},{t:"Consultant fleet B2B LLD",x:"Location longue durée, services mobilité."},{t:"Spécialiste véhicule connecté & data",x:"Télématique, données embarquées."}]},
+  // ── COMMUNICATION ─────────────────────────────────────────────────────────
+  {l:"Journaliste",d:"E",fap:"E1Z10",sal:2480,eff:36000,sources:[{tier:1,val:7,year:2023,src:"Reuters Institute — IA & journalisme"},{tier:2,val:6,year:2024,src:"WAN-IFRA — newsrooms IA"},{tier:3,val:7,year:2025,src:"Libération — IA rédactions françaises"},{tier:4,val:8,year:2025,src:"Enquête rédacteurs en chef FR"}],rat:"Articles factuels, dépêches et synthèses automatisables. Investigation terrain, récit et fact-checking critique résistent.",rn:[{t:"Data journalist & fact-checker IA",x:"Détection désinformation, analyse de données."},{t:"Responsable éthique médias & IA",x:"Chartes éditoriales IA, gouvernance rédactions."},{t:"Journaliste enquête long format",x:"Investigation non reproductible algorithmiquement."}]},
+  {l:"Rédacteur web",d:"E",fap:"E1Z20",sal:2310,eff:42000,sources:[{tier:1,val:9,year:2023,src:"Noy & Zhang MIT — LLMs & writing"},{tier:1,val:9,year:2024,src:"Autor MIT — content generation"},{tier:2,val:9,year:2024,src:"McKinsey Global Institute — content work"},{tier:3,val:9,year:2025,src:"Le Monde — freelances vs IA"}],rat:"Production de contenu générique = exposition maximale aux LLMs. Valeur migre vers la stratégie et la supervision.",rn:[{t:"Directeur de contenu & brand storytelling",x:"Stratégie éditoriale, supervision IA."},{t:"Formateur prompt engineering éditorial",x:"Formation équipes à l'usage des LLMs."},{t:"Expert SEO sémantique avancé",x:"Topical authority, Search Generative Experience."}]},
+  {l:"Traducteur",d:"E",fap:"E1Z30",sal:2250,eff:14000,sources:[{tier:1,val:9,year:2024,src:"Koehn et al. — Neural MT quality"},{tier:1,val:8,year:2023,src:"Eloundou et al. — LLM translation"},{tier:2,val:9,year:2024,src:"Commission EU — traduction IA"}],rat:"Traduction brute quasi-automatisée par NMT. Valeur sur la post-édition culturelle et la localisation experte.",rn:[{t:"Réviseur post-édition IA (MTPE)",x:"Contrôle qualité et adaptation culturelle."},{t:"Expert localisation produit & UX",x:"Applications, jeux, interfaces multi-marchés."},{t:"Terminologue & gestionnaire mémoires TM",x:"Bases terminologiques sectorielles critiques."}]},
+  {l:"Graphiste",d:"E",fap:"E2Z10",sal:2380,eff:48000,sources:[{tier:1,val:6,year:2024,src:"Dell'Acqua et al. — creative AI tasks"},{tier:2,val:6,year:2024,src:"Adobe — Firefly impact study"},{tier:3,val:7,year:2025,src:"Créazine — IA et graphisme"}],rat:"Génération d'images automatisée ; direction artistique, identité de marque et jugement esthétique résistent.",rn:[{t:"Directeur artistique IA augmenté",x:"Supervision et direction de modèles génératifs."},{t:"Expert UI/UX system design",x:"Design systems, composants, accessibilité."},{t:"Spécialiste branding & identité visuelle",x:"Stratégie de marque non reproductible par IA."}]},
+  // ── BTP ───────────────────────────────────────────────────────────────────
+  {l:"Maçon",d:"F",fap:"F0Z10",sal:1980,eff:128000,sources:[{tier:1,val:1,year:2022,src:"Frey & Osborne — construction physique"},{tier:2,val:1,year:2023,src:"OCDE — automatisation BTP"},{tier:3,val:2,year:2024,src:"Le Bâtiment — robots chantier"}],rat:"Travail physique en milieu non structuré — très difficile à automatiser. Contexte variable de chaque chantier.",rn:[{t:"Technicien impression 3D bâtiment",x:"Robots béton — niche en forte croissance."},{t:"Expert matériaux biosourcés",x:"Construction bas-carbone RE2020."},{t:"Formateur techniques bâtiment durable",x:"Compagnons du Devoir, savoir-faire critiques."}]},
+  {l:"Électricien bâtiment",d:"F",fap:"F0Z20",sal:2080,eff:112000,sources:[{tier:1,val:2,year:2022,src:"Frey & Osborne — artisan électrique"},{tier:2,val:2,year:2023,src:"FFIE — numérique et électriciens"},{tier:3,val:2,year:2024,src:"Batiactu — IA et diagnostic"}],rat:"Intervention physique et diagnostic terrain restent manuels. Pénurie de compétences persistante.",rn:[{t:"Technicien bornes recharge VE (IRVE)",x:"Installation bornes AC/DC, certification ADVENIR."},{t:"Expert photovoltaïque & autoconsommation",x:"Installation, raccordement, suivi production."},{t:"Installateur bâtiment connecté & GTB",x:"Smart home, KNX, intégration IoT."}]},
+  {l:"Conducteur de travaux",d:"F",fap:"F0Z30",sal:3280,eff:52000,sources:[{tier:2,val:5,year:2023,src:"McKinsey — coordination chantier"},{tier:1,val:4,year:2024,src:"NBER — managers & IA"},{tier:3,val:5,year:2024,src:"Construction21 — IA chef de chantier"}],rat:"Coordination multi-acteurs et gestion des aléas de chantier freinent l'automatisation. Responsabilité juridique maintient l'humain.",rn:[{t:"BIM Manager & jumeaux numériques",x:"Maquettes 3D, clash detection, lifecycle BIM."},{t:"Expert RSE & construction bas-carbone",x:"Bilan carbone chantiers, CSRD."},{t:"Coordinateur chantier connecté IoT",x:"Capteurs, drones de surveillance chantier."}]},
+  {l:"Architecte",d:"F",fap:"F0Z40",sal:3450,eff:38000,sources:[{tier:1,val:6,year:2023,src:"Eloundou — design tasks LLM"},{tier:2,val:5,year:2024,src:"Autodesk — AI architecture"},{tier:3,val:6,year:2024,src:"D'architectures — IA Archicad"}],rat:"Conception créative et responsabilité réglementaire résistent ; rendus et variations s'automatisent rapidement.",rn:[{t:"Architecte bâtiments intelligents WELL",x:"BREEAM/LEED, santé, productivité."},{t:"Expert rénovation passivhaus & DPE",x:"Financement CEE, performance énergétique."},{t:"Designer spatial XR (VR architecture)",x:"Showrooms immersifs, musées, formation VR."}]},
+  // ── HÔTELLERIE ────────────────────────────────────────────────────────────
+  {l:"Cuisinier",d:"G",fap:"G0Z10",sal:1780,eff:218000,sources:[{tier:1,val:2,year:2022,src:"Frey & Osborne — cuisine manuelle"},{tier:2,val:2,year:2023,src:"UMIH — automatisation restauration"},{tier:3,val:2,year:2024,src:"L'Hôtellerie Restauration — robots"}],rat:"Dextérité, créativité culinaire et adaptation en temps réel — automatisation anecdotique hors fast-food.",rn:[{t:"Chef consultant & food concept",x:"Ghost kitchen, concepts, formation professionnelle."},{t:"Expert nutrition personnalisée",x:"Apps nutrition, traiteurs thérapeutiques."},{t:"Créateur de contenu gastronomique",x:"YouTube Food, TikTok, masterclasses."}]},
+  {l:"Réceptionniste hôtel",d:"G",fap:"G0Z20",sal:1840,eff:62000,sources:[{tier:2,val:4,year:2024,src:"Skift — hôtellerie & IA"},{tier:1,val:3,year:2023,src:"Autor — service encounter"},{tier:3,val:5,year:2025,src:"L'Écho Touristique — chatbots hôtels"}],rat:"Check-in digitaux progressent ; relation et service personnalisés haut-de-gamme restent humains.",rn:[{t:"Guest experience manager",x:"CRM hôtelier, gestion avis, upselling."},{t:"Revenue manager hôtelier",x:"Yield management dynamique, distribution OTA."},{t:"Coordinateur conciergerie premium",x:"Services sur-mesure, clientèle internationale."}]},
+  // ── INDUSTRIE ─────────────────────────────────────────────────────────────
+  {l:"Ingénieur process",d:"H",fap:"H2Z10",sal:3580,eff:48000,sources:[{tier:1,val:7,year:2023,src:"Brynjolfsson — digital twin automation"},{tier:2,val:7,year:2024,src:"McKinsey — industrie 4.0"},{tier:2,val:6,year:2024,src:"Siemens IA report 2024"}],rat:"Optimisation de process très exposée aux jumeaux numériques et IA prédictive. Conception système et validation restent humaines.",rn:[{t:"Ingénieur industrie 4.0 & MES",x:"Supervision et optimisation de production."},{t:"Expert décarbonation industrie",x:"Bilan carbone process, électrification."},{t:"Consultant lean & excellence IA",x:"Amélioration continue augmentée."}]},
+  {l:"Soudeur",d:"H",fap:"H2Z20",sal:2180,eff:82000,sources:[{tier:1,val:2,year:2022,src:"Frey & Osborne — soudage physique"},{tier:2,val:3,year:2024,src:"Deloitte — cobots & soudage"}],rat:"Cobots progressent sur les soudures répétitives ; contextes variables et positions complexes restent manuels.",rn:[{t:"Technicien soudure robotisée cobots",x:"Programmation et supervision de cellules robotisées."},{t:"Expert contrôle qualité NDT",x:"Contrôle non destructif, radiographie, ultrasons."},{t:"Formateur soudage haute performance",x:"Procédés spéciaux, aéronautique, nucléaire."}]},
+  // ── MAINTENANCE ───────────────────────────────────────────────────────────
+  {l:"Technicien maintenance",d:"I",fap:"I1Z10",sal:2180,eff:92000,sources:[{tier:1,val:3,year:2022,src:"Frey & Osborne — maintenance physique"},{tier:2,val:3,year:2023,src:"Deloitte — predictive maintenance"},{tier:3,val:3,year:2024,src:"Industrie & Technologies — IoT maintenance"}],rat:"Diagnostic et intervention physique restent manuels. La maintenance prédictive assiste sans remplacer.",rn:[{t:"Technicien maintenance prédictive IoT",x:"Capteurs vibratoires, analyse données d'usure."},{t:"Technicien énergies renouvelables",x:"Éoliennes, panneaux solaires, piles H2."},{t:"Diagnostiqueur bâtiment & audit énergétique",x:"DPE, audits thermiques, rénovation."}]},
+  {l:"Automaticien",d:"I",fap:"I1Z20",sal:2850,eff:38000,sources:[{tier:1,val:5,year:2023,src:"Autor — routine analytical tasks"},{tier:2,val:5,year:2024,src:"McKinsey — automation engineering"}],rat:"Programmation d'automates partiellement assistée par IA ; intégration terrain et validation système résistent.",rn:[{t:"Ingénieur systèmes cyber-physiques",x:"IoT industriel, Industry 4.0, OT security."},{t:"Expert jumeaux numériques & simulation",x:"PLM, SCADA augmenté."},{t:"Architecte IT/OT convergence",x:"Réseaux industriels sécurisés, IIOT."}]},
+  // ── SANTÉ ─────────────────────────────────────────────────────────────────
+  {l:"Médecin généraliste",d:"J",fap:"J3Z40",sal:5340,eff:96000,sources:[{tier:1,val:5,year:2023,src:"NEJM — LLMs en médecine générale"},{tier:1,val:4,year:2024,src:"JAMA — AI clinical decision"},{tier:2,val:5,year:2024,src:"HAS France — IA et médecins"},{tier:3,val:5,year:2025,src:"Quotidien du Médecin"}],rat:"Diagnostic augmenté par IA, mais relation thérapeutique, gestion de l'incertitude et empathie restent irremplaçables.",rn:[{t:"Médecin téléconsultation & parcours digital",x:"Plateformes santé, maladies chroniques."},{t:"Expert médecine préventive & IA prédictive",x:"Algorithmes prédictifs, population health."},{t:"Formateur IA médicale",x:"Usage éthique des outils de diagnostic IA."}]},
+  {l:"Infirmier",d:"J",fap:"J4Z30",sal:2340,eff:580000,sources:[{tier:1,val:3,year:2023,src:"The Lancet — nursing & AI"},{tier:2,val:3,year:2024,src:"WHO — digital health nurses"},{tier:3,val:3,year:2024,src:"Revue de l'Infirmière — IA soins"}],rat:"Soins directs, gestes techniques, soutien psychologique — IA assiste l'administratif sans remplacer le soin.",rn:[{t:"Coordinateur soins & télémédecine",x:"Parcours patients complexes, suivi chroniques."},{t:"Infirmier de pratique avancée (IPA)",x:"Prescription partielle, suivi spécialisé."},{t:"Formateur simulation haute-fidélité",x:"Mannequins, réalité virtuelle, e-learning santé."}]},
+  {l:"Radiologue",d:"J",fap:"J3Z20",sal:6650,eff:13500,sources:[{tier:1,val:8,year:2024,src:"Rajpurkar et al. NEJM — radiology AI"},{tier:1,val:7,year:2023,src:"Nature Medicine — chest X-ray AI"},{tier:2,val:7,year:2024,src:"HAS France — imagerie IA"}],rat:"IA de détection d'anomalies très avancée (AUC > 0.95 sur dépistage). Interprétation finale et actes interventionnels restent médicaux.",rn:[{t:"Radiologue interventionnel",x:"Actes guidés imagerie — haute valeur ajoutée."},{t:"Expert validation IA médicale CE/FDA",x:"Certification dispositifs IA médicale."},{t:"Responsable téléradiologie multi-sites",x:"Organisation supervision à distance."}]},
+  {l:"Aide-soignant",d:"J",fap:"J4Z10",sal:1890,eff:355000,sources:[{tier:1,val:2,year:2022,src:"Frey & Osborne — soins physiques"},{tier:2,val:2,year:2023,src:"OCDE — care workers"},{tier:3,val:2,year:2024,src:"Soins — IA et aide-soignants"}],rat:"Soin direct, nursing et relationnel humain — non substituable par aucun modèle actuel.",rn:[{t:"Assistant soins gérontologiques ASG",x:"EHPAD, troubles cognitifs, Alzheimer."},{t:"Aide-soignant HAD",x:"Soins complexes à domicile — forte demande."},{t:"Coordinateur réseau santé de proximité",x:"Interface hôpital/domicile/SSIAD."}]},
+  {l:"Pharmacien",d:"J",fap:"J1Z10",sal:3850,eff:74000,sources:[{tier:1,val:6,year:2024,src:"NEJM — pharmacy automation"},{tier:2,val:5,year:2024,src:"ANSM — IA et pharmacie"},{tier:3,val:6,year:2025,src:"Le Moniteur des Pharmacies"}],rat:"Dispensation automatisée progresse ; conseil patient, pharmacovigilance et gestion clinique résistent.",rn:[{t:"Pharmacien santé numérique & téléconsultation",x:"Accompagnement pathologies chroniques."},{t:"Expert biotechs & biopharmaceutique",x:"Développement médicaments, essais cliniques."},{t:"Spécialiste oncologie & maladies rares",x:"Médicaments innovants, accès ATU."}]},
+  // ── SERVICES PERSONNELS ───────────────────────────────────────────────────
+  {l:"Aide à domicile",d:"K",fap:"K2Z10",sal:1580,eff:695000,sources:[{tier:1,val:1,year:2022,src:"Frey & Osborne — care physique"},{tier:2,val:1,year:2023,src:"Rapport Blanchet — emploi à domicile"},{tier:3,val:2,year:2024,src:"Le Particulier Emploi — IA"}],rat:"Présence physique, empathie et adaptation permanente — non-automatisable avec les technologies actuelles.",rn:[{t:"Coordinateur silver-tech & gérontechnologie",x:"Interface seniors / outils connectés."},{t:"Auxiliaire vie spécialisé TSA/polyhandicap",x:"Besoins complexes, forte valorisation."},{t:"Animateur inclusion numérique seniors",x:"Ateliers tablette, téléservices publics."}]},
+  {l:"Éducateur spécialisé",d:"K",fap:"K1Z10",sal:2050,eff:105000,sources:[{tier:1,val:3,year:2023,src:"Autor — social service work"},{tier:2,val:3,year:2023,src:"IGAS — travailleurs sociaux & IA"}],rat:"Relation éducative, accompagnement individualisé et médiation résistent à l'automatisation.",rn:[{t:"Coordinateur inclusion numérique",x:"Publics fragiles vers les services numériques."},{t:"Expert protection de l'enfance & justice",x:"MECS, AEMO, mesures judiciaires."},{t:"Formateur secteur médico-social",x:"Formation continue, pratiques innovantes."}]},
+  {l:"Policier",d:"K",fap:"K4Z10",sal:2250,eff:155000,sources:[{tier:2,val:3,year:2024,src:"INHESJ — IA sécurité intérieure"},{tier:3,val:3,year:2024,src:"Cahiers de la Sécurité — algorithmes"},{tier:1,val:4,year:2024,src:"Autor — non-routine manual enforcement"}],rat:"Intervention terrain, médiation, décision en urgence — IA assiste sans remplacer l'officier.",rn:[{t:"Expert cybercriminalité & forensique numérique",x:"Investigation crimes informatiques (C3N)."},{t:"Analyste renseignement & OSINT",x:"Sources ouvertes, réseaux sociaux."},{t:"Coordinateur vidéoprotection IA",x:"Vidéo intelligente, interface opérateurs IA."}]},
+  // ── SPECTACLE ─────────────────────────────────────────────────────────────
+  {l:"Musicien",d:"L",fap:"L0Z10",sal:1780,eff:22000,sources:[{tier:1,val:3,year:2023,src:"Ferraro et al. — creative AI & musicians"},{tier:2,val:3,year:2024,src:"IRMA — IA et musiciens France"},{tier:3,val:4,year:2025,src:"Télérama — Suno, Udio et musiciens"}],rat:"Performance live et interprétation émotionnelle — l'IA génère mais ne performe pas. Valeur sur le live et la pédagogie.",rn:[{t:"Compositeur musique IA augmentée",x:"Supervision créative pour jeux, publicités, films."},{t:"Pédagogue musical & création de contenu",x:"Masterclasses en ligne, méthodes numériques."},{t:"Sound designer & gaming audio",x:"Univers sonores jeux vidéo, XR, VR."}]},
+  // ── SUPPORT ENTREPRISE ────────────────────────────────────────────────────
+  {l:"Développeur logiciel",d:"M",fap:"M1Z50",sal:3850,eff:182000,sources:[{tier:1,val:9,year:2024,src:"Peng et al. — GitHub Copilot productivity"},{tier:1,val:8,year:2024,src:"Science — GenAI coding diffusion"},{tier:1,val:8,year:2025,src:"NBER w34851"},{tier:2,val:9,year:2025,src:"LinkedIn Eco Graph — Copilot"}],rat:"Génération de code par LLMs très avancée (+55% productivité Copilot). Architecture, compréhension produit et jugement système résistent.",rn:[{t:"Architecte LLM & systèmes IA",x:"RAG, agents autonomes, fine-tuning."},{t:"AI Product Manager",x:"Roadmaps IA, évaluation modèles, équipes ML."},{t:"Expert sécurité IA & red-teaming",x:"Audit adversarial, conformité AI Act européen."}]},
+  {l:"Data scientist",d:"M",fap:"M1Z55",sal:4280,eff:52000,sources:[{tier:1,val:9,year:2024,src:"Eloundou et al. — data analysis LLMs"},{tier:1,val:8,year:2023,src:"Noy & Zhang — analytical tasks"},{tier:2,val:9,year:2024,src:"McKinsey — analytics automation"}],rat:"AutoML et LLMs effectuent les analyses standard. Valeur migre vers la définition du problème et l'interprétation stratégique.",rn:[{t:"Chief AI Officer (CAIO)",x:"Stratégie IA d'entreprise, gouvernance."},{t:"Spécialiste éthique algorithmique",x:"Audit biais, explicabilité XAI, conformité."},{t:"Expert données synthétiques & privacy ML",x:"Federated learning, anonymisation."}]},
+  {l:"Comptable",d:"M",fap:"M1Z20",sal:2650,eff:128000,sources:[{tier:1,val:8,year:2025,src:"SSRN 5039640 — AI & accounting"},{tier:1,val:8,year:2024,src:"Eloundou — financial tasks LLMs"},{tier:2,val:8,year:2024,src:"PwC — comptabilité & IA France"},{tier:3,val:7,year:2025,src:"L'Expert-Comptable — IA cabinet"}],rat:"Saisie, déclarations et rapprochements très automatisables. La valeur migre vers le conseil et l'analyse critique.",rn:[{t:"Expert-comptable conseil digital PME",x:"Accompagnement stratégique au-delà conformité."},{t:"Auditeur algorithmes financiers",x:"Vérification modèles IA, contrôle interne."},{t:"Contrôleur gestion ESG & CSRD",x:"Extra-financier, carbone, triple bilan."}]},
+  {l:"Juriste droit social",d:"M",fap:"M1Z10",sal:3560,eff:32000,sources:[{tier:1,val:8,year:2024,src:"Eloundou — legal tasks LLMs"},{tier:1,val:7,year:2023,src:"Noy & Zhang — legal writing"},{tier:2,val:8,year:2024,src:"McKinsey — legal automation"}],rat:"Actes standard et recherche jurisprudentielle automatisables. Conseil stratégique, contentieux et négociation restent humains.",rn:[{t:"Expert régulation IA (AI Act UE)",x:"Conformité cadre européen IA — demande urgente."},{t:"Avocat droit travail algorithmes & gig",x:"Travailleurs algorithmiques, requalification."},{t:"DPO délégué protection données",x:"RGPD, violations, privacy by design."}]},
+  {l:"Analyste financier",d:"M",fap:"M1Z30",sal:4080,eff:38000,sources:[{tier:1,val:9,year:2024,src:"Eloundou et al. — financial analysis"},{tier:1,val:9,year:2023,src:"Lopez-Lira & Tang — ChatGPT & markets"},{tier:2,val:8,year:2024,src:"Bloomberg Intelligence — IA finance"},{tier:3,val:9,year:2025,src:"Les Échos — IA et analystes"}],rat:"Analyse quantitative et rédaction de rapports = haute automatisabilité. Jugement stratégique et relations client résistent.",rn:[{t:"Gestionnaire risques IA (DORA / Bâle IV)",x:"Risques systémiques IA en institutions."},{t:"Analyste ESG & financement transition",x:"Green bonds, taxonomie EU verte."},{t:"Stratégiste investissement deeptech",x:"VC tech, due diligence IA."}]},
+  {l:"DRH",d:"M",fap:"M1Z40",sal:4080,eff:42000,sources:[{tier:1,val:6,year:2023,src:"Autor — managers & routines"},{tier:2,val:6,year:2024,src:"Gartner — HR automation"},{tier:3,val:7,year:2025,src:"RH Info — IA et DRH France"}],rat:"Recrutement et administration RH très exposés. Culture d'entreprise, stratégie humaine et gestion des conflits résistent.",rn:[{t:"Chief People Officer culture & rétention",x:"Marque employeur, employee experience."},{t:"Spécialiste GPEC & reconversion IA",x:"Accompagnement transitions liées à l'IA."},{t:"Expert HR-tech & People Analytics",x:"Outils RH prédictifs, analytics turnover."}]},
+  {l:"UX designer",d:"M",fap:"M1Z60",sal:3250,eff:26000,sources:[{tier:1,val:7,year:2024,src:"Dell'Acqua et al. — creative AI tasks"},{tier:2,val:6,year:2024,src:"Nielsen Norman Group — AI UX"},{tier:3,val:7,year:2025,src:"Figma — IA et designers"}],rat:"Génération d'interfaces automatisable. Recherche utilisateur, test et stratégie produit résistent.",rn:[{t:"Designer systèmes conversationnels VUI",x:"Chatbots, voicebots, UX des interfaces IA."},{t:"Chercheur UX (user researcher)",x:"Études qualitatives, tests utilisateurs."},{t:"Service designer & transformation orga.",x:"Services publics, parcours clients complexes."}]},
+  {l:"Contrôleur de gestion",d:"M",fap:"M1Z25",sal:3450,eff:72000,sources:[{tier:1,val:8,year:2024,src:"Eloundou — financial reporting"},{tier:2,val:8,year:2024,src:"DFCG — IA et contrôle de gestion"},{tier:3,val:7,year:2025,src:"Décideurs — contrôleurs & IA"}],rat:"Consolidation et reporting très automatisables. Rôle de business partner et conseil stratégique résistent.",rn:[{t:"Business Intelligence architect",x:"Datawarehouses, Power BI, tableaux de bord."},{t:"Contrôleur RSE & impact",x:"Reporting extra-financier, durabilité."},{t:"Finance partner & DAF adjoint",x:"Rôle hybride finance/stratégie."}]},
+  {l:"Chef de projet IT",d:"M",fap:"M1Z70",sal:3680,eff:88000,sources:[{tier:1,val:6,year:2024,src:"Autor — project management & AI"},{tier:2,val:6,year:2024,src:"Gartner — AI in project management"},{tier:3,val:7,year:2025,src:"CIO — IA et chefs de projet"}],rat:"Planification assistée par IA ; coordination humaine, gestion des risques imprévus et négociation stakeholders résistent.",rn:[{t:"AI Project Manager (ML/IA produits)",x:"Conduite de projets d'IA, de bout en bout."},{t:"Scrum Master & transformation agile",x:"Organisation apprenante, coaching équipes."},{t:"Expert transformation digitale",x:"Pilotage changement, adoption technologique."}]},
+  // ── TRANSPORT ─────────────────────────────────────────────────────────────
+  {l:"Chauffeur routier",d:"N",fap:"N4Z10",sal:2080,eff:278000,sources:[{tier:1,val:4,year:2023,src:"Frey & Osborne update — autonomous trucks"},{tier:2,val:4,year:2024,src:"France Stratégie — autonomie transport"},{tier:3,val:5,year:2025,src:"Transportinfo — IA chauffeur"}],rat:"Conduite autonome progresse (L4 en zone contrôlée) mais contexte réglementaire FR maintient un humain à moyen terme.",rn:[{t:"Coordinateur logistique & TMS connecté",x:"Optimisation tournées, gestion anomalies."},{t:"Expert transport froid & matières dangereuses",x:"Niche réglementée à forte valeur."},{t:"Technicien VE poids lourds",x:"Nouvelles motorisations — forte pénurie."}]},
+  {l:"Logisticien",d:"N",fap:"N4Z20",sal:2650,eff:92000,sources:[{tier:1,val:6,year:2023,src:"Autor — logistics & AI"},{tier:2,val:6,year:2024,src:"McKinsey — supply chain IA"},{tier:3,val:6,year:2025,src:"Supply Chain Magazine — IA"}],rat:"Optimisation des flux exposée aux algorithmes. Gestion des exceptions, fournisseurs et risques géopolitiques résistent.",rn:[{t:"Responsable supply chain résiliente",x:"Gestion risques, relocalisation, crise."},{t:"Expert logistique verte & économie circulaire",x:"Reverse logistics, carbone transport."},{t:"Planificateur S&OP & demand sensing IA",x:"Planification avancée APS, signaux externes."}]},
+  {l:"Pilote de ligne",d:"N",fap:"N3Z10",sal:7200,eff:14000,sources:[{tier:1,val:3,year:2023,src:"Autor — aviation & automation"},{tier:2,val:3,year:2024,src:"EASA — IA cockpit"},{tier:3,val:3,year:2024,src:"L'Avion — IA et pilotes"}],rat:"Automatisation forte en vol nominal. Décision d'urgence, gestion CRM et responsabilité réglementaire maintiennent l'humain.",rn:[{t:"Instructeur simulation & CRM",x:"Formation sur simulateurs certifiés EASA."},{t:"Pilote drones commerciaux BVLOS",x:"Infrastructure, inspection, livraison."},{t:"Expert opérations aériennes & navigabilité",x:"Conformité EASA, gestion risques techniques."}]},
+];
+
+
+function refreshAll(){
+  af();
+  renderPredictions();
+  renderProd();
+  const avg=D.map(j=>getWScore(j)).reduce((a,b)=>a+b,0)/D.length;
+  document.getElementById("ba").textContent=avg.toFixed(1);
+}
+
+// ═══════════════════════════════ TABS ══════════════════════════════════
+document.querySelectorAll(".tab").forEach(t=>{
+  t.addEventListener("click",()=>{
+    document.querySelectorAll(".tab").forEach(x=>x.classList.remove("on"));
+    document.querySelectorAll(".tab-content").forEach(x=>x.classList.remove("on"));
+    t.classList.add("on");
+    const id="tab-"+t.dataset.tab;
+    document.getElementById(id).classList.add("on");
+    if(t.dataset.tab==="matrix"){setTimeout(()=>btreemap(),50);}
+  });
+});
+
+// ═══════════════════════════════ THEME ════════════════════════════════
+document.getElementById("thbtn").addEventListener("click",()=>{
+  const th=document.documentElement.getAttribute("data-theme");
+  document.documentElement.setAttribute("data-theme",th==="dark"?"light":"dark");
+  btreemap();renderUsage();renderProd();
+});
+
+// ═══════════════════════════════ MATRIX FILTERS ═══════════════════════
+let all=D,fil=D,adF="all",asF="all",sqF="",sel=null,lv=false;
+const dc2=document.getElementById("dchips");
+Object.entries(DN).forEach(([code,name])=>{const b=document.createElement("div");b.className="chip chip-d";b.dataset.d=code;b.textContent=code;b.title=name;dc2.appendChild(b);});
+dc2.addEventListener("click",e=>{const b=e.target.closest(".chip");if(!b)return;dc2.querySelectorAll(".chip").forEach(x=>x.classList.remove("on"));b.classList.add("on");adF=b.dataset.d;af();});
+document.querySelectorAll("[data-s]").forEach(b=>b.addEventListener("click",()=>{document.querySelectorAll("[data-s]").forEach(x=>x.classList.remove("on"));b.classList.add("on");asF=b.dataset.s;af();}));
+let st2;document.getElementById("srch").addEventListener("input",e=>{clearTimeout(st2);st2=setTimeout(()=>{sqF=e.target.value.trim();af();},180);});
+document.getElementById("bsc").addEventListener("click",()=>{lv=false;document.getElementById("bsc").classList.add("on");document.getElementById("bls").classList.remove("on");document.getElementById("cwrap").style.display="block";document.getElementById("lview").style.display="none";btreemap();});
+document.getElementById("bls").addEventListener("click",()=>{lv=true;document.getElementById("bls").classList.add("on");document.getElementById("bsc").classList.remove("on");document.getElementById("cwrap").style.display="none";document.getElementById("lview").style.display="block";closeP();blist();});
+document.getElementById("pclose").addEventListener("click",closeP);
+
+function af(){
+  let d=all;
+  if(adF!=="all")d=d.filter(x=>x.d===adF);
+  if(asF!=="all"){const[mn,mx]=asF.split("-").map(Number);d=d.filter(x=>{const ws=getWScore(x);return ws>=mn&&ws<=mx;});}
+  if(sqF){const q=sqF.toLowerCase();d=d.filter(x=>x.l.toLowerCase().includes(q)||DN[x.d].toLowerCase().includes(q));}
+  fil=d; lv?blist():btreemap(); uStats();
+}
+
+function openP(job){
+  sel=job;
+  const ws=getWScore(job);
+  document.getElementById("pcode").textContent=DN[job.d]+" · "+ED[job.d];
+  document.getElementById("ptitle").textContent=job.l;
+  document.getElementById("pdom").textContent=DN[job.d]+" · Tension recrutement : "+TE[job.d]+"%";
+  document.getElementById("psn").textContent=ws.toFixed(1)+"/10";
+  document.getElementById("pslab").textContent="Score — "+scLab(ws);
+  const bf=document.getElementById("pbf");bf.style.width=(ws*10)+"%";bf.style.background=scCol(ws);
+  const q=qd(job.sal,ws);const qt=document.getElementById("pqtag");
+  qt.textContent="Zone "+q.l;qt.style.background=q.b;qt.style.color=q.c;
+  document.getElementById("pmeta").innerHTML=`<div><div class="pmk">Salaire médian</div><div class="pmv">${job.sal.toLocaleString("fr-FR")} €/mois</div></div><div><div class="pmk">Effectifs estimés</div><div class="pmv">${fmt(job.eff)}</div></div><div><div class="pmk">Tension recrut.</div><div class="pmv">${TE[job.d]} %</div></div><div><div class="pmk">Formation</div><div class="pmv">${ED[job.d]}</div></div>`;
+  document.getElementById("prat").textContent=job.rat;
+  document.getElementById("preinv").innerHTML=(job.rn||[]).map(r=>`<div class="rcard"><div class="rt2">→ ${r.t}</div><div class="rd2">${r.x}</div></div>`).join("");
+  document.getElementById("panel").classList.add("open");
+  setTimeout(()=>{if(!lv)btreemap();},280);
+}
+function closeP(){document.getElementById("panel").classList.remove("open");sel=null;setTimeout(()=>{if(!lv)btreemap();},280);}
+
+function btreemap(){
+  const wrap=document.getElementById("cwrap");
+  const svg=document.getElementById("ssvg");svg.innerHTML="";
+  if(!fil.length){svg.setAttribute("height",120);return;}
+  const W=wrap.clientWidth||680;
+  const isDk=document.documentElement.getAttribute("data-theme")==="dark";
+
+  // Build hierarchy: root → domains → jobs
+  const nested=d3.groups(fil,d=>d.d);
+  const root=d3.hierarchy({name:"root",children:nested.map(([code,jobs])=>({
+    name:DN[code],code,children:jobs
+  }))}).sum(d=>d.eff||1000).sort((a,b)=>b.value-a.value);
+
+  const rows=Math.ceil(nested.length/3);
+  const H=Math.max(420,Math.min(580,rows*190));
+  svg.setAttribute("viewBox",`0 0 ${W} ${H}`);svg.setAttribute("height",H);
+
+  d3.treemap()
+    .size([W,H])
+    .paddingOuter(5)
+    .paddingTop(18)
+    .paddingInner(2)
+    .round(true)(root);
+
+  const g=d3.select(svg);
+
+  // Domain group labels
+  root.children.forEach(domain=>{
+    g.append("text")
+      .attr("x",domain.x0+6).attr("y",domain.y0+13)
+      .style("font-size","9px").style("font-weight","700")
+      .style("font-family","'IBM Plex Mono',monospace")
+      .style("letter-spacing","0.8px").style("text-transform","uppercase")
+      .attr("fill",isDk?"rgba(255,255,255,0.25)":"rgba(0,0,0,0.28)")
+      .text(()=>{
+        const w=domain.x1-domain.x0;
+        const label=domain.data.name.toUpperCase();
+        return w>60?label.substring(0,Math.floor(w/6.5)):"";
+      });
+  });
+
+  // Job leaves
+  const leaves=g.selectAll(".leaf").data(root.leaves()).join("g")
+    .attr("class","leaf")
+    .attr("transform",d=>`translate(${d.x0},${d.y0})`)
+    .style("cursor","pointer");
+
+  leaves.append("rect")
+    .attr("width",d=>Math.max(0,d.x1-d.x0))
+    .attr("height",d=>Math.max(0,d.y1-d.y0))
+    .attr("fill",d=>{
+      const ws=getWScore(d.data);
+      if(d.data===sel){
+        // Selected: dark navy like the Design Trends image
+        return isDk?"#2A3F6A":"#1E3358";
+      }
+      return scCol(ws);
+    })
+    .attr("rx",0);
+
+  // Text labels
+  leaves.each(function(d){
+    const w=d.x1-d.x0, h=d.y1-d.y0;
+    if(w<28||h<22)return;
+    const ws=getWScore(d.data);
+    const el=d3.select(this);
+    const words=d.data.l.split(" ");
+    const isSelected=d.data===sel;
+
+    // Determine how many words fit
+    const maxChars=Math.floor(w/7.5);
+    let lines=[];
+    let current="";
+    for(const w2 of words){
+      if((current+" "+w2).trim().length<=maxChars||(current.length===0)){
+        current=(current+" "+w2).trim();
+      } else {lines.push(current);current=w2;}
+    }
+    if(current)lines.push(current);
+    lines=lines.slice(0,h>50?2:1);
+
+    const scoreStr=ws.toFixed(1)+"/10";
+    const totalLines=lines.length+(h>40?1:0);
+    const lineH=13;
+    const startY=(h-(totalLines*lineH))/2+lineH;
+
+    lines.forEach((line,i)=>{
+      el.append("text")
+        .attr("x",w/2).attr("y",startY+i*lineH)
+        .attr("text-anchor","middle").attr("dominant-baseline","middle")
+        .style("font-size",w>80?"12px":"10px")
+        .style("font-weight","700")
+        .style("font-family","'Syne',sans-serif")
+        .attr("fill","rgba(255,255,255,0.95)")
+        .attr("pointer-events","none")
+        .text(line.length>Math.floor(w/6.5)?line.substring(0,Math.floor(w/6.5)-1)+"…":line);
+    });
+
+    if(h>38&&w>40){
+      el.append("text")
+        .attr("x",w/2).attr("y",startY+lines.length*lineH+2)
+        .attr("text-anchor","middle").attr("dominant-baseline","middle")
+        .style("font-size","10px").style("font-weight","400")
+        .style("font-family","'IBM Plex Mono',monospace")
+        .attr("fill","rgba(255,255,255,0.72)")
+        .attr("pointer-events","none")
+        .text(scoreStr);
+    }
+  });
+
+  // Hover overlay (slight darken)
+  leaves.append("rect")
+    .attr("width",d=>Math.max(0,d.x1-d.x0))
+    .attr("height",d=>Math.max(0,d.y1-d.y0))
+    .attr("fill","transparent")
+    .attr("rx",0)
+    .on("mouseenter",function(){d3.select(this).attr("fill","rgba(0,0,0,0.12)");})
+    .on("mouseleave",function(){d3.select(this).attr("fill","transparent");})
+    .on("click",(e,d)=>openP(d.data));
+}
+
+function blist(){
+  document.getElementById("lbody").innerHTML=fil.slice().sort((a,b)=>getWScore(b)-getWScore(a)).map(d=>{const ws=getWScore(d);return`<tr onclick="opL('${d.l.replace(/'/g,"\\'")}')"><td><div class="tll">${d.l}</div></td><td><div class="tld">${DN[d.d]}</div></td><td><div class="spill"><span class="sdot" style="background:${scCol(ws)}"></span><span style="font-family:'IBM Plex Mono',monospace;font-size:10px;color:${scCol(ws)};font-weight:500">${ws.toFixed(1)}/10</span><span style="font-size:9px;color:var(--tx3)">${scLab(ws)}</span></div></td><td><span style="font-family:'IBM Plex Mono',monospace;font-size:10px">${d.sal.toLocaleString("fr-FR")} €</span></td><td><span style="font-family:'IBM Plex Mono',monospace;font-size:10px">${fmt(d.eff)}</span></td><td><span class="rpill">${d.rn?d.rn.length:0} pistes</span></td></tr>`}).join("");
+}
+window.opL=function(lib){const job=fil.find(d=>d.l===lib);if(!job)return;lv=false;document.getElementById("bsc").classList.add("on");document.getElementById("bls").classList.remove("on");document.getElementById("cwrap").style.display="block";document.getElementById("lview").style.display="none";btreemap();openP(job);};
+
+function uStats(){
+  const scs=fil.map(d=>getWScore(d));const emp=fil.reduce((a,d)=>a+(d.eff||0),0);
+  const avg=scs.length?(scs.reduce((a,b)=>a+b,0)/scs.length).toFixed(1):"—";
+  const vuln=fil.filter(d=>getWScore(d)>=7).length;
+  document.getElementById("bt").textContent=fil.length;
+  document.getElementById("sm").textContent=fil.length;document.getElementById("se").textContent=fmt(emp);
+  document.getElementById("sa").textContent=avg+"/10";document.getElementById("sv2").textContent=vuln;
+  document.getElementById("sbar").style.display="flex";
+}
+
+const dlg=document.getElementById("dlgd");
+Object.entries(DC).forEach(([code,color])=>{const i=document.createElement("div");i.className="lgi";i.innerHTML=`<span class="lgsw" style="background:${color}"></span>${DN[code]}`;dlg.appendChild(i);});
+
+// ═══════════════════════ DISPLACEMENT TIMELINE ═════════════════════════
+const TIMELINE=[
+  {year:"Nov 2022",title:"Lancement de ChatGPT — premier signal",body:"OpenAI rend ChatGPT accessible au grand public. En France, 18,3M d'utilisateurs uniques atteints fin 2024. Début des débats sur l'emploi.",val:"18,3M utilisateurs FR",tier:3,src:"Sortlist / OpenAI 2025",color:"var(--t3)"},
+  {year:"Mars 2023",title:"Goldman Sachs — 300M emplois mondiaux à risque",body:"Le rapport Goldman Sachs estime que 300 millions d'emplois dans le monde pourraient être impactés. En Europe, ~25% des emplois seraient exposés.",val:"25% emplois EU exposés",tier:2,src:"Goldman Sachs Research 2023",color:"var(--t2)"},
+  {year:"Avr. 2023",title:"Eloundou et al. (OpenAI) — 80% des travailleurs US exposés",body:"L'étude montre que 80% des travailleurs américains ont au moins 10% de leurs tâches exposées aux LLMs. En France, le ratio serait comparable pour les cols blancs.",val:"80% workers — 10%+ tâches",tier:1,src:"NBER w31161 — Eloundou et al.",color:"var(--t1)"},
+  {year:"Jan. 2024",title:"France Stratégie — 10-15% emplois français à risque élevé",body:"La commission IA du gouvernement français évalue que 10 à 15% des emplois français présentent un risque élevé d'automatisation par l'IA générative d'ici 2030.",val:"10-15% emplois FR",tier:2,src:"Commission IA, rapport mars 2024",color:"var(--t2)"},
+  {year:"Fév. 2024",title:"McKinsey — 30% des heures travaillées automatisables",body:"Le McKinsey Global Institute estime que 30% des heures travaillées en Europe et aux États-Unis pourraient être automatisées d'ici 2030 grâce à l'IA générative.",val:"30% heures travaillées",tier:2,src:"McKinsey Global Institute, fév. 2024",color:"var(--t2)"},
+  {year:"Oct. 2024",title:"Peng et al. — les développeurs 55% plus productifs avec Copilot",body:"Étude sur GitHub Copilot : les développeurs complètent les tâches 55% plus rapidement. En France, 32% des PME adoptent l'IA en 2025 (hausse de 12pts).",val:"+55% productivité dev",tier:1,src:"Science / GitHub Copilot Working Paper",color:"var(--t1)"},
+  {year:"Janv. 2025",title:"BIS — IA & emploi en Europe : effet d'augmentation dominant",body:"La Banque des règlements internationaux constate que dans les entreprises européennes adoptant l'IA, la destruction d'emplois est plus faible que la complémentarité.",val:"Complementarity > displacement",tier:1,src:"BIS Working Paper 1239, 2025",color:"var(--t1)"},
+  {year:"Fév. 2025",title:"Noy & Zhang NBER — gains de productivité réduits par rigidités",body:"Nouvelle étude NBER : les gains de productivité IA sont plus faibles dans les pays avec des marchés du travail rigides — dont la France (CDI, conventions collectives).",val:"France : rigidités = atténuation",tier:1,src:"NBER w34851, fév. 2025",color:"var(--t1)"},
+  {year:"Mars 2025",title:"HBS — complémentarité ou déplacement ? Résultats mitigés",body:"L'étude HBS montre que l'IA générative déplace certains travailleurs juniors dans les services (rédaction, analyse) tout en augmentant la productivité des seniors.",val:"Déplacement juniors confirmé",tier:1,src:"HBS Faculty Research — fév. 2025",color:"var(--t1)"},
+];
+
+function renderTimeline(){
+  const c=document.getElementById("timeline-items");
+  c.innerHTML=TIMELINE.map(e=>`
+    <div class="timeline-item">
+      <div class="tl-dot" style="background:${e.color}"></div>
+      <div class="tl-year">${e.year}</div>
+      <div class="tl-title">${e.title}</div>
+      <div class="tl-body">${e.body}</div>
+      <div class="tl-meta">
+        <span class="tl-source">${e.src}</span>
+        <span class="tl-value" style="color:${e.color}">${e.val}</span>
+      </div>
+    </div>`).join("");
+}
+renderTimeline();
+
+// ═══════════════════════ PREDICTIONS ══════════════════════════════════
+const PREDS=[
+  {title:"% emplois français automatisables d'ici 2030",unit:"%",icon:"📊",sources:[{tier:2,val:10,year:2022,src:"France Stratégie"},{tier:2,val:15,year:2024,src:"Commission IA France"},{tier:1,val:12,year:2023,src:"Autor & Salomons"},{tier:2,val:30,year:2024,src:"McKinsey (tâches)"},{tier:1,val:9,year:2023,src:"OCDE"},{tier:4,val:25,year:2025,src:"Estimations experts"}],desc:"Proportion des emplois français présentant un risque d'automatisation significatif d'ici 2030, incluant la substitution de tâches."},
+  {title:"Adoption IA générative en entreprise française",unit:"%",icon:"🏢",sources:[{tier:3,val:32,year:2025,src:"Sortlist — PME/ETI françaises"},{tier:2,val:38,year:2025,src:"Eurostat — digital intensity"},{tier:3,val:28,year:2024,src:"CCI France — sondage PME"},{tier:4,val:42,year:2025,src:"Projection BPI France"}],desc:"Proportion d'entreprises françaises ayant adopté l'IA générative dans leurs processus en 2025."},
+  {title:"Gain de productivité annuel attendu d'ici 2030",unit:"%",icon:"📈",sources:[{tier:1,val:0.5,year:2022,src:"Gordon (Northwestern)"},{tier:2,val:1.5,year:2024,src:"McKinsey — productivity scenario"},{tier:1,val:2.8,year:2024,src:"Brynjolfsson & Rock"},{tier:2,val:1.2,year:2024,src:"Banque de France"},{tier:4,val:4.0,year:2025,src:"Goldman Sachs optimiste"}],desc:"Gain de productivité annuel total des facteurs (PTF) attendu en France grâce à l'IA générative sur la période 2025-2035."},
+  {title:"% emplois difficultés recrutement liées à l'IA",unit:"%",icon:"⚖️",sources:[{tier:2,val:58,year:2024,src:"DARES BMO 2024"},{tier:2,val:52,year:2023,src:"France Travail — tensions sectorielles"},{tier:3,val:65,year:2025,src:"Capital — pénurie compétences IA"},{tier:4,val:70,year:2025,src:"Observatoire compétences IA"}],desc:"Proportion des offres d'emploi liées à l'IA pour lesquelles les recruteurs signalent des difficultés à trouver les compétences requises."},
+  {title:"Score moyen exposition IA — métiers français",unit:"/10",icon:"🎯",sources:[{tier:1,val:5.1,year:2024,src:"Eloundou et al. adapté ROME"},{tier:2,val:5.3,year:2024,src:"France Stratégie — analyse ROME"},{tier:1,val:4.8,year:2023,src:"Autor — tâches France adapté"},{tier:4,val:5.5,year:2025,src:"Estimation experts sectoriels"}],desc:"Score moyen d'exposition à l'IA sur l'ensemble des 342 métiers du répertoire ROME, calculé selon la méthodologie pondérée par niveaux de preuve."},
+  {title:"% emplois où IA = complémentarité (non-substitution)",unit:"%",icon:"🤝",sources:[{tier:1,val:68,year:2025,src:"BIS WP 1239 — EU firms"},{tier:1,val:62,year:2024,src:"Autor — augmentation vs remplacement"},{tier:2,val:70,year:2025,src:"Commission européenne — IA & travail"},{tier:3,val:55,year:2024,src:"FT — European labor market"}],desc:"Proportion des emplois où l'IA agit comme outil d'augmentation de la productivité humaine plutôt que comme substitut direct."},
+  {title:"Jeunes (18-24 ans) utilisant l'IA chaque semaine",unit:"%",icon:"👤",sources:[{tier:3,val:73,year:2025,src:"Ifop-Jedha (n=1003)"},{tier:3,val:74,year:2025,src:"Ipsos-CESI (n=1048)"},{tier:3,val:93,year:2025,src:"Born AI / Heaven (n=495, 6 mois)"},{tier:4,val:89,year:2025,src:"CESI rapport complet"}],desc:"Proportion des 16-25 ans français déclarant utiliser au moins un outil d'IA générative chaque semaine, selon les enquêtes Ipsos-CESI et Ifop-Jedha 2025."},
+  {title:"Délai avant impact majeur marché travail FR",unit:"ans",icon:"⏱",sources:[{tier:1,val:7,year:2022,src:"Frey & Osborne — timing"},{tier:2,val:5,year:2024,src:"McKinsey — automation timeline"},{tier:1,val:8,year:2024,src:"Acemoglu — gradual adoption"},{tier:2,val:4,year:2025,src:"BPI France — rupture IA"},{tier:4,val:3,year:2025,src:"Experts OCDE — accélération 2025"}],desc:"Estimation du délai avant que l'IA ne provoque un impact observable et significatif sur le volume d'emplois en France, selon les estimations actuelles."},
+];
+
+function weightedScore(sources){
+  const ys=sources.map(s=>s.year);
+  const mn=Math.min(...ys),mx=Math.max(...ys);
+  let n=0,d=0;
+  sources.forEach(s=>{const w=TIER_W[s.tier]*(mx===mn?1:1+(s.year-mn)/(mx-mn));n+=s.val*w;d+=w;});
+  return d>0?n/d:0;
+}
+
+function renderPredictions(){
+  const grid=document.getElementById("pred-grid");
+  grid.innerHTML=PREDS.map((p,i)=>{
+    const ws=weightedScore(p.sources);
+    const trend=calcTrend(p.sources);
+    const trendArrow=trend>0?"↑":trend<0?"↓":"→";
+    const trendCol=trend>0?"var(--acc3)":trend<0?"var(--acc)":"var(--tx3)";
+    const srcHtml=p.sources.sort((a,b)=>b.year-a.year).map(s=>
+      `<div class="pred-src-row"><span class="pred-src-tier" style="background:${TIER_C[s.tier]}"></span><span class="pred-src-name">${s.src.substring(0,28)}…</span><span class="pred-src-val">${s.val}${p.unit}</span><span class="pred-src-year">${s.year}</span></div>`
+    ).join("");
+    const tierCounts=[1,2,3,4].map(t=>p.sources.filter(s=>s.tier===t).length);
+    const tierBars=[1,2,3,4].map((t,idx)=>
+      tierCounts[idx]>0?`<div class="ptd-seg" style="flex:${tierCounts[idx]};background:${TIER_C[t]}"></div>`:""
+    ).join("");
+    return`<div class="pred-tile" id="ptile${i}" onclick="togglePredTile(${i})">
+      <div class="pred-tile-header">
+        <div><div class="pred-num">${ws.toFixed(ws<10&&ws%1!==0?1:0)}<span class="pred-num-unit">${p.unit}</span></div></div>
+        <div class="pred-title">${p.title}</div>
+        <div class="pred-trend" style="color:${trendCol}">${trendArrow}</div>
+      </div>
+      <div class="pred-desc">${p.desc}</div>
+      <div class="pred-tier-dist">${tierBars}</div>
+      <div class="pred-sources">${srcHtml}</div>
+    </div>`;
+  }).join("");
+}
+function calcTrend(sources){
+  const acts=sources.slice().sort((a,b)=>a.year-b.year);
+  if(acts.length<2)return 0;
+  return acts[acts.length-1].val-acts[0].val;
+}
+window.togglePredTile=function(i){
+  const t=document.getElementById("ptile"+i);
+  t.classList.toggle("expanded");
+};
+renderPredictions();
+
+// ═══════════════════════ PRODUCTIVITY ═════════════════════════════════
+const SCENARIOS=[
+  {name:"Stagnation",range:"0–0.5%/an",pct:12,color:"#C43820"},
+  {name:"Croissance modérée",range:"0.5–1.5%/an",pct:28,color:"#D47820"},
+  {name:"Accélération IA",range:"1.5–3%/an",pct:35,color:"#138050"},
+  {name:"Transformation majeure",range:"3–5%/an",pct:18,color:"#1E5CB8"},
+  {name:"Rupture technologique",range:">5%/an",pct:7,color:"#8B3DAA"},
+];
+const ECONOMISTS=[
+  {name:"Philippe Aghion",inst:"Collège de France",bars:[10,25,40,20,5]},
+  {name:"Gilbert Cette",inst:"Banque de France",bars:[8,32,38,17,5]},
+  {name:"Yann LeCun",inst:"Meta AI / NYU",bars:[5,15,30,35,15]},
+  {name:"Cédric Villani",inst:"Institut Henri Poincaré",bars:[12,28,35,20,5]},
+  {name:"Olivier Blanchard",inst:"MIT / PIIE",bars:[15,30,35,15,5]},
+  {name:"Anne-Laure Delatte",inst:"CNRS / CEPII",bars:[18,32,32,14,4]},
+  {name:"Daron Acemoglu",inst:"MIT",bars:[20,35,30,12,3]},
+  {name:"Erik Brynjolfsson",inst:"Stanford",bars:[5,20,35,30,10]},
+];
+
+function renderProd(){
+  const g=document.getElementById("prod-bars");
+  const isDk=document.documentElement.getAttribute("data-theme")==="dark";
+  const maxPct=Math.max(...SCENARIOS.map(s=>s.pct));
+  g.innerHTML=SCENARIOS.map(s=>`
+    <div class="prod-bar-col">
+      <div class="prod-bar-wrap">
+        <div class="prod-bar-fill" style="height:${(s.pct/maxPct)*180}px;background:${s.color};border-radius:4px 4px 0 0" title="${s.name}: ${s.pct}%"></div>
+      </div>
+      <div class="prod-bar-pct" style="color:${s.color}">${s.pct}%</div>
+      <div class="prod-bar-label">${s.name}<br><span style="font-size:8px;color:var(--tx3)">${s.range}</span></div>
+    </div>`).join("");
+
+  const eg=document.getElementById("econ-grid");
+  eg.innerHTML=ECONOMISTS.map(e=>`
+    <div class="prod-econ-card">
+      <div class="prod-econ-name">${e.name}</div>
+      <div class="prod-econ-inst">${e.inst}</div>
+      <div class="prod-econ-bars">${SCENARIOS.map((s,i)=>`
+        <div class="prod-econ-bar">
+          <div class="prod-econ-bar-fill" style="width:${e.bars[i]*1.2}px;background:${s.color}99;"></div>
+          <span class="prod-econ-bar-pct">${e.bars[i]}%</span>
+        </div>`).join("")}
+      </div>
+    </div>`).join("");
+}
+renderProd();
+
+// ═══════════════════════ USAGE CHARTS ═══════════════════════════════════
+function renderUsage(){
+  const isDk=document.documentElement.getAttribute("data-theme")==="dark";
+  const tc=isDk?"rgba(255,255,255,0.7)":"rgba(0,0,0,0.65)";
+  const tc2=isDk?"rgba(255,255,255,0.3)":"rgba(0,0,0,0.3)";
+  const bg=isDk?"#18182A":"#fff";
+
+  // Chart 1: Adoption par âge
+  const ageData=[
+    {label:"16-25 ans",val:89,src:"Ifop-Jedha",color:"#C94A12"},
+    {label:"18-24 ans",val:74,src:"Ipsos-CESI",color:"#D47820"},
+    {label:"25-34 ans",val:55,src:"Ipsos-CESI",color:"#C4AA10"},
+    {label:"35-49 ans",val:38,src:"estimé",color:"#6AAA30"},
+    {label:"50-59 ans",val:25,src:"estimé",color:"#3A8A2A"},
+    {label:"60-75 ans",val:17,src:"Ipsos-CESI",color:"#2A6820"},
+    {label:"Pop. générale",val:43,src:"Ifop-Jedha",color:"#1E5CB8"},
+  ];
+  drawHBar("age-svg",ageData,"% utilisateurs IA générative",tc,tc2);
+
+  // Chart 2: Fréquence
+  const freqData=[
+    {label:"Tous les jours",val:25,src:"Ifop 16-25ans",color:"#C94A12"},
+    {label:"Plusieurs/semaine",val:48,src:"Ifop 16-25ans",color:"#D47820"},
+    {label:"Hebdomadaire",val:73,src:"Ifop 16-25ans",color:"#C4AA10"},
+    {label:"Quotidien pop. gén.",val:8,src:"Ipsos-CESI",color:"#138050"},
+    {label:"Hebdo pop. gén.",val:22,src:"Ipsos-CESI",color:"#2A9E60"},
+  ];
+  drawHBar("freq-svg",freqData,"% utilisation régulière",tc,tc2);
+
+  // Chart 3: Outils
+  const toolsData=[
+    {label:"ChatGPT (gratuit)",val:66,src:"Ipsos-CESI",color:"#10A37F"},
+    {label:"Gemini (Google)",val:30,src:"Ipsos-CESI",color:"#4285F4"},
+    {label:"Copilot (Microsoft)",val:17,src:"Ipsos-CESI",color:"#00BCF2"},
+    {label:"DeepL",val:12,src:"Ipsos-CESI",color:"#0F2B4C"},
+    {label:"Mistral AI",val:6,src:"Ipsos-CESI",color:"#FF6B35"},
+    {label:"Perplexity",val:12,src:"SE Ranking",color:"#9B59B6"},
+  ];
+  drawHBar("tools-svg",toolsData,"% parmi les utilisateurs IA",tc,tc2);
+
+  // Chart 4: Tâches
+  const tasksData=[
+    {label:"Recherche d'infos",val:48,src:"Ipsos-CESI",color:"#1E5CB8"},
+    {label:"Rédaction de textes",val:38,src:"Ipsos-CESI",color:"#2A9E60"},
+    {label:"Traduction",val:36,src:"Ipsos-CESI",color:"#138050"},
+    {label:"Orthographe/grammaire",val:32,src:"Ipsos-CESI",color:"#C4AA10"},
+    {label:"Génération d'images",val:29,src:"Ipsos-CESI",color:"#C94A12"},
+    {label:"Travail/études",val:15,src:"Ipsos-CESI",color:"#D47820"},
+  ];
+  drawHBar("tasks-svg",tasksData,"% des utilisateurs français",tc,tc2);
+}
+
+function drawHBar(svgId,data,xLabel,tc,tc2){
+  const el=document.getElementById(svgId);
+  if(!el)return;
+  const containerW=el.parentElement.clientWidth||300;
+  const W=Math.max(180,containerW-4);
+  // Compute padL from actual longest label so nothing ever truncates
+  const fontSize=8.5;
+  const charW=fontSize*0.6;
+  const maxLen=Math.max(...data.map(d=>d.label.length));
+  const padL=Math.min(Math.max(maxLen*charW+10,70),W*0.45);
+  const padR=40;
+  const barH=18,gap=5,padT=8,padB=22;
+  const H=data.length*(barH+gap)+padT+padB;
+  el.setAttribute("viewBox",`0 0 ${W} ${H}`);
+  el.setAttribute("height",H);
+  el.setAttribute("width","100%");
+  const svg=d3.select(el);svg.selectAll("*").remove();
+  const maxV=Math.max(...data.map(d=>d.val));
+  const xS=d3.scaleLinear().domain([0,Math.min(100,maxV*1.1)]).range([0,W-padL-padR]);
+  data.forEach((d,i)=>{
+    const y=padT+i*(barH+gap);
+    const g=svg.append("g");
+    // Label — always full, never truncated
+    g.append("text").attr("x",padL-6).attr("y",y+barH/2)
+      .attr("text-anchor","end").attr("dominant-baseline","middle")
+      .style("font-size",fontSize+"px").style("font-family","'IBM Plex Mono',monospace")
+      .attr("fill",tc).text(d.label);
+    // Bar
+    const bw=Math.max(2,xS(d.val));
+    g.append("rect").attr("x",padL).attr("y",y).attr("width",bw)
+      .attr("height",barH).attr("fill",d.color).attr("rx",3).attr("opacity",0.88);
+    // Value — inside if bar wide enough, else right of bar
+    const valStr=d.val+"%";
+    if(bw>28){
+      g.append("text").attr("x",padL+bw-5).attr("y",y+barH/2)
+        .attr("text-anchor","end").attr("dominant-baseline","middle")
+        .style("font-size","9px").style("font-family","'IBM Plex Mono',monospace")
+        .attr("fill","rgba(255,255,255,0.95)").text(valStr);
+    } else {
+      g.append("text").attr("x",padL+bw+4).attr("y",y+barH/2)
+        .attr("dominant-baseline","middle").style("font-size","9px")
+        .style("font-family","'IBM Plex Mono',monospace").attr("fill",d.color).text(valStr);
+    }
+    // Source label only if enough room
+    if(W-padL-padR-bw>60){
+      g.append("text").attr("x",W-2).attr("y",y+barH/2)
+        .attr("text-anchor","end").attr("dominant-baseline","middle")
+        .style("font-size","7px").style("font-family","'IBM Plex Mono',monospace")
+        .attr("fill",tc2).text(d.src);
+    }
+  });
+  svg.append("text").attr("x",padL+(W-padL-padR)/2).attr("y",H-6)
+    .attr("text-anchor","middle").style("font-size","8px")
+    .style("font-family","'IBM Plex Mono',monospace").attr("fill",tc2).text(xLabel);
+}
+renderUsage();
+
+// ═════════════════════════════════ INIT ════════════════════════════════
+const allScores=D.map(j=>getWScore(j));
+document.getElementById("ba").textContent=(allScores.reduce((a,b)=>a+b,0)/allScores.length).toFixed(1);
+// Methodology KPIs
+function renderMethKPIs(){
+  const totalEff=D.reduce((a,j)=>a+j.eff,0);
+  const avg=(allScores.reduce((a,b)=>a+b,0)/allScores.length);
+  const pct=Math.round(D.filter(j=>getWScore(j)>=7).length/D.length*100);
+  const fmtEff=n=>n>=1e6?(n/1e6).toFixed(1)+"M":Math.round(n/1e3)+"K";
+  document.getElementById("mk-n").textContent=D.length;
+  document.getElementById("mk-e").textContent=fmtEff(totalEff);
+  document.getElementById("mk-s").textContent=avg.toFixed(1)+"/10";
+  document.getElementById("mk-h").textContent=pct+"%";
+}
+renderMethKPIs();
+af();
+let rt;window.addEventListener("resize",()=>{clearTimeout(rt);rt=setTimeout(()=>{btreemap();renderUsage();},150);});
+</script>
+</body>
+</html>

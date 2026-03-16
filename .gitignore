@@ -1,0 +1,20 @@
+# Environnement Python
+.env
+__pycache__/
+*.pyc
+*.pyo
+.venv/
+venv/
+
+# Données générées par le pipeline (à ne pas versionner par défaut)
+data/metiers.json
+data/metiers_enrichis.json
+data/stats.csv
+data/scores.json
+data/pages/
+
+# Fichiers temporaires
+*.DS_Store
+*.log
+.idea/
+.vscode/
