@@ -848,6 +848,77 @@ const D=[
   {l:"Chauffeur routier",d:"N",fap:"N4Z10",sal:2080,eff:278000,sources:[{tier:1,val:4,year:2023,src:"Frey & Osborne update · autonomous trucks"},{tier:2,val:4,year:2024,src:"France Stratégie · autonomie transport"},{tier:3,val:5,year:2025,src:"Transportinfo · IA chauffeur"}],rat:"Conduite autonome progresse (L4 en zone contrôlée) mais contexte réglementaire FR maintient un humain à moyen terme.",rn:[{t:"Coordinateur logistique & TMS connecté",x:"Optimisation tournées, gestion anomalies."},{t:"Expert transport froid & matières dangereuses",x:"Niche réglementée à forte valeur."},{t:"Technicien VE poids lourds",x:"Nouvelles motorisations · forte pénurie."}]},
   {l:"Logisticien",d:"N",fap:"N4Z20",sal:2650,eff:92000,sources:[{tier:1,val:6,year:2023,src:"Autor · logistics & AI"},{tier:2,val:6,year:2024,src:"McKinsey · supply chain IA"},{tier:3,val:6,year:2025,src:"Supply Chain Magazine · IA"}],rat:"Optimisation des flux exposée aux algorithmes. Gestion des exceptions, fournisseurs et risques géopolitiques résistent.",rn:[{t:"Responsable supply chain résiliente",x:"Gestion risques, relocalisation, crise."},{t:"Expert logistique verte & économie circulaire",x:"Reverse logistics, carbone transport."},{t:"Planificateur S&OP & demand sensing IA",x:"Planification avancée APS, signaux externes."}]},
   {l:"Pilote de ligne",d:"N",fap:"N3Z10",sal:7200,eff:14000,sources:[{tier:1,val:3,year:2023,src:"Autor · aviation & automation"},{tier:2,val:3,year:2024,src:"EASA · IA cockpit"},{tier:3,val:3,year:2024,src:"L'Avion · IA et pilotes"}],rat:"Automatisation forte en vol nominal. Décision d'urgence, gestion CRM et responsabilité réglementaire maintiennent l'humain.",rn:[{t:"Instructeur simulation & CRM",x:"Formation sur simulateurs certifiés EASA."},{t:"Pilote drones commerciaux BVLOS",x:"Infrastructure, inspection, livraison."},{t:"Expert opérations aériennes & navigabilité",x:"Conformité EASA, gestion risques techniques."}]},
+
+  // M — Support entreprise / Droit (nouveaux métiers)
+  {l:"Avocat",d:"M",fap:"M2Z20",sal:3800,eff:79000,sources:[
+    {tier:1,val:8,year:2024,src:"Eloundou et al. — legal tasks LLM exposure (NBER 2023)"},
+    {tier:1,val:8,year:2024,src:"Noy & Zhang MIT — legal writing tasks automated"},
+    {tier:2,val:7,year:2024,src:"McKinsey — legal automation 2024"},
+    {tier:1,val:8,year:2026,src:"Massenkoff & McCrory — lawyers highly exposed (Anthropic EconIndex 2026)"},
+    {tier:2,val:8,year:2024,src:"Étude LexisNexis — IA et avocats France 2024"},
+    {tier:3,val:8,year:2025,src:"Village Justice — LegalTech et avocats France 2025"}
+  ],rat:"Recherche documentaire, rédaction d'actes standard et due diligence : fortement automatisables. Le conseil stratégique, la plaidoirie et les contentieux complexes restent irremplaçables. 79 141 avocats inscrits en janv. 2026 (CNB/Ministère de la Justice).",
+  rn:[{t:"Expert régulation IA & AI Act européen",x:"Conformité des systèmes IA : niche urgente et très rare sur le marché."},{t:"Avocat spécialisé LegalTech & droit numérique",x:"Contrats SaaS, cybersécurité, protection données — forte demande PME."},{t:"Arbitre & médiateur digital",x:"Règlement alternatif des litiges en ligne — en forte croissance."}]},
+  
+  {l:"Notaire",d:"M",fap:"M2Z30",sal:3600,eff:17000,sources:[
+    {tier:1,val:6,year:2024,src:"Eloundou et al. — document drafting & authentication tasks LLM"},
+    {tier:2,val:6,year:2023,src:"France Stratégie — professions juridiques réglementées & IA"},
+    {tier:2,val:7,year:2024,src:"CSN — rapport IA et notariat 2024"},
+    {tier:3,val:6,year:2025,src:"Village Justice — LegalTech & offices notariaux 2025"}
+  ],rat:"Actes immobiliers répétitifs, rédaction de clauses standard : exposés aux LLMs spécialisés. Authentification des actes, responsabilité ministerielle et conseil patrimonial complexe restent des fonctions humaines irremplaçables. 17 000 notaires en France (CSN 2024).",
+  rn:[{t:"Notaire spécialisé droit patrimonial & family office",x:"Gestion de patrimoine complexe, structures holdings, transmission."},{t:"Expert immobilier digital & proptech",x:"Due diligence automatisée, blockchain et actes dématérialisés."},{t:"Consultant droit des successions & trust international",x:"Niche internationale pour expatriés et non-résidents."}]},
+
+  {l:"Magistrat",d:"M",fap:"M2Z40",sal:4200,eff:9300,sources:[
+    {tier:1,val:4,year:2024,src:"Eloundou et al. — judicial decision tasks LLM exposure"},
+    {tier:2,val:4,year:2023,src:"France Stratégie — IA et professions judiciaires"},
+    {tier:2,val:5,year:2024,src:"Commission EU — AI Act & justice algorithms"},
+    {tier:3,val:4,year:2025,src:"Dalloz — IA et aide à la décision judiciaire France 2025"}
+  ],rat:"L'aide à la décision par IA progresse (jurisprudence, prédiction de peines) mais la décision judiciaire, l'appréciation des faits et la motivation des jugements restent des fonctions constitutionnellement humaines. 9 300 magistrats en France (Ministère de la Justice 2024).",
+  rn:[{t:"Juge spécialisé droit du numérique & IA",x:"Tribunal judiciaire Paris — chambre IA, droit des algorithmes."},{t:"Expert auprès des juridictions en matière d'IA",x:"Assesseur technique dans les litiges algorithmiques et deepfakes."},{t:"Formateur ENM — éthique IA & justice prédictive",x:"Formation initiale et continue des magistrats aux outils IA."}]},
+
+  {l:"Juriste d'entreprise",d:"M",fap:"M2Z50",sal:3800,eff:65000,sources:[
+    {tier:1,val:7,year:2024,src:"Eloundou et al. — in-house counsel tasks LLM"},
+    {tier:2,val:7,year:2024,src:"McKinsey — corporate legal automation 2024"},
+    {tier:2,val:7,year:2024,src:"EY LLP — AI in legal departments survey 2024"},
+    {tier:3,val:8,year:2025,src:"Les Échos — IA et directions juridiques France 2025"}
+  ],rat:"Revue de contrats, veille réglementaire et rédaction de clauses : automatisables à 60-70%. Le conseil stratégique, la négociation et la gestion des contentieux restent humains. ~65 000 juristes en entreprise (INSEE EEC 2024).",
+  rn:[{t:"Chief Legal Officer IA (CLO numérique)",x:"Pilotage juridique des projets IA, conformité AI Act, gouvernance."},{t:"Juriste spécialisé RGPD & cybersécurité",x:"DPO externalisé, audit conformité, violation de données."},{t:"Contract manager IA-assisté",x:"Gestion de portefeuilles contractuels avec outils LLM."}]},
+
+  // K — Services aux personnes / Enseignement (nouveaux métiers)
+  {l:"Professeur des écoles",d:"K",fap:"K6Z20",sal:2380,eff:370000,sources:[
+    {tier:1,val:5,year:2024,src:"Noy & Zhang MIT — AI tutoring efficacy & teaching tasks"},
+    {tier:2,val:5,year:2024,src:"OCDE — IA et enseignants, rapport 2024"},
+    {tier:1,val:4,year:2025,src:"NBER w34851 — productivity gaps GenAI in education"},
+    {tier:2,val:5,year:2024,src:"DEPP/MEN — rapport usage IA dans les classes France 2024"},
+    {tier:3,val:5,year:2025,src:"Le Monde Education — IA en classe primaire France"}
+  ],rat:"Tuteurs IA personnalisés (Khan Academy, Khanmigo) progressent mais la relation éducative, la gestion de classe, la socialisation précoce et l'adaptation aux besoins individuels restent irremplaçables. 370 500 professeurs des écoles en France (DEPP 2024).",
+  rn:[{t:"Enseignant concepteur de ressources edtech",x:"Création de parcours IA-humain pour plateformes numériques."},{t:"Référent IA & numérique de circonscription",x:"Pilotage des usages IA dans les écoles, formation des collègues."},{t:"Formateur ESPE & académique inclusion numérique",x:"Formation initiale aux pédagogies augmentées par l'IA."}]},
+
+  {l:"Professeur collège-lycée",d:"K",fap:"K6Z30",sal:2680,eff:530000,sources:[
+    {tier:1,val:5,year:2024,src:"Noy & Zhang MIT — AI tutoring & teacher substitution"},
+    {tier:2,val:5,year:2024,src:"OCDE Education at a Glance 2024 — IA & enseignants"},
+    {tier:1,val:4,year:2025,src:"NBER w34851 — GenAI productivity gaps education"},
+    {tier:2,val:6,year:2025,src:"France Stratégie — transformation enseignement secondaire & IA"},
+    {tier:3,val:6,year:2025,src:"Le Monde Education — ChatGPT et lycéens 2025"}
+  ],rat:"Production de cours, correction de copies : automatisables. L'animation pédagogique, la relation éducative, la gestion des difficultés d'apprentissage et la mission de socialisation restent irremplaçables. 530 000 enseignants du 2nd degré (DEPP Panorama 2024-2025).",
+  rn:[{t:"Enseignant-formateur hybride (blended learning)",x:"Conception de formations mixtes présentiel/distanciel IA-assistées."},{t:"Coordinateur pédagogie par projets & compétences",x:"Baccalauréat 2030, approche compétences — forte demande."},{t:"Expert inclusion scolaire & neurodiversité",x:"TSA, TDAH, dys — accompagnement spécialisé très demandé."}]},
+
+  {l:"Enseignant-chercheur",d:"K",fap:"K6Z40",sal:3400,eff:93000,sources:[
+    {tier:1,val:6,year:2024,src:"Eloundou et al. — knowledge work tasks LLM exposure"},
+    {tier:2,val:6,year:2024,src:"OCDE — IA et recherche académique 2024"},
+    {tier:1,val:5,year:2025,src:"Nature — LLMs & scientific discovery 2025"},
+    {tier:2,val:6,year:2023,src:"MESR — rapport IA dans l'enseignement supérieur 2023"},
+    {tier:3,val:6,year:2025,src:"Le Monde Université — IA et enseignement supérieur 2025"}
+  ],rat:"Production de cours et rédaction d'articles standards très exposées. La recherche originale, la direction de thèse, l'évaluation par les pairs et la transmission du raisonnement scientifique restent profondément humaines. 93 000 enseignants du supérieur (MESR 2023).",
+  rn:[{t:"Chercheur en IA & éthique algorithmique",x:"Recherche fondamentale IA, biais, explicabilité — forte demande."},{t:"Directeur de programme executive & formation continue",x:"MBA, mastères spécialisés — marché de la formation pro en croissance."},{t:"Expert éducation ouverte & MOOCs avancés",x:"Coursera, edX — monétisation de l'expertise pédagogique."}]},
+
+  {l:"Conseiller d'orientation-psychologue",d:"K",fap:"K6Z50",sal:2500,eff:11000,sources:[
+    {tier:1,val:4,year:2023,src:"Autor — social service work & human interaction tasks"},
+    {tier:2,val:4,year:2024,src:"OCDE — IA et orientation scolaire & professionnelle"},
+    {tier:3,val:5,year:2025,src:"L'Etudiant — IA et orientation scolaire France 2025"},
+    {tier:4,val:5,year:2025,src:"ONISEP — baromètre orientation & IA 2025"}
+  ],rat:"Les outils d'orientation algorithmiques (Parcoursup, Mon Master) se développent mais l'accompagnement psychologique individualisé, la détection des troubles et la relation de confiance restent irremplaçables. ~11 000 PsyEN en France (MEN 2024).",
+  rn:[{t:"Psychologue scolaire spécialisé neurodiversité",x:"TSA, TDAH, dys — rôle pivot en forte demande avec la loi handicap."},{t:"Conseiller en évolution professionnelle (CEP)",x:"Transitions pro, VAE, bilan de compétences — marché en expansion."},{t:"Expert bien-être scolaire & climat éducatif",x:"Prévention décrochage, harcèlement — missions élargies depuis 2024."}]},
 ];
 
 
@@ -988,10 +1059,7 @@ function showReinvPopup(r, fromJob, domColor, event){
     `<strong style="color:var(--tx)">Ce que vous feriez :</strong><br>${r.x}<br><br>
      <span style="color:var(--tx3)">${getReinvContext(r)}</span>`;
 
-  const tags=extractTags(r);
-  document.getElementById("rpopup-tags").innerHTML=
-    tags.map(t=>`<span class="rpopup-tag">${t}</span>`).join("")+
-    (tags.length===0?'':`<span class="rpopup-tag" style="color:var(--acc2);background:transparent;border-color:var(--acc2)">Voir formations →</span>`);
+  document.getElementById("rpopup-tags").innerHTML="";
 
   // Center in viewport
   const vw=window.innerWidth,vh=window.innerHeight;
