@@ -98,7 +98,7 @@ html,body{background:var(--bg);color:var(--tx);font-family:'Inter',system-ui,san
 .chips{display:flex;gap:3px;flex-wrap:wrap;}
 .chip{font-size:12px;font-family:'Inter',sans-serif;font-weight:500;padding:3px 10px;border-radius:20px;border:1px solid var(--br);background:transparent;color:var(--tx2);cursor:pointer;transition:all .15s;}
 .chip:hover{border-color:var(--acc);color:var(--acc);} .chip.on{background:var(--acc);border-color:var(--acc);color:#fff;}
-.chip-d{font-size:11px;padding:2px 8px;}
+.chip-d{font-size:11px;padding:2px 9px;white-space:nowrap;}
 .vbtns{display:flex;gap:2px;}
 .vbtn{font-size:11px;font-family:'Inter',sans-serif;padding:4px 10px;border-radius:4px;border:1px solid var(--br);background:transparent;color:var(--tx3);cursor:pointer;transition:all .15s;}
 .vbtn.on{background:var(--tx);color:var(--bg);border-color:var(--tx);}
@@ -191,6 +191,23 @@ html,body{background:var(--bg);color:var(--tx);font-family:'Inter',system-ui,san
 .rcard:hover{border-color:var(--acc);}
 .rt2{font-size:13px;font-weight:600;color:var(--tx);font-family:'Inter',sans-serif;margin-bottom:3px;}
 .rd2{font-size:12px;color:var(--tx2);line-height:1.55;font-family:'Inter',sans-serif;}
+
+
+/* ── REGULATION CHIPS ── */
+.reg-bar{background:var(--sf);border-bottom:1px solid var(--br);padding:5px 20px;display:flex;align-items:center;gap:7px;flex-wrap:wrap;}
+.reg-chip{font-size:11px;font-family:'IBM Plex Mono',monospace;font-weight:500;padding:2px 9px;border-radius:20px;border:1.5px solid var(--br);background:transparent;color:var(--tx3);cursor:pointer;transition:all .15s;white-space:nowrap;}
+.reg-chip:hover{border-color:var(--acc2);color:var(--acc2);}
+.reg-chip.on{background:var(--acc);border-color:var(--acc);color:#fff;}
+.reg-chip[data-reg="all"].on{background:var(--acc);border-color:var(--acc);}
+.reg-chip[data-reg="RGPD"].on{background:#2A6BB5;border-color:#2A6BB5;}
+.reg-chip[data-reg="IA_Act"].on{background:#7A3D8F;border-color:#7A3D8F;}
+.reg-chip[data-reg="AMF"].on{background:#C07030;border-color:#C07030;}
+.reg-chip[data-reg="CSP"].on{background:#C42A2A;border-color:#C42A2A;}
+.reg-chip[data-reg="LOPJ"].on{background:#5C3D8F;border-color:#5C3D8F;}
+.reg-chip[data-reg="DSA"].on{background:#1A8A8A;border-color:#1A8A8A;}
+.reg-chip[data-reg="NIS2"].on{background:#3A7A3A;border-color:#3A7A3A;}
+.reg-chip[data-reg="DORA"].on{background:#8A4A15;border-color:#8A4A15;}
+.reg-badge{display:inline-block;font-size:9px;font-family:'IBM Plex Mono',monospace;font-weight:600;padding:1px 5px;border-radius:3px;color:#fff;margin-left:3px;vertical-align:middle;line-height:1.5;}
 
 /* ── LIST VIEW ── */
 #lview{display:none;padding:0 20px 14px;overflow-y:auto;max-height:500px;}
@@ -355,6 +372,7 @@ footer a{color:var(--tx2);text-decoration:none;}
   /* Toolbar */
   .tb{gap:5px;padding-top:6px;padding-bottom:6px;}
   .tbl{font-size:11px;}
+  .reg-bar{padding:5px 14px;gap:4px;}
   .chip{font-size:11px;padding:2px 9px;}
   .chip-d{font-size:11px;padding:2px 6px;}
   .srch{width:110px;font-size:12px;}
@@ -509,6 +527,21 @@ footer a{color:var(--tx2);text-decoration:none;}
     </div>
     <input class="srch" type="search" id="srch" placeholder="Rechercher…">
     <div class="vbtns" style="margin-left:auto"><button class="vbtn on" id="bsc">Treemap</button><button class="vbtn" id="bls">Liste</button></div>
+  </div>
+
+  <div class="reg-bar" id="reg-bar">
+    <span class="tbl" style="white-space:nowrap">Réglementation</span>
+    <div class="chips" style="gap:3px;flex-wrap:wrap" id="rchips">
+      <div class="reg-chip on" data-reg="all">Toutes réglementations</div>
+      <div class="reg-chip" data-reg="RGPD" title="Règlement Général Protection des Données (EU 2016/679)">RGPD</div>
+      <div class="reg-chip" data-reg="IA_Act" title="Règlement européen sur l'IA (EU 2024/1689) — en vigueur 2025-2026">IA Act</div>
+      <div class="reg-chip" data-reg="AMF" title="AMF / ACPR — Autorité des marchés financiers, Autorité de contrôle prudentiel">AMF / ACPR</div>
+      <div class="reg-chip" data-reg="CSP" title="Code de la Santé Publique — professions de santé réglementées">Code Santé</div>
+      <div class="reg-chip" data-reg="LOPJ" title="Loi d'orientation et de programmation de la justice 2023-2027">LOPJ</div>
+      <div class="reg-chip" data-reg="DSA" title="Digital Services Act (EU 2022/2065) — plateformes, contenus, médias en ligne">DSA / DMA</div>
+      <div class="reg-chip" data-reg="NIS2" title="Directive NIS2 (EU 2022/2555) — cybersécurité des réseaux et systèmes d'information">NIS2</div>
+      <div class="reg-chip" data-reg="DORA" title="Digital Operational Resilience Act (EU 2022/2554) — résilience numérique finance">DORA</div>
+    </div>
   </div>
 
   <div class="main-wrap" id="mwrap">
@@ -719,6 +752,25 @@ footer a{color:var(--tx2);text-decoration:none;}
       </div>
     </div>
 
+
+    <div class="meth-section">
+      <div class="meth-h">Réglementations — facteur d'impact complémentaire</div>
+      <p class="meth-p">En plus du score d'exposition aux tâches, chaque métier est taggé selon les réglementations françaises et européennes qui contraignent ou transforment l'adoption de l'IA dans cette profession. Le filtre "Réglementation" permet d'isoler les métiers concernés par un cadre réglementaire spécifique.</p>
+      <table class="meth-table">
+        <thead><tr><th>Réglementation</th><th>Description</th><th>Métiers principalement concernés</th></tr></thead>
+        <tbody>
+          <tr><td style="font-family:'IBM Plex Mono',monospace;font-size:12px;background:#2A6BB5;color:#fff;border-radius:3px;padding:2px 6px">RGPD</td><td>Règlement Général Protection des Données (EU 2016/679) — toute profession manipulant des données personnelles est contrainte dans son usage de l'IA.</td><td>Médecin, DRH, Juriste, Développeur, Journaliste, Enseignant…</td></tr>
+          <tr><td style="font-family:'IBM Plex Mono',monospace;font-size:12px;background:#7A3D8F;color:#fff;border-radius:3px;padding:2px 6px">IA Act</td><td>Règlement européen sur l'IA (EU 2024/1689) — en vigueur depuis 2025. Les systèmes IA à haut risque (santé, justice, éducation, RH) imposent des obligations de transparence et d'audit humain. Facteur d'impact : frein potentiel à l'automatisation totale, mais accélérateur de réglementation des usages.</td><td>Radiologue, Magistrat, DRH, Développeur, Enseignant, Policier…</td></tr>
+          <tr><td style="font-family:'IBM Plex Mono',monospace;font-size:12px;background:#C07030;color:#fff;border-radius:3px;padding:2px 6px">AMF / ACPR</td><td>Autorité des marchés financiers & Autorité de contrôle prudentiel — l'usage des algorithmes en finance est soumis à des obligations d'explicabilité et de supervision humaine.</td><td>Analyste financier, Conseiller bancaire, Actuaire, Contrôleur de gestion…</td></tr>
+          <tr><td style="font-family:'IBM Plex Mono',monospace;font-size:12px;background:#C42A2A;color:#fff;border-radius:3px;padding:2px 6px">Code Santé</td><td>Code de la Santé Publique — les professions de santé réglementées (Ordre des médecins, RPPS) imposent la responsabilité personnelle du praticien. L'IA reste un outil d'aide à la décision, non de substitution.</td><td>Médecin, Infirmier, Pharmacien, Radiologue, Kinésithérapeute…</td></tr>
+          <tr><td style="font-family:'IBM Plex Mono',monospace;font-size:12px;background:#5C3D8F;color:#fff;border-radius:3px;padding:2px 6px">LOPJ</td><td>Loi d'orientation et de programmation de la justice 2023-2027 — déploiement d'assistants IA aux magistrats et greffiers prévu dès 2025. Facteur accélérateur de transformation, mais maintien de la responsabilité humaine dans la décision judiciaire.</td><td>Magistrat, Greffier, Avocat, Commissaire de justice…</td></tr>
+          <tr><td style="font-family:'IBM Plex Mono',monospace;font-size:12px;background:#1A8A8A;color:#fff;border-radius:3px;padding:2px 6px">DSA / DMA</td><td>Digital Services Act & Digital Markets Act (EU 2022) — obligations de modération, transparence algorithmique et responsabilité éditoriale pour les plateformes. Impacte les métiers de l'information et de la communication.</td><td>Journaliste, Community manager, Rédacteur web, Développeur plateformes…</td></tr>
+          <tr><td style="font-family:'IBM Plex Mono',monospace;font-size:12px;background:#3A7A3A;color:#fff;border-radius:3px;padding:2px 6px">NIS2</td><td>Directive NIS2 (EU 2022/2555) — renforcement des obligations de cybersécurité pour les entités essentielles et importantes. Crée une forte demande en compétences de sécurité informatique.</td><td>Développeur logiciel, Chef de projet IT, Automaticien, Logisticien…</td></tr>
+          <tr><td style="font-family:'IBM Plex Mono',monospace;font-size:12px;background:#8A4A15;color:#fff;border-radius:3px;padding:2px 6px">DORA</td><td>Digital Operational Resilience Act (EU 2022/2554) — résilience opérationnelle numérique du secteur financier. Impose des tests de résistance et une supervision humaine des chaînes IT critiques.</td><td>Analyste financier, Développeur logiciel (finance), Data scientist, Actuaire…</td></tr>
+        </tbody>
+      </table>
+    </div>
+
     <div style="background:rgba(19,128,80,0.06);border:1px solid rgba(19,128,80,0.2);border-radius:10px;padding:14px 16px;margin-bottom:22px;">
       <div style="font-size:11px;font-weight:700;color:var(--acc3);font-family:'Inter',sans-serif;margin-bottom:8px;text-transform:uppercase;letter-spacing:.3px;">Distinction fondamentale — exposition ≠ suppression d'emploi</div>
       <div style="font-size:13px;color:var(--tx2);line-height:1.75;font-family:'Inter',sans-serif;">
@@ -912,10 +964,10 @@ footer a{color:var(--tx2);text-decoration:none;}
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script>
 <script>
-const DC={A:"#6B9E3A",B:"#C07830",C:"#3A78C0",D:"#D4521A",E:"#7C4DC4",F:"#7A7070",G:"#D4A017",H:"#1A8A8A",I:"#2A9E60",J:"#C42A2A",K:"#7A3AAA",L:"#C42A7A",M:"#2A5EC4",N:"#8A4A15",O:"#5C3D8F"};
-const DN={A:"Agriculture",B:"Arts",C:"Banque/Assur.",D:"Commerce",E:"Communication",F:"BTP",G:"Hôtellerie",H:"Industrie",I:"Maintenance",J:"Santé",K:"Serv. Pers.",L:"Spectacle",M:"Support Ent.",N:"Transport",O:"Justice & Droit"};
-const ED={A:"CAP/BEP",B:"Bac",C:"Bac+2/3",D:"Bac/2",E:"Bac+3/5",F:"CAP/BEP",G:"CAP",H:"CAP/BEP",I:"CAP/BEP",J:"Bac+3/5",K:"CAP",L:"Bac/3",M:"Bac+2/5",N:"CAP/BEP",O:"Bac+5/Master"};
-const TE={A:62,B:38,C:45,D:42,E:41,F:71,G:63,H:68,I:73,J:69,K:67,L:35,M:44,N:58,O:38};
+const DC={A:"#5C8A2A",B:"#A0A0A0",C:"#2A5C9E",D:"#D4521A",E:"#7C4DC4",F:"#6B6B6B",G:"#C4901A",H:"#1A6A6A",I:"#2A9E60",J:"#C42A2A",K:"#9E2A7A",L:"#C42A7A",M:"#1A5CB0",N:"#7A4210",O:"#2A8A8A",P:"#5C3D8F",Q:"#4A2A80",R:"#2A7A5C",S:"#1A5C9E"};
+const DN={A:"Agriculture",B:"Arts & Culture",C:"Banque & Assurances",D:"Commerce",E:"Communication",F:"BTP & Architecture",G:"Hôtellerie & Tourisme",H:"Industrie & Fabrication",I:"Maintenance & Automatisation",J:"Santé",K:"Services à la personne",L:"Spectacle & Musique",M:"Gestion & Finance",N:"Transport & Logistique",O:"Médias & Audiovisuel",P:"Droit & Justice",Q:"Droit & Conseil",R:"Éducation & Formation",S:"IT & Numérique"};
+const ED={A:"CAP/BEP",B:"Bac",C:"Bac+3/5",D:"Bac/2",E:"Bac+3/5",F:"CAP/BEP",G:"CAP",H:"CAP/BEP",I:"CAP/Bac+2",J:"Bac+3/5",K:"CAP/BTS",L:"Bac",M:"Bac+4/5",N:"CAP/BEP",O:"Bac+3/5",P:"Bac+5/Master",Q:"Bac+5/Master",R:"Bac+3/5",S:"Bac+5/Master"};
+const TE={A:62,B:38,C:45,D:42,E:41,F:71,G:63,H:68,I:73,J:69,K:67,L:35,M:44,N:58,O:42,P:32,Q:36,R:55,S:58};
 const TIER_W={1:4,2:2,3:1,4:0.5};
 const TIER_C={1:"#1E5CB8",2:"#138050",3:"#C94A12",4:"#8B3DAA"};
 
@@ -944,22 +996,22 @@ const D=[
   {l:"Maraîcher",d:"A",fap:"A0Z20",sal:1650,eff:52000,sources:[{tier:2,val:2,year:2022,src:"OCDE · automatisation agriculture"},{tier:1,val:2,year:2023,src:"Acemoglu & Restrepo · travail manuel"}],rat:"Travail physique saisonnier et grande variabilité des produits limitent l'automatisation.",rn:[{t:"Circuits courts numériques",x:"Vente directe, abonnements paniers, AMAP digitales."},{t:"Consultant agroécologie",x:"Transition vers pratiques bas-intrants."},{t:"Expert nutrition terrain",x:"Restauration collective, agriculture urbaine."}]},
   {l:"Éleveur bovin",d:"A",fap:"A1Z10",sal:1750,eff:98000,sources:[{tier:2,val:2,year:2023,src:"INRAE · robots de traite"},{tier:3,val:3,year:2024,src:"La France Agricole · robots et IA"}],rat:"Robots de traite existent mais la gestion du troupeau reste très humaine.",rn:[{t:"Spécialiste bien-être animal & traçabilité",x:"Capteurs santé, IoT bétail."},{t:"Producteur lait différencié AOP",x:"Valorisation terroir, vente directe."},{t:"Conseiller zootechnique",x:"Optimisation génétique, nutrition."}]},
   // ── BANQUE / ASSURANCE ────────────────────────────────────────────────────
-  {l:"Conseiller bancaire",d:"C",fap:"C2Z10",sal:2680,eff:158000,sources:[{tier:1,val:7,year:2024,src:"NBER w31161 · LLMs & finance jobs"},{tier:2,val:7,year:2024,src:"BCE · IA secteur bancaire"},{tier:2,val:6,year:2023,src:"McKinsey · bancassurance"},{tier:3,val:8,year:2025,src:"Les Échos · robo-advisors"}],rat:"Analyse financière et conseil patrimonial très exposés aux LLMs et robo-advisors. La relation de confiance personnelle résiste.",rn:[{t:"Conseiller investissement durable ISR",x:"ESG, placements à impact, taxonomie verte."},{t:"Expert open banking & fintech",x:"API banking, nouveaux services intégrés."},{t:"Formateur éducation financière",x:"Ateliers gestion budget, retraite, prévoyance."}]},
-  {l:"Actuaire",d:"C",fap:"C2Z30",sal:4350,eff:6200,sources:[{tier:1,val:9,year:2023,src:"NBER · modélisation ML & assurance"},{tier:1,val:8,year:2024,src:"Brynjolfsson · tâches analytiques"},{tier:2,val:9,year:2024,src:"IMF WP · assurance & IA"}],rat:"Modélisation statistique = cœur automatisable par ML spécialisés. Valeur migre vers l'interprétation et la gouvernance.",rn:[{t:"Actuaire IA & modèles génératifs",x:"Tarification par IA, audit de modèles."},{t:"Expert risques climatiques CAT modeling",x:"Réassurance verte, risques physiques."},{t:"Responsable conformité IA / Solvabilité II",x:"Réglementation prudentielle européenne."}]},
-  {l:"Analyste risques",d:"C",fap:"C2Z20",sal:3680,eff:22000,sources:[{tier:1,val:8,year:2023,src:"Eloundou et al. (OpenAI) · LLM exposure"},{tier:2,val:7,year:2024,src:"BIS · IA & risques financiers"},{tier:3,val:8,year:2024,src:"Reuters · IA compliance"}],rat:"Analyse documentaire et scoring facilement automatisables. L'expertise de jugement dans les cas complexes résiste.",rn:[{t:"Risk manager IA (AI Act / DORA)",x:"Audit risques systémiques des outils IA."},{t:"Spécialiste cyber-risques IA",x:"Deepfakes, fraude générée, attaques adversariales."},{t:"Expert gestion de crise & PCA",x:"Scénarios disruption technologique."}]},
-  {l:"Agent immobilier",d:"C",fap:"C3Z10",sal:2420,eff:148000,sources:[{tier:2,val:5,year:2023,src:"McKinsey · proptech & agences"},{tier:3,val:5,year:2024,src:"Le Figaro Immo · visites virtuelles"},{tier:4,val:6,year:2025,src:"PropTech France · baromètre"}],rat:"Visites virtuelles et scoring automatique progressent ; négociation et réseau local résistent.",rn:[{t:"Consultant proptech & smart building",x:"Jumeaux numériques, immeubles connectés."},{t:"Expert immobilier durable RE2020",x:"DPE, MaPrimeRénov', rénovation énergétique."},{t:"Gestionnaire patrimoine locatif",x:"Yield management automatisé."}]},
+  {l:"Conseiller bancaire",d:"C",fap:"C2Z10",sal:2680,eff:158000,reg:["RGPD","AMF"],sources:[{tier:1,val:7,year:2024,src:"NBER w31161 · LLMs & finance jobs"},{tier:2,val:7,year:2024,src:"BCE · IA secteur bancaire"},{tier:2,val:6,year:2023,src:"McKinsey · bancassurance"},{tier:3,val:8,year:2025,src:"Les Échos · robo-advisors"}],rat:"Analyse financière et conseil patrimonial très exposés aux LLMs et robo-advisors. La relation de confiance personnelle résiste.",rn:[{t:"Conseiller investissement durable ISR",x:"ESG, placements à impact, taxonomie verte."},{t:"Expert open banking & fintech",x:"API banking, nouveaux services intégrés."},{t:"Formateur éducation financière",x:"Ateliers gestion budget, retraite, prévoyance."}]},
+  {l:"Actuaire",d:"C",fap:"C2Z30",sal:4350,eff:6200,reg:["RGPD","AMF","DORA"],sources:[{tier:1,val:9,year:2023,src:"NBER · modélisation ML & assurance"},{tier:1,val:8,year:2024,src:"Brynjolfsson · tâches analytiques"},{tier:2,val:9,year:2024,src:"IMF WP · assurance & IA"}],rat:"Modélisation statistique = cœur automatisable par ML spécialisés. Valeur migre vers l'interprétation et la gouvernance.",rn:[{t:"Actuaire IA & modèles génératifs",x:"Tarification par IA, audit de modèles."},{t:"Expert risques climatiques CAT modeling",x:"Réassurance verte, risques physiques."},{t:"Responsable conformité IA / Solvabilité II",x:"Réglementation prudentielle européenne."}]},
+  {l:"Analyste risques",d:"C",fap:"C2Z20",sal:3680,eff:22000,reg:["RGPD","AMF","DORA","NIS2"],sources:[{tier:1,val:8,year:2023,src:"Eloundou et al. (OpenAI) · LLM exposure"},{tier:2,val:7,year:2024,src:"BIS · IA & risques financiers"},{tier:3,val:8,year:2024,src:"Reuters · IA compliance"}],rat:"Analyse documentaire et scoring facilement automatisables. L'expertise de jugement dans les cas complexes résiste.",rn:[{t:"Risk manager IA (AI Act / DORA)",x:"Audit risques systémiques des outils IA."},{t:"Spécialiste cyber-risques IA",x:"Deepfakes, fraude générée, attaques adversariales."},{t:"Expert gestion de crise & PCA",x:"Scénarios disruption technologique."}]},
+  {l:"Agent immobilier",d:"Q",fap:"C3Z10",sal:2420,eff:148000,reg:["RGPD","AMF"],sources:[{tier:2,val:5,year:2023,src:"McKinsey · proptech & agences"},{tier:3,val:5,year:2024,src:"Le Figaro Immo · visites virtuelles"},{tier:4,val:6,year:2025,src:"PropTech France · baromètre"}],rat:"Visites virtuelles et scoring automatique progressent ; négociation et réseau local résistent.",rn:[{t:"Consultant proptech & smart building",x:"Jumeaux numériques, immeubles connectés."},{t:"Expert immobilier durable RE2020",x:"DPE, MaPrimeRénov', rénovation énergétique."},{t:"Gestionnaire patrimoine locatif",x:"Yield management automatisé."}]},
   // ── COMMERCE ─────────────────────────────────────────────────────────────
-  {l:"Commercial B2B",d:"D",fap:"D1Z10",sal:2890,eff:242000,sources:[{tier:2,val:5,year:2024,src:"Gartner · SDR automation"},{tier:1,val:4,year:2023,src:"Autor et al. · tâches vs emplois"},{tier:3,val:6,year:2025,src:"Harvard Business Review · IA & vente"}],rat:"Prospection automatisable par IA ; confiance, relation longue durée et négociation complexe résistent.",rn:[{t:"Revenue Operations (RevOps) manager",x:"CRM augmenté, automatisation pipeline."},{t:"Consultant go-to-market SaaS",x:"Acquisition, pricing, expansion internationale."},{t:"Key Account Manager ESG",x:"Solutions décarbonation, financement vert."}]},
-  {l:"E-commerce manager",d:"D",fap:"D1Z20",sal:3150,eff:28000,sources:[{tier:1,val:7,year:2024,src:"Eloundou et al. · marketing & LLMs"},{tier:2,val:7,year:2024,src:"McKinsey · e-commerce automation"},{tier:3,val:7,year:2025,src:"Journal du Net · IA e-commerce"},{tier:1,val:8.8,year:2026,src:"Massenkoff & McCrory · Customer service reps 70.1% observed (Anthropic EconIndex 2026)"}],rat:"Catalogue, SEO, personnalisation très automatisables. Stratégie de marque et expérience client résistent.",rn:[{t:"Directeur expérience client omnicanal",x:"Cohérence touchpoints digitaux/physiques."},{t:"Expert commerce social & live",x:"TikTok Shop, Instagram Commerce, live shopping."},{t:"Consultant marchés émergents",x:"Afrique subsaharienne, Asie du Sud-Est."}]},
+  {l:"Commercial B2B",d:"D",fap:"D1Z10",sal:2890,eff:242000,reg:["RGPD"],sources:[{tier:2,val:5,year:2024,src:"Gartner · SDR automation"},{tier:1,val:4,year:2023,src:"Autor et al. · tâches vs emplois"},{tier:3,val:6,year:2025,src:"Harvard Business Review · IA & vente"}],rat:"Prospection automatisable par IA ; confiance, relation longue durée et négociation complexe résistent.",rn:[{t:"Revenue Operations (RevOps) manager",x:"CRM augmenté, automatisation pipeline."},{t:"Consultant go-to-market SaaS",x:"Acquisition, pricing, expansion internationale."},{t:"Key Account Manager ESG",x:"Solutions décarbonation, financement vert."}]},
+  {l:"E-commerce manager",d:"D",fap:"D1Z20",sal:3150,eff:28000,reg:["RGPD","DSA","IA_Act"],sources:[{tier:1,val:7,year:2024,src:"Eloundou et al. · marketing & LLMs"},{tier:2,val:7,year:2024,src:"McKinsey · e-commerce automation"},{tier:3,val:7,year:2025,src:"Journal du Net · IA e-commerce"},{tier:1,val:8.8,year:2026,src:"Massenkoff & McCrory · Customer service reps 70.1% observed (Anthropic EconIndex 2026)"}],rat:"Catalogue, SEO, personnalisation très automatisables. Stratégie de marque et expérience client résistent.",rn:[{t:"Directeur expérience client omnicanal",x:"Cohérence touchpoints digitaux/physiques."},{t:"Expert commerce social & live",x:"TikTok Shop, Instagram Commerce, live shopping."},{t:"Consultant marchés émergents",x:"Afrique subsaharienne, Asie du Sud-Est."}]},
   {l:"Vendeur automobile",d:"D",fap:"D2Z10",sal:2250,eff:58000,sources:[{tier:2,val:4,year:2023,src:"McKinsey · automotive retail"},{tier:3,val:4,year:2024,src:"L'Argus · IA concessions"}],rat:"Configurateurs en ligne progressent mais la découverte physique et la négociation restent essentielles.",rn:[{t:"Expert mobilité électrique & bornes",x:"Conseil VE, gestion de flotte."},{t:"Consultant fleet B2B LLD",x:"Location longue durée, services mobilité."},{t:"Spécialiste véhicule connecté & data",x:"Télématique, données embarquées."}]},
   // ── COMMUNICATION ─────────────────────────────────────────────────────────
-  {l:"Journaliste",d:"E",fap:"E1Z10",sal:2480,eff:36000,sources:[{tier:1,val:7,year:2023,src:"Reuters Institute · IA & journalisme"},{tier:2,val:6,year:2024,src:"WAN-IFRA · newsrooms IA"},{tier:3,val:7,year:2025,src:"Libération · IA rédactions françaises"},{tier:4,val:8,year:2025,src:"Enquête rédacteurs en chef FR"},{tier:1,val:5.4,year:2025,src:"ILO WP140 · ISCO 2642 Journalists · Gradient 3 (mean 0.54) · Gmyrek et al. mai 2025"}],rat:"Articles factuels, dépêches et synthèses automatisables. Investigation terrain, récit et fact-checking critique résistent.",rn:[{t:"Data journalist & fact-checker IA",x:"Détection désinformation, analyse de données."},{t:"Responsable éthique médias & IA",x:"Chartes éditoriales IA, gouvernance rédactions."},{t:"Journaliste enquête long format",x:"Investigation non reproductible algorithmiquement."}]},
-  {l:"Rédacteur web",d:"E",fap:"E1Z20",sal:2310,eff:42000,sources:[{tier:1,val:9,year:2023,src:"Noy & Zhang MIT · LLMs & writing"},{tier:1,val:9,year:2024,src:"Autor MIT · content generation"},{tier:2,val:9,year:2024,src:"McKinsey Global Institute · content work"},{tier:3,val:9,year:2025,src:"Le Monde · freelances vs IA"}],rat:"Production de contenu générique = exposition maximale aux LLMs. Valeur migre vers la stratégie et la supervision.",rn:[{t:"Directeur de contenu & brand storytelling",x:"Stratégie éditoriale, supervision IA."},{t:"Formateur prompt engineering éditorial",x:"Formation équipes à l'usage des LLMs."},{t:"Expert SEO sémantique avancé",x:"Topical authority, Search Generative Experience."}]},
-  {l:"Traducteur",d:"E",fap:"E1Z30",sal:2250,eff:14000,sources:[{tier:1,val:9,year:2024,src:"Koehn et al. · Neural MT quality"},{tier:1,val:8,year:2023,src:"Eloundou et al. · LLM translation"},{tier:2,val:9,year:2024,src:"Commission EU · traduction IA"},{tier:1,val:5.9,year:2025,src:"ILO WP140 · ISCO 2643 Translators & Interpreters · Gradient 3 (mean 0.59) · Gmyrek et al. mai 2025"}],rat:"Traduction brute quasi-automatisée par NMT. Valeur sur la post-édition culturelle et la localisation experte.",rn:[{t:"Réviseur post-édition IA & gestionnaire qualité LLM",x:"WP140 ILO 2025 · traduction brute Gradient 3 ISCO-08 — la post-édition culturelle et juridique reste irremplaçable."},{t:"Expert localisation produit & UX multiculturel",x:"Applications, interfaces, jeux — adaptation sémantique non réductible à la traduction automatique."},{t:"Terminologue & data curator traduction spécialisée",x:"Bases terminologiques médicales, juridiques, techniques — données d'entraînement critiques pour les LLMs sectoriels."}]},
-  {l:"Graphiste",d:"E",fap:"E2Z10",sal:2380,eff:48000,sources:[{tier:1,val:6,year:2024,src:"Dell'Acqua et al. · creative AI tasks"},{tier:2,val:6,year:2024,src:"Adobe · Firefly impact study"},{tier:3,val:7,year:2025,src:"Créazine · IA et graphisme"},{tier:1,val:4.9,year:2025,src:"ILO WP140 · ISCO 2166 Graphic & Multimedia Designers · Gradient 2 (mean 0.49) · Gmyrek et al. mai 2025"}],rat:"Génération d'images automatisée ; direction artistique, identité de marque et jugement esthétique résistent.",rn:[{t:"Directeur artistique IA augmenté",x:"Supervision et direction de modèles génératifs."},{t:"Expert UI/UX system design",x:"Design systems, composants, accessibilité."},{t:"Spécialiste branding & identité visuelle",x:"Stratégie de marque non reproductible par IA."}]},
+  {l:"Journaliste",d:"E",fap:"E1Z10",sal:2480,eff:36000,reg:["RGPD","DSA"],sources:[{tier:1,val:7,year:2023,src:"Reuters Institute · IA & journalisme"},{tier:2,val:6,year:2024,src:"WAN-IFRA · newsrooms IA"},{tier:3,val:7,year:2025,src:"Libération · IA rédactions françaises"},{tier:4,val:8,year:2025,src:"Enquête rédacteurs en chef FR"},{tier:1,val:5.4,year:2025,src:"ILO WP140 · ISCO 2642 Journalists · Gradient 3 (mean 0.54) · Gmyrek et al. mai 2025"}],rat:"Articles factuels, dépêches et synthèses automatisables. Investigation terrain, récit et fact-checking critique résistent.",rn:[{t:"Data journalist & fact-checker IA",x:"Détection désinformation, analyse de données."},{t:"Responsable éthique médias & IA",x:"Chartes éditoriales IA, gouvernance rédactions."},{t:"Journaliste enquête long format",x:"Investigation non reproductible algorithmiquement."}]},
+  {l:"Rédacteur web",d:"E",fap:"E1Z20",sal:2310,eff:42000,reg:["RGPD","DSA","IA_Act"],sources:[{tier:1,val:9,year:2023,src:"Noy & Zhang MIT · LLMs & writing"},{tier:1,val:9,year:2024,src:"Autor MIT · content generation"},{tier:2,val:9,year:2024,src:"McKinsey Global Institute · content work"},{tier:3,val:9,year:2025,src:"Le Monde · freelances vs IA"}],rat:"Production de contenu générique = exposition maximale aux LLMs. Valeur migre vers la stratégie et la supervision.",rn:[{t:"Directeur de contenu & brand storytelling",x:"Stratégie éditoriale, supervision IA."},{t:"Formateur prompt engineering éditorial",x:"Formation équipes à l'usage des LLMs."},{t:"Expert SEO sémantique avancé",x:"Topical authority, Search Generative Experience."}]},
+  {l:"Traducteur",d:"E",fap:"E1Z30",sal:2250,eff:14000,reg:["RGPD","IA_Act"],sources:[{tier:1,val:9,year:2024,src:"Koehn et al. · Neural MT quality"},{tier:1,val:8,year:2023,src:"Eloundou et al. · LLM translation"},{tier:2,val:9,year:2024,src:"Commission EU · traduction IA"},{tier:1,val:5.9,year:2025,src:"ILO WP140 · ISCO 2643 Translators & Interpreters · Gradient 3 (mean 0.59) · Gmyrek et al. mai 2025"}],rat:"Traduction brute quasi-automatisée par NMT. Valeur sur la post-édition culturelle et la localisation experte.",rn:[{t:"Réviseur post-édition IA & gestionnaire qualité LLM",x:"WP140 ILO 2025 · traduction brute Gradient 3 ISCO-08 — la post-édition culturelle et juridique reste irremplaçable."},{t:"Expert localisation produit & UX multiculturel",x:"Applications, interfaces, jeux — adaptation sémantique non réductible à la traduction automatique."},{t:"Terminologue & data curator traduction spécialisée",x:"Bases terminologiques médicales, juridiques, techniques — données d'entraînement critiques pour les LLMs sectoriels."}]},
+  {l:"Graphiste",d:"E",fap:"E2Z10",sal:2380,eff:48000,reg:["RGPD","IA_Act","DSA"],sources:[{tier:1,val:6,year:2024,src:"Dell'Acqua et al. · creative AI tasks"},{tier:2,val:6,year:2024,src:"Adobe · Firefly impact study"},{tier:3,val:7,year:2025,src:"Créazine · IA et graphisme"},{tier:1,val:4.9,year:2025,src:"ILO WP140 · ISCO 2166 Graphic & Multimedia Designers · Gradient 2 (mean 0.49) · Gmyrek et al. mai 2025"}],rat:"Génération d'images automatisée ; direction artistique, identité de marque et jugement esthétique résistent.",rn:[{t:"Directeur artistique IA augmenté",x:"Supervision et direction de modèles génératifs."},{t:"Expert UI/UX system design",x:"Design systems, composants, accessibilité."},{t:"Spécialiste branding & identité visuelle",x:"Stratégie de marque non reproductible par IA."}]},
 
   // E — Médias & communication (métiers manquants)
-  {l:"Photographe de presse",d:"E",fap:"E1Z40",sal:2100,eff:8000,sources:[
+  {l:"Photographe de presse",d:"O",fap:"E1Z40",sal:2100,eff:8000,reg:["RGPD","DSA"],sources:[
     {tier:1,val:5,year:2024,src:"Eloundou et al. · creative & visual tasks LLM exposure"},
     {tier:1,val:6,year:2024,src:"Generative Images — Reuters Institute Digital News Report 2024"},
     {tier:2,val:5,year:2024,src:"WAN-IFRA · IA et photojournalisme 2024"},
@@ -972,7 +1024,7 @@ const D=[
     {t:"Formateur photojournalisme & éthique de l'image IA",x:"Écoles de journalisme, CFPJ — montée urgente de la demande de formation."}
   ]},
 
-  {l:"Attaché de presse-RP",d:"E",fap:"E5Z10",sal:2800,eff:25000,sources:[
+  {l:"Attaché de presse-RP",d:"E",fap:"E5Z10",sal:2800,eff:25000,reg:["RGPD","DSA"],sources:[
     {tier:1,val:6,year:2024,src:"Eloundou et al. · PR & communications tasks LLM exposure"},
     {tier:2,val:6,year:2024,src:"McKinsey · marketing & communication automation 2024"},
     {tier:3,val:7,year:2025,src:"Stratégies.fr · IA et agences RP France 2025"},
@@ -984,7 +1036,7 @@ const D=[
     {t:"Consultant brand journalism & native content",x:"Éditoriaux de marque, podcasts sponsorisés — frontière presse/marketing."}
   ]},
 
-  {l:"Présentateur-animateur TV-radio",d:"E",fap:"E6Z10",sal:3200,eff:12000,sources:[
+  {l:"Présentateur-animateur TV-radio",d:"O",fap:"E6Z10",sal:3200,eff:12000,reg:["RGPD","DSA"],sources:[
     {tier:1,val:3,year:2023,src:"Autor · non-routine interactive work & charisma"},
     {tier:2,val:3,year:2024,src:"ARCOM · rapport IA et présentateurs 2024"},
     {tier:3,val:4,year:2025,src:"Télérama · avatars IA et présentateurs virtuels France 2025"},
@@ -996,7 +1048,7 @@ const D=[
     {t:"Expert communication de dirigeants & media training",x:"Préparation à la prise de parole publique — demande en hausse."}
   ]},
 
-  {l:"Scénariste-auteur",d:"E",fap:"E7Z10",sal:2500,eff:8000,sources:[
+  {l:"Scénariste-auteur",d:"O",fap:"E7Z10",sal:2500,eff:8000,reg:["RGPD","DSA","IA_Act"],sources:[
     {tier:1,val:6,year:2024,src:"Eloundou et al. · creative writing & narrative tasks LLM exposure"},
     {tier:1,val:6,year:2023,src:"Noy & Zhang MIT · LLMs & long-form creative writing"},
     {tier:2,val:5,year:2024,src:"SACD · rapport IA et auteurs dramatiques 2024"},
@@ -1020,18 +1072,18 @@ const D=[
   {l:"Ingénieur process",d:"H",fap:"H2Z10",sal:3580,eff:48000,sources:[{tier:1,val:7,year:2023,src:"Brynjolfsson · digital twin automation"},{tier:2,val:7,year:2024,src:"McKinsey · industrie 4.0"},{tier:2,val:6,year:2024,src:"Siemens IA report 2024"}],rat:"Optimisation de process très exposée aux jumeaux numériques et IA prédictive. Conception système et validation restent humaines.",rn:[{t:"Ingénieur industrie 4.0 & MES",x:"Supervision et optimisation de production."},{t:"Expert décarbonation industrie",x:"Bilan carbone process, électrification."},{t:"Consultant lean & excellence IA",x:"Amélioration continue augmentée."}]},
   {l:"Soudeur",d:"H",fap:"H2Z20",sal:2180,eff:82000,sources:[{tier:1,val:2,year:2022,src:"Frey & Osborne · soudage physique"},{tier:2,val:3,year:2024,src:"Deloitte · cobots & soudage"}],rat:"Cobots progressent sur les soudures répétitives ; contextes variables et positions complexes restent manuels.",rn:[{t:"Technicien soudure robotisée cobots",x:"Programmation et supervision de cellules robotisées."},{t:"Expert contrôle qualité NDT",x:"Contrôle non destructif, radiographie, ultrasons."},{t:"Formateur soudage haute performance",x:"Procédés spéciaux, aéronautique, nucléaire."}]},
   // ── MAINTENANCE ───────────────────────────────────────────────────────────
-  {l:"Technicien maintenance",d:"I",fap:"I1Z10",sal:2180,eff:92000,sources:[{tier:1,val:3,year:2022,src:"Frey & Osborne · maintenance physique"},{tier:2,val:3,year:2023,src:"Deloitte · predictive maintenance"},{tier:3,val:3,year:2024,src:"Industrie & Technologies · IoT maintenance"}],rat:"Diagnostic et intervention physique restent manuels. La maintenance prédictive assiste sans remplacer.",rn:[{t:"Technicien maintenance prédictive IoT",x:"Capteurs vibratoires, analyse données d'usure."},{t:"Technicien énergies renouvelables",x:"Éoliennes, panneaux solaires, piles H2."},{t:"Diagnostiqueur bâtiment & audit énergétique",x:"DPE, audits thermiques, rénovation."}]},
-  {l:"Automaticien",d:"I",fap:"I1Z20",sal:2850,eff:38000,sources:[{tier:1,val:5,year:2023,src:"Autor · routine analytical tasks"},{tier:2,val:5,year:2024,src:"McKinsey · automation engineering"},{tier:1,val:6.0,year:2026,src:"Massenkoff & McCrory · Information security analysts 48.6% observed (Anthropic EconIndex 2026)"}],rat:"Programmation d'automates partiellement assistée par IA ; intégration terrain et validation système résistent.",rn:[{t:"Ingénieur systèmes cyber-physiques",x:"IoT industriel, Industry 4.0, OT security."},{t:"Expert jumeaux numériques & simulation",x:"PLM, SCADA augmenté."},{t:"Architecte IT/OT convergence",x:"Réseaux industriels sécurisés, IIOT."}]},
+  {l:"Technicien maintenance",d:"I",fap:"I1Z10",sal:2180,eff:92000,reg:["RGPD","NIS2"],sources:[{tier:1,val:3,year:2022,src:"Frey & Osborne · maintenance physique"},{tier:2,val:3,year:2023,src:"Deloitte · predictive maintenance"},{tier:3,val:3,year:2024,src:"Industrie & Technologies · IoT maintenance"}],rat:"Diagnostic et intervention physique restent manuels. La maintenance prédictive assiste sans remplacer.",rn:[{t:"Technicien maintenance prédictive IoT",x:"Capteurs vibratoires, analyse données d'usure."},{t:"Technicien énergies renouvelables",x:"Éoliennes, panneaux solaires, piles H2."},{t:"Diagnostiqueur bâtiment & audit énergétique",x:"DPE, audits thermiques, rénovation."}]},
+  {l:"Automaticien",d:"I",fap:"I1Z20",sal:2850,eff:38000,reg:["RGPD","NIS2","IA_Act"],sources:[{tier:1,val:5,year:2023,src:"Autor · routine analytical tasks"},{tier:2,val:5,year:2024,src:"McKinsey · automation engineering"},{tier:1,val:6.0,year:2026,src:"Massenkoff & McCrory · Information security analysts 48.6% observed (Anthropic EconIndex 2026)"}],rat:"Programmation d'automates partiellement assistée par IA ; intégration terrain et validation système résistent.",rn:[{t:"Ingénieur systèmes cyber-physiques",x:"IoT industriel, Industry 4.0, OT security."},{t:"Expert jumeaux numériques & simulation",x:"PLM, SCADA augmenté."},{t:"Architecte IT/OT convergence",x:"Réseaux industriels sécurisés, IIOT."}]},
   // ── SANTÉ ─────────────────────────────────────────────────────────────────
-  {l:"Médecin généraliste",d:"J",fap:"J3Z40",sal:5340,eff:96000,sources:[{tier:1,val:5,year:2023,src:"NEJM · LLMs en médecine générale"},{tier:1,val:4,year:2024,src:"JAMA · AI clinical decision"},{tier:2,val:5,year:2024,src:"HAS France · IA et médecins"},{tier:3,val:5,year:2025,src:"Quotidien du Médecin"},{tier:1,val:5.2,year:2026,src:"Massenkoff & McCrory · Medical record specialists 66.7% observed (Anthropic EconIndex 2026)"},{tier:1,val:2.9,year:2025,src:"ILO WP140 · ISCO 2211 Generalist Medical Practitioners · Not Exposed (mean 0.29) · Gmyrek et al. mai 2025"}],rat:"Diagnostic augmenté par IA, mais relation thérapeutique, gestion de l'incertitude et empathie restent irremplaçables.",rn:[{t:"Médecin téléconsultation & parcours digital",x:"Plateformes santé, maladies chroniques."},{t:"Expert médecine préventive & IA prédictive",x:"Algorithmes prédictifs, population health."},{t:"Formateur IA médicale",x:"Usage éthique des outils de diagnostic IA."}]},
-  {l:"Infirmier",d:"J",fap:"J4Z30",sal:2340,eff:580000,sources:[{tier:1,val:3,year:2023,src:"The Lancet · nursing & AI"},{tier:2,val:3,year:2024,src:"WHO · digital health nurses"},{tier:3,val:3,year:2024,src:"Revue de l'Infirmière · IA soins"},{tier:1,val:2.5,year:2025,src:"ILO WP140 · ISCO 2221 Nursing Professionals · Not Exposed (mean 0.25) · Gmyrek et al. mai 2025"}],rat:"Soins directs, gestes techniques, soutien psychologique · IA assiste l'administratif sans remplacer le soin.",rn:[{t:"Coordinateur soins & télémédecine",x:"Parcours patients complexes, suivi chroniques."},{t:"Infirmier de pratique avancée (IPA)",x:"Prescription partielle, suivi spécialisé."},{t:"Formateur simulation haute-fidélité",x:"Mannequins, réalité virtuelle, e-learning santé."}]},
-  {l:"Radiologue",d:"J",fap:"J3Z20",sal:6650,eff:13500,sources:[{tier:1,val:8,year:2024,src:"Rajpurkar et al. NEJM · radiology AI"},{tier:1,val:7,year:2023,src:"Nature Medicine · chest X-ray AI"},{tier:2,val:7,year:2024,src:"HAS France · imagerie IA"},{tier:1,val:7.8,year:2026,src:"Massenkoff & McCrory · Healthcare record automation tasks (Anthropic EconIndex 2026)"}],rat:"IA de détection d'anomalies très avancée (AUC > 0.95 sur dépistage). Interprétation finale et actes interventionnels restent médicaux.",rn:[{t:"Radiologue interventionnel",x:"Actes guidés imagerie · haute valeur ajoutée."},{t:"Expert validation IA médicale CE/FDA",x:"Certification dispositifs IA médicale."},{t:"Responsable téléradiologie multi-sites",x:"Organisation supervision à distance."}]},
-  {l:"Aide-soignant",d:"J",fap:"J4Z10",sal:1890,eff:355000,sources:[{tier:1,val:2,year:2022,src:"Frey & Osborne · soins physiques"},{tier:2,val:2,year:2023,src:"OCDE · care workers"},{tier:3,val:2,year:2024,src:"Soins · IA et aide-soignants"}],rat:"Soin direct, nursing et relationnel humain · non substituable par aucun modèle actuel.",rn:[{t:"Assistant soins gérontologiques ASG",x:"EHPAD, troubles cognitifs, Alzheimer."},{t:"Aide-soignant HAD",x:"Soins complexes à domicile · forte demande."},{t:"Coordinateur réseau santé de proximité",x:"Interface hôpital/domicile/SSIAD."}]},
-  {l:"Pharmacien",d:"J",fap:"J1Z10",sal:3850,eff:74000,sources:[{tier:1,val:6,year:2024,src:"NEJM · pharmacy automation"},{tier:2,val:5,year:2024,src:"ANSM · IA et pharmacie"},{tier:3,val:6,year:2025,src:"Le Moniteur des Pharmacies"},{tier:1,val:3.3,year:2025,src:"ILO WP140 · ISCO 2262 Pharmacists · Minimal Exposure (mean 0.33) · Gmyrek et al. mai 2025"}],rat:"Dispensation automatisée progresse ; conseil patient, pharmacovigilance et gestion clinique résistent.",rn:[{t:"Pharmacien santé numérique & téléconsultation",x:"Accompagnement pathologies chroniques."},{t:"Expert biotechs & biopharmaceutique",x:"Développement médicaments, essais cliniques."},{t:"Spécialiste oncologie & maladies rares",x:"Médicaments innovants, accès ATU."}]},
+  {l:"Médecin généraliste",d:"J",fap:"J3Z40",sal:5340,eff:96000,reg:["RGPD","CSP","IA_Act"],sources:[{tier:1,val:5,year:2023,src:"NEJM · LLMs en médecine générale"},{tier:1,val:4,year:2024,src:"JAMA · AI clinical decision"},{tier:2,val:5,year:2024,src:"HAS France · IA et médecins"},{tier:3,val:5,year:2025,src:"Quotidien du Médecin"},{tier:1,val:5.2,year:2026,src:"Massenkoff & McCrory · Medical record specialists 66.7% observed (Anthropic EconIndex 2026)"},{tier:1,val:2.9,year:2025,src:"ILO WP140 · ISCO 2211 Generalist Medical Practitioners · Not Exposed (mean 0.29) · Gmyrek et al. mai 2025"}],rat:"Diagnostic augmenté par IA, mais relation thérapeutique, gestion de l'incertitude et empathie restent irremplaçables.",rn:[{t:"Médecin téléconsultation & parcours digital",x:"Plateformes santé, maladies chroniques."},{t:"Expert médecine préventive & IA prédictive",x:"Algorithmes prédictifs, population health."},{t:"Formateur IA médicale",x:"Usage éthique des outils de diagnostic IA."}]},
+  {l:"Infirmier",d:"J",fap:"J4Z30",sal:2340,eff:580000,reg:["RGPD","CSP"],sources:[{tier:1,val:3,year:2023,src:"The Lancet · nursing & AI"},{tier:2,val:3,year:2024,src:"WHO · digital health nurses"},{tier:3,val:3,year:2024,src:"Revue de l'Infirmière · IA soins"},{tier:1,val:2.5,year:2025,src:"ILO WP140 · ISCO 2221 Nursing Professionals · Not Exposed (mean 0.25) · Gmyrek et al. mai 2025"}],rat:"Soins directs, gestes techniques, soutien psychologique · IA assiste l'administratif sans remplacer le soin.",rn:[{t:"Coordinateur soins & télémédecine",x:"Parcours patients complexes, suivi chroniques."},{t:"Infirmier de pratique avancée (IPA)",x:"Prescription partielle, suivi spécialisé."},{t:"Formateur simulation haute-fidélité",x:"Mannequins, réalité virtuelle, e-learning santé."}]},
+  {l:"Radiologue",d:"J",fap:"J3Z20",sal:6650,eff:13500,reg:["RGPD","CSP","IA_Act"],sources:[{tier:1,val:8,year:2024,src:"Rajpurkar et al. NEJM · radiology AI"},{tier:1,val:7,year:2023,src:"Nature Medicine · chest X-ray AI"},{tier:2,val:7,year:2024,src:"HAS France · imagerie IA"},{tier:1,val:7.8,year:2026,src:"Massenkoff & McCrory · Healthcare record automation tasks (Anthropic EconIndex 2026)"}],rat:"IA de détection d'anomalies très avancée (AUC > 0.95 sur dépistage). Interprétation finale et actes interventionnels restent médicaux.",rn:[{t:"Radiologue interventionnel",x:"Actes guidés imagerie · haute valeur ajoutée."},{t:"Expert validation IA médicale CE/FDA",x:"Certification dispositifs IA médicale."},{t:"Responsable téléradiologie multi-sites",x:"Organisation supervision à distance."}]},
+  {l:"Aide-soignant",d:"J",fap:"J4Z10",sal:1890,eff:355000,reg:["RGPD","CSP"],sources:[{tier:1,val:2,year:2022,src:"Frey & Osborne · soins physiques"},{tier:2,val:2,year:2023,src:"OCDE · care workers"},{tier:3,val:2,year:2024,src:"Soins · IA et aide-soignants"}],rat:"Soin direct, nursing et relationnel humain · non substituable par aucun modèle actuel.",rn:[{t:"Assistant soins gérontologiques ASG",x:"EHPAD, troubles cognitifs, Alzheimer."},{t:"Aide-soignant HAD",x:"Soins complexes à domicile · forte demande."},{t:"Coordinateur réseau santé de proximité",x:"Interface hôpital/domicile/SSIAD."}]},
+  {l:"Pharmacien",d:"J",fap:"J1Z10",sal:3850,eff:74000,reg:["RGPD","CSP"],sources:[{tier:1,val:6,year:2024,src:"NEJM · pharmacy automation"},{tier:2,val:5,year:2024,src:"ANSM · IA et pharmacie"},{tier:3,val:6,year:2025,src:"Le Moniteur des Pharmacies"},{tier:1,val:3.3,year:2025,src:"ILO WP140 · ISCO 2262 Pharmacists · Minimal Exposure (mean 0.33) · Gmyrek et al. mai 2025"}],rat:"Dispensation automatisée progresse ; conseil patient, pharmacovigilance et gestion clinique résistent.",rn:[{t:"Pharmacien santé numérique & téléconsultation",x:"Accompagnement pathologies chroniques."},{t:"Expert biotechs & biopharmaceutique",x:"Développement médicaments, essais cliniques."},{t:"Spécialiste oncologie & maladies rares",x:"Médicaments innovants, accès ATU."}]},
   // ── SERVICES PERSONNELS ───────────────────────────────────────────────────
   {l:"Aide à domicile",d:"K",fap:"K2Z10",sal:1580,eff:695000,sources:[{tier:1,val:1,year:2022,src:"Frey & Osborne · care physique"},{tier:2,val:1,year:2023,src:"Rapport Blanchet · emploi à domicile"},{tier:3,val:2,year:2024,src:"Le Particulier Emploi · IA"}],rat:"Présence physique, empathie et adaptation permanente · non-automatisable avec les technologies actuelles.",rn:[{t:"Coordinateur silver-tech & gérontechnologie",x:"Interface seniors / outils connectés."},{t:"Auxiliaire vie spécialisé TSA/polyhandicap",x:"Besoins complexes, forte valorisation."},{t:"Animateur inclusion numérique seniors",x:"Ateliers tablette, téléservices publics."}]},
-  {l:"Éducateur spécialisé",d:"K",fap:"K1Z10",sal:2050,eff:105000,sources:[{tier:1,val:3,year:2023,src:"Autor · social service work"},{tier:2,val:3,year:2023,src:"IGAS · travailleurs sociaux & IA"}],rat:"Relation éducative, accompagnement individualisé et médiation résistent à l'automatisation.",rn:[{t:"Coordinateur inclusion numérique",x:"Publics fragiles vers les services numériques."},{t:"Expert protection de l'enfance & justice",x:"MECS, AEMO, mesures judiciaires."},{t:"Formateur secteur médico-social",x:"Formation continue, pratiques innovantes."}]},
-  {l:"Policier",d:"K",fap:"K4Z10",sal:2250,eff:155000,sources:[{tier:2,val:3,year:2024,src:"INHESJ · IA sécurité intérieure"},{tier:3,val:3,year:2024,src:"Cahiers de la Sécurité · algorithmes"},{tier:1,val:4,year:2024,src:"Autor · non-routine manual enforcement"}],rat:"Intervention terrain, médiation, décision en urgence · IA assiste sans remplacer l'officier.",rn:[{t:"Expert cybercriminalité & forensique numérique",x:"Investigation crimes informatiques (C3N)."},{t:"Analyste renseignement & OSINT",x:"Sources ouvertes, réseaux sociaux."},{t:"Coordinateur vidéoprotection IA",x:"Vidéo intelligente, interface opérateurs IA."}]},
+  {l:"Éducateur spécialisé",d:"K",fap:"K1Z10",sal:2050,eff:105000,reg:["RGPD"],sources:[{tier:1,val:3,year:2023,src:"Autor · social service work"},{tier:2,val:3,year:2023,src:"IGAS · travailleurs sociaux & IA"}],rat:"Relation éducative, accompagnement individualisé et médiation résistent à l'automatisation.",rn:[{t:"Coordinateur inclusion numérique",x:"Publics fragiles vers les services numériques."},{t:"Expert protection de l'enfance & justice",x:"MECS, AEMO, mesures judiciaires."},{t:"Formateur secteur médico-social",x:"Formation continue, pratiques innovantes."}]},
+  {l:"Policier",d:"P",reg:["RGPD","LOPJ","IA_Act"],fap:"K4Z10",sal:2250,eff:155000,reg:["RGPD","LOPJ","IA_Act"],sources:[{tier:2,val:3,year:2024,src:"INHESJ · IA sécurité intérieure"},{tier:3,val:3,year:2024,src:"Cahiers de la Sécurité · algorithmes"},{tier:1,val:4,year:2024,src:"Autor · non-routine manual enforcement"}],rat:"Intervention terrain, médiation, décision en urgence · IA assiste sans remplacer l'officier.",rn:[{t:"Expert cybercriminalité & forensique numérique",x:"Investigation crimes informatiques (C3N)."},{t:"Analyste renseignement & OSINT",x:"Sources ouvertes, réseaux sociaux."},{t:"Coordinateur vidéoprotection IA",x:"Vidéo intelligente, interface opérateurs IA."}]},
 
   {l:"Conseiller pénitentiaire (CPIP)",d:"K",fap:"K5Z10",sal:2300,eff:4400,sources:[
     {tier:1,val:4,year:2023,src:"Autor — social casework, counseling & non-routine interpersonal: low LLM automatability"},
@@ -1048,7 +1100,7 @@ const D=[
   // ── SPECTACLE ─────────────────────────────────────────────────────────────
   {l:"Musicien",d:"L",fap:"L0Z10",sal:1780,eff:22000,sources:[{tier:1,val:3,year:2023,src:"Ferraro et al. · creative AI & musicians"},{tier:2,val:3,year:2024,src:"IRMA · IA et musiciens France"},{tier:3,val:4,year:2025,src:"Télérama · Suno, Udio et musiciens"},{tier:1,val:2.8,year:2025,src:"ILO WP140 · ISCO 2652 Musicians, Singers & Composers · Not Exposed (mean 0.28) · Gmyrek et al. mai 2025"}],rat:"Performance live et interprétation émotionnelle · l'IA génère mais ne performe pas. Valeur sur le live et la pédagogie.",rn:[{t:"Compositeur musique IA augmentée",x:"Supervision créative pour jeux, publicités, films."},{t:"Pédagogue musical & création de contenu",x:"Masterclasses en ligne, méthodes numériques."},{t:"Sound designer & gaming audio",x:"Univers sonores jeux vidéo, XR, VR."}]},
 
-  {l:"Réalisateur audiovisuel-cinéma",d:"L",fap:"L1Z10",sal:3500,eff:15000,sources:[
+  {l:"Réalisateur audiovisuel-cinéma",d:"O",fap:"L1Z10",sal:3500,eff:15000,reg:["RGPD","DSA"],sources:[
     {tier:1,val:5,year:2024,src:"Eloundou et al. · film & audiovisual directing tasks LLM exposure"},
     {tier:2,val:5,year:2024,src:"CNC · rapport IA et création cinématographique 2024"},
     {tier:2,val:5,year:2024,src:"Audiens CPNEF-AV · rapport emploi audiovisuel 2024"},
@@ -1061,7 +1113,7 @@ const D=[
     {t:"Créateur de contenu & directeur d'IP propre",x:"Séries courtes, YouTube, plateformes SVOD — maîtrise des droits."}
   ]},
 
-  {l:"Monteur-vidéaste",d:"L",fap:"L1Z20",sal:2400,eff:18000,sources:[
+  {l:"Monteur-vidéaste",d:"O",fap:"L1Z20",sal:2400,eff:18000,reg:["RGPD","DSA","IA_Act"],sources:[
     {tier:1,val:8,year:2024,src:"Eloundou et al. · video editing tasks LLM & generative AI exposure"},
     {tier:2,val:8,year:2024,src:"Audiens CPNEF-AV · rapport emploi post-production 2024"},
     {tier:2,val:8,year:2024,src:"CC production audiovisuelle · avenant n°19, juillet 2024"},
@@ -1074,20 +1126,20 @@ const D=[
     {t:"Monteur spécialisé documentaire & long format",x:"Écriture documentaire complexe — non réductible à l'automatisation."}
   ]},
   // ── SUPPORT ENTREPRISE ────────────────────────────────────────────────────
-  {l:"Développeur logiciel",d:"M",fap:"M1Z50",sal:3850,eff:182000,sources:[{tier:1,val:9,year:2024,src:"Peng et al. · GitHub Copilot productivity"},{tier:1,val:8,year:2024,src:"Science · GenAI coding diffusion"},{tier:1,val:8,year:2025,src:"NBER w34851"},{tier:2,val:9,year:2025,src:"LinkedIn Eco Graph · Copilot"},{tier:1,val:9.2,year:2026,src:"Massenkoff & McCrory · Computer programmers 74.5% observed (Anthropic EconIndex 2026)"},{tier:1,val:5.3,year:2025,src:"ILO WP140 · ISCO 2512 Software Developers · Gradient 3 (mean 0.53) · Gmyrek et al. mai 2025"}],rat:"Génération de code par LLMs très avancée (+55% productivité Copilot). Architecture, compréhension produit et jugement système résistent.",rn:[{t:"Architecte LLM & systèmes IA",x:"RAG, agents autonomes, fine-tuning."},{t:"AI Product Manager",x:"Roadmaps IA, évaluation modèles, équipes ML."},{t:"Expert sécurité IA & red-teaming",x:"Audit adversarial, conformité AI Act européen."}]},
-  {l:"Data scientist",d:"M",fap:"M1Z55",sal:4280,eff:52000,sources:[{tier:1,val:9,year:2024,src:"Eloundou et al. · data analysis LLMs"},{tier:1,val:8,year:2023,src:"Noy & Zhang · analytical tasks"},{tier:2,val:9,year:2024,src:"McKinsey · analytics automation"},{tier:1,val:8.5,year:2026,src:"Massenkoff & McCrory · Market research analysts 64.8% observed (Anthropic EconIndex 2026)"},{tier:1,val:5.7,year:2025,src:"ILO WP140 · ISCO 2514 Applications Programmers · Gradient 3 (mean 0.57) · Gmyrek et al. mai 2025"}],rat:"AutoML et LLMs effectuent les analyses standard. Valeur migre vers la définition du problème et l'interprétation stratégique.",rn:[{t:"Chief AI Officer (CAIO)",x:"Stratégie IA d'entreprise, gouvernance."},{t:"Spécialiste éthique algorithmique",x:"Audit biais, explicabilité XAI, conformité."},{t:"Expert données synthétiques & privacy ML",x:"Federated learning, anonymisation."}]},
-  {l:"Comptable",d:"M",fap:"M1Z20",sal:2650,eff:128000,sources:[{tier:1,val:8,year:2025,src:"SSRN 5039640 · AI & accounting"},{tier:1,val:8,year:2024,src:"Eloundou · financial tasks LLMs"},{tier:2,val:8,year:2024,src:"PwC · comptabilité & IA France"},{tier:3,val:7,year:2025,src:"L'Expert-Comptable · IA cabinet"},{tier:1,val:8.8,year:2026,src:"Massenkoff & McCrory · Accountants top exposed (Anthropic EconIndex 2026)"},{tier:1,val:5.1,year:2025,src:"ILO WP140 · ISCO 2411 Accountants · Gradient 3 (mean 0.51) · Gmyrek et al. mai 2025"}],rat:"Saisie, déclarations et rapprochements très automatisables. La valeur migre vers le conseil et l'analyse critique.",rn:[{t:"Expert-comptable conseil digital PME",x:"Accompagnement stratégique au-delà conformité."},{t:"Auditeur algorithmes financiers",x:"Vérification modèles IA, contrôle interne."},{t:"Contrôleur gestion ESG & CSRD",x:"Extra-financier, carbone, triple bilan."}]},
-  {l:"Juriste droit social",d:"O",fap:"M1Z10",sal:3560,eff:32000,sources:[{tier:1,val:8,year:2024,src:"Eloundou · legal tasks LLMs"},{tier:1,val:7,year:2023,src:"Noy & Zhang · legal writing"},{tier:2,val:8,year:2024,src:"McKinsey · legal automation"},{tier:1,val:7.8,year:2026,src:"Massenkoff & McCrory · Lawyers highly exposed (Anthropic EconIndex 2026)"}],rat:"Actes standard et recherche jurisprudentielle automatisables. Conseil stratégique, contentieux et négociation restent humains.",rn:[{t:"Expert régulation IA (AI Act UE)",x:"Conformité cadre européen IA · demande urgente."},{t:"Avocat droit travail algorithmes & gig",x:"Travailleurs algorithmiques, requalification."},{t:"DPO délégué protection données",x:"RGPD, violations, privacy by design."}]},
-  {l:"Analyste financier",d:"M",fap:"M1Z30",sal:4080,eff:38000,sources:[{tier:1,val:9,year:2024,src:"Eloundou et al. · financial analysis"},{tier:1,val:9,year:2023,src:"Lopez-Lira & Tang · ChatGPT & markets"},{tier:2,val:8,year:2024,src:"Bloomberg Intelligence · IA finance"},{tier:3,val:9,year:2025,src:"Les Échos · IA et analystes"},{tier:1,val:8.0,year:2026,src:"Massenkoff & McCrory · Financial analysts 57.2% observed (Anthropic EconIndex 2026)"},{tier:1,val:6.2,year:2025,src:"ILO WP140 · ISCO 2413 Financial Analysts · Gradient 4 (mean 0.62) · Gmyrek et al. mai 2025"}],rat:"Analyse quantitative et rédaction de rapports = haute automatisabilité. Jugement stratégique et relations client résistent.",rn:[{t:"Gestionnaire risques IA (DORA / Bâle IV)",x:"Risques systémiques IA en institutions."},{t:"Analyste ESG & financement transition",x:"Green bonds, taxonomie EU verte."},{t:"Stratégiste investissement deeptech",x:"VC tech, due diligence IA."}]},
-  {l:"DRH",d:"M",fap:"M1Z40",sal:4080,eff:42000,sources:[{tier:1,val:6,year:2023,src:"Autor · managers & routines"},{tier:2,val:6,year:2024,src:"Gartner · HR automation"},{tier:3,val:7,year:2025,src:"RH Info · IA et DRH France"},{tier:1,val:6.8,year:2026,src:"Massenkoff & McCrory · Business & finance observed exposure (Anthropic EconIndex 2026)"},{tier:1,val:4.5,year:2025,src:"ILO WP140 · ISCO 2423 Personnel & Careers Professionals · Gradient 2 (mean 0.45) · Gmyrek et al. mai 2025"}],rat:"Recrutement et administration RH très exposés. Culture d'entreprise, stratégie humaine et gestion des conflits résistent.",rn:[{t:"Chief People Officer culture & rétention",x:"Marque employeur, employee experience."},{t:"Spécialiste GPEC & reconversion IA",x:"Accompagnement transitions liées à l'IA."},{t:"Expert HR-tech & People Analytics",x:"Outils RH prédictifs, analytics turnover."}]},
-  {l:"UX designer",d:"M",fap:"M1Z60",sal:3250,eff:26000,sources:[{tier:1,val:7,year:2024,src:"Dell'Acqua et al. · creative AI tasks"},{tier:2,val:6,year:2024,src:"Nielsen Norman Group · AI UX"},{tier:3,val:7,year:2025,src:"Figma · IA et designers"},{tier:1,val:6.5,year:2026,src:"Massenkoff & McCrory · Arts & media observed exposure (Anthropic EconIndex 2026)"},{tier:1,val:4.9,year:2025,src:"ILO WP140 · ISCO 2166 Graphic & Multimedia Designers · Gradient 2 (mean 0.49) · Gmyrek et al. mai 2025"}],rat:"Génération d'interfaces automatisable. Recherche utilisateur, test et stratégie produit résistent.",rn:[{t:"Designer systèmes conversationnels VUI",x:"Chatbots, voicebots, UX des interfaces IA."},{t:"Chercheur UX (user researcher)",x:"Études qualitatives, tests utilisateurs."},{t:"Service designer & transformation orga.",x:"Services publics, parcours clients complexes."}]},
-  {l:"Contrôleur de gestion",d:"M",fap:"M1Z25",sal:3450,eff:72000,sources:[{tier:1,val:8,year:2024,src:"Eloundou · financial reporting"},{tier:2,val:8,year:2024,src:"DFCG · IA et contrôle de gestion"},{tier:3,val:7,year:2025,src:"Décideurs · contrôleurs & IA"},{tier:1,val:7.5,year:2026,src:"Massenkoff & McCrory · Business & finance category (Anthropic EconIndex 2026)"},{tier:1,val:4.9,year:2025,src:"ILO WP140 · ISCO 3313 Accounting Associate Professionals · Gradient 2 (mean 0.49) · Gmyrek et al. mai 2025"}],rat:"Consolidation et reporting très automatisables. Rôle de business partner et conseil stratégique résistent.",rn:[{t:"Business Intelligence architect",x:"Datawarehouses, Power BI, tableaux de bord."},{t:"Contrôleur RSE & impact",x:"Reporting extra-financier, durabilité."},{t:"Finance partner & DAF adjoint",x:"Rôle hybride finance/stratégie."}]},
-  {l:"Chef de projet IT",d:"M",fap:"M1Z70",sal:3680,eff:88000,sources:[{tier:1,val:6,year:2024,src:"Autor · project management & AI"},{tier:2,val:6,year:2024,src:"Gartner · AI in project management"},{tier:3,val:7,year:2025,src:"CIO · IA et chefs de projet"},{tier:1,val:7.2,year:2026,src:"Massenkoff & McCrory · Software QA analysts 51.9% observed (Anthropic EconIndex 2026)"},{tier:1,val:4.6,year:2025,src:"ILO WP140 · ISCO 2421 Management & Organization Analysts · Gradient 2 (mean 0.46) · Gmyrek et al. mai 2025"}],rat:"Planification assistée par IA ; coordination humaine, gestion des risques imprévus et négociation stakeholders résistent.",rn:[{t:"AI Project Manager (ML/IA produits)",x:"Conduite de projets d'IA, de bout en bout."},{t:"Scrum Master & transformation agile",x:"Organisation apprenante, coaching équipes."},{t:"Expert transformation digitale",x:"Pilotage changement, adoption technologique."}]},
+  {l:"Développeur logiciel",d:"S",fap:"M1Z50",sal:3850,eff:182000,reg:["RGPD","IA_Act","NIS2","DORA"],sources:[{tier:1,val:9,year:2024,src:"Peng et al. · GitHub Copilot productivity"},{tier:1,val:8,year:2024,src:"Science · GenAI coding diffusion"},{tier:1,val:8,year:2025,src:"NBER w34851"},{tier:2,val:9,year:2025,src:"LinkedIn Eco Graph · Copilot"},{tier:1,val:9.2,year:2026,src:"Massenkoff & McCrory · Computer programmers 74.5% observed (Anthropic EconIndex 2026)"},{tier:1,val:5.3,year:2025,src:"ILO WP140 · ISCO 2512 Software Developers · Gradient 3 (mean 0.53) · Gmyrek et al. mai 2025"}],rat:"Génération de code par LLMs très avancée (+55% productivité Copilot). Architecture, compréhension produit et jugement système résistent.",rn:[{t:"Architecte LLM & systèmes IA",x:"RAG, agents autonomes, fine-tuning."},{t:"AI Product Manager",x:"Roadmaps IA, évaluation modèles, équipes ML."},{t:"Expert sécurité IA & red-teaming",x:"Audit adversarial, conformité AI Act européen."}]},
+  {l:"Data scientist",d:"S",fap:"M1Z55",sal:4280,eff:52000,reg:["RGPD","IA_Act","NIS2"],sources:[{tier:1,val:9,year:2024,src:"Eloundou et al. · data analysis LLMs"},{tier:1,val:8,year:2023,src:"Noy & Zhang · analytical tasks"},{tier:2,val:9,year:2024,src:"McKinsey · analytics automation"},{tier:1,val:8.5,year:2026,src:"Massenkoff & McCrory · Market research analysts 64.8% observed (Anthropic EconIndex 2026)"},{tier:1,val:5.7,year:2025,src:"ILO WP140 · ISCO 2514 Applications Programmers · Gradient 3 (mean 0.57) · Gmyrek et al. mai 2025"}],rat:"AutoML et LLMs effectuent les analyses standard. Valeur migre vers la définition du problème et l'interprétation stratégique.",rn:[{t:"Chief AI Officer (CAIO)",x:"Stratégie IA d'entreprise, gouvernance."},{t:"Spécialiste éthique algorithmique",x:"Audit biais, explicabilité XAI, conformité."},{t:"Expert données synthétiques & privacy ML",x:"Federated learning, anonymisation."}]},
+  {l:"Comptable",d:"M",fap:"M1Z20",sal:2650,eff:128000,reg:["RGPD","AMF","IA_Act"],sources:[{tier:1,val:8,year:2025,src:"SSRN 5039640 · AI & accounting"},{tier:1,val:8,year:2024,src:"Eloundou · financial tasks LLMs"},{tier:2,val:8,year:2024,src:"PwC · comptabilité & IA France"},{tier:3,val:7,year:2025,src:"L'Expert-Comptable · IA cabinet"},{tier:1,val:8.8,year:2026,src:"Massenkoff & McCrory · Accountants top exposed (Anthropic EconIndex 2026)"},{tier:1,val:5.1,year:2025,src:"ILO WP140 · ISCO 2411 Accountants · Gradient 3 (mean 0.51) · Gmyrek et al. mai 2025"}],rat:"Saisie, déclarations et rapprochements très automatisables. La valeur migre vers le conseil et l'analyse critique.",rn:[{t:"Expert-comptable conseil digital PME",x:"Accompagnement stratégique au-delà conformité."},{t:"Auditeur algorithmes financiers",x:"Vérification modèles IA, contrôle interne."},{t:"Contrôleur gestion ESG & CSRD",x:"Extra-financier, carbone, triple bilan."}]},
+  {l:"Juriste droit social",d:"Q",fap:"M1Z10",sal:3560,eff:32000,reg:["RGPD","LOPJ"],sources:[{tier:1,val:8,year:2024,src:"Eloundou · legal tasks LLMs"},{tier:1,val:7,year:2023,src:"Noy & Zhang · legal writing"},{tier:2,val:8,year:2024,src:"McKinsey · legal automation"},{tier:1,val:7.8,year:2026,src:"Massenkoff & McCrory · Lawyers highly exposed (Anthropic EconIndex 2026)"}],rat:"Actes standard et recherche jurisprudentielle automatisables. Conseil stratégique, contentieux et négociation restent humains.",rn:[{t:"Expert régulation IA (AI Act UE)",x:"Conformité cadre européen IA · demande urgente."},{t:"Avocat droit travail algorithmes & gig",x:"Travailleurs algorithmiques, requalification."},{t:"DPO délégué protection données",x:"RGPD, violations, privacy by design."}]},
+  {l:"Analyste financier",d:"M",fap:"M1Z30",sal:4080,eff:38000,reg:["RGPD","AMF","DORA","IA_Act"],sources:[{tier:1,val:9,year:2024,src:"Eloundou et al. · financial analysis"},{tier:1,val:9,year:2023,src:"Lopez-Lira & Tang · ChatGPT & markets"},{tier:2,val:8,year:2024,src:"Bloomberg Intelligence · IA finance"},{tier:3,val:9,year:2025,src:"Les Échos · IA et analystes"},{tier:1,val:8.0,year:2026,src:"Massenkoff & McCrory · Financial analysts 57.2% observed (Anthropic EconIndex 2026)"},{tier:1,val:6.2,year:2025,src:"ILO WP140 · ISCO 2413 Financial Analysts · Gradient 4 (mean 0.62) · Gmyrek et al. mai 2025"}],rat:"Analyse quantitative et rédaction de rapports = haute automatisabilité. Jugement stratégique et relations client résistent.",rn:[{t:"Gestionnaire risques IA (DORA / Bâle IV)",x:"Risques systémiques IA en institutions."},{t:"Analyste ESG & financement transition",x:"Green bonds, taxonomie EU verte."},{t:"Stratégiste investissement deeptech",x:"VC tech, due diligence IA."}]},
+  {l:"DRH",d:"M",fap:"M1Z40",sal:4080,eff:42000,reg:["RGPD","IA_Act"],sources:[{tier:1,val:6,year:2023,src:"Autor · managers & routines"},{tier:2,val:6,year:2024,src:"Gartner · HR automation"},{tier:3,val:7,year:2025,src:"RH Info · IA et DRH France"},{tier:1,val:6.8,year:2026,src:"Massenkoff & McCrory · Business & finance observed exposure (Anthropic EconIndex 2026)"},{tier:1,val:4.5,year:2025,src:"ILO WP140 · ISCO 2423 Personnel & Careers Professionals · Gradient 2 (mean 0.45) · Gmyrek et al. mai 2025"}],rat:"Recrutement et administration RH très exposés. Culture d'entreprise, stratégie humaine et gestion des conflits résistent.",rn:[{t:"Chief People Officer culture & rétention",x:"Marque employeur, employee experience."},{t:"Spécialiste GPEC & reconversion IA",x:"Accompagnement transitions liées à l'IA."},{t:"Expert HR-tech & People Analytics",x:"Outils RH prédictifs, analytics turnover."}]},
+  {l:"UX designer",d:"S",fap:"M1Z60",sal:3250,eff:26000,reg:["RGPD","IA_Act","DSA"],sources:[{tier:1,val:7,year:2024,src:"Dell'Acqua et al. · creative AI tasks"},{tier:2,val:6,year:2024,src:"Nielsen Norman Group · AI UX"},{tier:3,val:7,year:2025,src:"Figma · IA et designers"},{tier:1,val:6.5,year:2026,src:"Massenkoff & McCrory · Arts & media observed exposure (Anthropic EconIndex 2026)"},{tier:1,val:4.9,year:2025,src:"ILO WP140 · ISCO 2166 Graphic & Multimedia Designers · Gradient 2 (mean 0.49) · Gmyrek et al. mai 2025"}],rat:"Génération d'interfaces automatisable. Recherche utilisateur, test et stratégie produit résistent.",rn:[{t:"Designer systèmes conversationnels VUI",x:"Chatbots, voicebots, UX des interfaces IA."},{t:"Chercheur UX (user researcher)",x:"Études qualitatives, tests utilisateurs."},{t:"Service designer & transformation orga.",x:"Services publics, parcours clients complexes."}]},
+  {l:"Contrôleur de gestion",d:"M",fap:"M1Z25",sal:3450,eff:72000,reg:["RGPD","AMF","DORA"],sources:[{tier:1,val:8,year:2024,src:"Eloundou · financial reporting"},{tier:2,val:8,year:2024,src:"DFCG · IA et contrôle de gestion"},{tier:3,val:7,year:2025,src:"Décideurs · contrôleurs & IA"},{tier:1,val:7.5,year:2026,src:"Massenkoff & McCrory · Business & finance category (Anthropic EconIndex 2026)"},{tier:1,val:4.9,year:2025,src:"ILO WP140 · ISCO 3313 Accounting Associate Professionals · Gradient 2 (mean 0.49) · Gmyrek et al. mai 2025"}],rat:"Consolidation et reporting très automatisables. Rôle de business partner et conseil stratégique résistent.",rn:[{t:"Business Intelligence architect",x:"Datawarehouses, Power BI, tableaux de bord."},{t:"Contrôleur RSE & impact",x:"Reporting extra-financier, durabilité."},{t:"Finance partner & DAF adjoint",x:"Rôle hybride finance/stratégie."}]},
+  {l:"Chef de projet IT",d:"S",fap:"M1Z70",sal:3680,eff:88000,reg:["RGPD","IA_Act","NIS2","DORA"],sources:[{tier:1,val:6,year:2024,src:"Autor · project management & AI"},{tier:2,val:6,year:2024,src:"Gartner · AI in project management"},{tier:3,val:7,year:2025,src:"CIO · IA et chefs de projet"},{tier:1,val:7.2,year:2026,src:"Massenkoff & McCrory · Software QA analysts 51.9% observed (Anthropic EconIndex 2026)"},{tier:1,val:4.6,year:2025,src:"ILO WP140 · ISCO 2421 Management & Organization Analysts · Gradient 2 (mean 0.46) · Gmyrek et al. mai 2025"}],rat:"Planification assistée par IA ; coordination humaine, gestion des risques imprévus et négociation stakeholders résistent.",rn:[{t:"AI Project Manager (ML/IA produits)",x:"Conduite de projets d'IA, de bout en bout."},{t:"Scrum Master & transformation agile",x:"Organisation apprenante, coaching équipes."},{t:"Expert transformation digitale",x:"Pilotage changement, adoption technologique."}]},
   // ── TRANSPORT ─────────────────────────────────────────────────────────────
   {l:"Chauffeur routier",d:"N",fap:"N4Z10",sal:2080,eff:278000,sources:[{tier:1,val:4,year:2023,src:"Frey & Osborne update · autonomous trucks"},{tier:2,val:4,year:2024,src:"France Stratégie · autonomie transport"},{tier:3,val:5,year:2025,src:"Transportinfo · IA chauffeur"}],rat:"Conduite autonome progresse (L4 en zone contrôlée) mais contexte réglementaire FR maintient un humain à moyen terme.",rn:[{t:"Coordinateur logistique & TMS connecté",x:"Optimisation tournées, gestion anomalies."},{t:"Expert transport froid & matières dangereuses",x:"Niche réglementée à forte valeur."},{t:"Technicien VE poids lourds",x:"Nouvelles motorisations · forte pénurie."}]},
 
   // ── DOMAINE O — JUSTICE & DROIT (nouveaux métiers) ──────────────────────────
-  {l:"Greffier",d:"O",fap:"O1Z10",sal:2300,eff:24000,sources:[
+  {l:"Greffier",d:"P",fap:"O1Z10",sal:2300,eff:24000,reg:["RGPD","LOPJ"],sources:[
     {tier:1,val:7,year:2024,src:"Eloundou et al. · legal & administrative documentation LLM exposure"},
     {tier:2,val:7,year:2024,src:"Sénat · IA et professions du droit, rapport 2024"},
     {tier:2,val:7,year:2024,src:"Rapport IA au service de la Justice · Ministère de la Justice, 2025"},
@@ -1101,7 +1153,7 @@ const D=[
     {t:"Médiateur judiciaire ou conciliateur de justice",x:"Politique de l'amiable renforcée par la LOPJ — forte demande de montée en compétences."}
   ]},
 
-  {l:"Commissaire de justice",d:"O",fap:"O2Z10",sal:4200,eff:3800,sources:[
+  {l:"Commissaire de justice",d:"P",fap:"O2Z10",sal:4200,eff:3800,reg:["RGPD","LOPJ"],sources:[
     {tier:1,val:6,year:2024,src:"Eloundou et al. · legal process & enforcement tasks LLM exposure"},
     {tier:2,val:6,year:2024,src:"Sénat · IA et professions du droit, rapport 2024"},
     {tier:2,val:5,year:2024,src:"RSJ 2024 · Rapport statistique sur la Justice — effectifs OPM"},
@@ -1114,7 +1166,7 @@ const D=[
     {t:"Consultant conformité & signification internationale",x:"Règlement européen de signification, procédures transfrontalières — expertise rare."}
   ]},
 
-  {l:"Expert judiciaire",d:"O",fap:"O3Z10",sal:4800,eff:20000,sources:[
+  {l:"Expert judiciaire",d:"P",fap:"O3Z10",sal:4800,eff:20000,reg:["RGPD","LOPJ"],sources:[
     {tier:1,val:5,year:2024,src:"Eloundou et al. · expert analysis & report writing tasks"},
     {tier:1,val:5,year:2023,src:"Noy & Zhang MIT · LLMs & expert report drafting"},
     {tier:2,val:5,year:2024,src:"Sénat · IA et professions du droit, rapport 2024 — experts judiciaires"},
@@ -1127,7 +1179,7 @@ const D=[
     {t:"Expert judiciaire augmenté IA (medical, financier)",x:"Utilisation d'outils IA pour l'analyse comparative — positionnement de valeur ajoutée."}
   ]},
 
-  {l:"Médiateur-conciliateur",d:"O",fap:"O4Z10",sal:2800,eff:5000,sources:[
+  {l:"Médiateur-conciliateur",d:"P",fap:"O4Z10",sal:2800,eff:5000,reg:["RGPD","LOPJ"],sources:[
     {tier:1,val:2,year:2023,src:"Autor · non-routine interpersonal & empathy-based work — low AI exposure"},
     {tier:2,val:2,year:2024,src:"Sénat · IA et professions du droit, rapport 2024 — alternatives amiables"},
     {tier:2,val:2,year:2025,src:"Rapport IA au service de la Justice · Ministère de la Justice 2025"},
@@ -1140,11 +1192,11 @@ const D=[
     {t:"Formateur médiation & gestion de conflits",x:"Formation des équipes juridiques à l'amiable — marché en forte croissance post-LOPJ."}
   ]},
 
-  {l:"Logisticien",d:"N",fap:"N4Z20",sal:2650,eff:92000,sources:[{tier:1,val:6,year:2023,src:"Autor · logistics & AI"},{tier:2,val:6,year:2024,src:"McKinsey · supply chain IA"},{tier:3,val:6,year:2025,src:"Supply Chain Magazine · IA"}],rat:"Optimisation des flux exposée aux algorithmes. Gestion des exceptions, fournisseurs et risques géopolitiques résistent.",rn:[{t:"Responsable supply chain résiliente",x:"Gestion risques, relocalisation, crise."},{t:"Expert logistique verte & économie circulaire",x:"Reverse logistics, carbone transport."},{t:"Planificateur S&OP & demand sensing IA",x:"Planification avancée APS, signaux externes."}]},
-  {l:"Pilote de ligne",d:"N",fap:"N3Z10",sal:7200,eff:14000,sources:[{tier:1,val:3,year:2023,src:"Autor · aviation & automation"},{tier:2,val:3,year:2024,src:"EASA · IA cockpit"},{tier:3,val:3,year:2024,src:"L'Avion · IA et pilotes"}],rat:"Automatisation forte en vol nominal. Décision d'urgence, gestion CRM et responsabilité réglementaire maintiennent l'humain.",rn:[{t:"Instructeur simulation & CRM",x:"Formation sur simulateurs certifiés EASA."},{t:"Pilote drones commerciaux BVLOS",x:"Infrastructure, inspection, livraison."},{t:"Expert opérations aériennes & navigabilité",x:"Conformité EASA, gestion risques techniques."}]},
+  {l:"Logisticien",d:"N",fap:"N4Z20",sal:2650,eff:92000,reg:["RGPD","NIS2"],sources:[{tier:1,val:6,year:2023,src:"Autor · logistics & AI"},{tier:2,val:6,year:2024,src:"McKinsey · supply chain IA"},{tier:3,val:6,year:2025,src:"Supply Chain Magazine · IA"}],rat:"Optimisation des flux exposée aux algorithmes. Gestion des exceptions, fournisseurs et risques géopolitiques résistent.",rn:[{t:"Responsable supply chain résiliente",x:"Gestion risques, relocalisation, crise."},{t:"Expert logistique verte & économie circulaire",x:"Reverse logistics, carbone transport."},{t:"Planificateur S&OP & demand sensing IA",x:"Planification avancée APS, signaux externes."}]},
+  {l:"Pilote de ligne",d:"N",fap:"N3Z10",sal:7200,eff:14000,reg:["RGPD","NIS2"],sources:[{tier:1,val:3,year:2023,src:"Autor · aviation & automation"},{tier:2,val:3,year:2024,src:"EASA · IA cockpit"},{tier:3,val:3,year:2024,src:"L'Avion · IA et pilotes"}],rat:"Automatisation forte en vol nominal. Décision d'urgence, gestion CRM et responsabilité réglementaire maintiennent l'humain.",rn:[{t:"Instructeur simulation & CRM",x:"Formation sur simulateurs certifiés EASA."},{t:"Pilote drones commerciaux BVLOS",x:"Infrastructure, inspection, livraison."},{t:"Expert opérations aériennes & navigabilité",x:"Conformité EASA, gestion risques techniques."}]},
 
   // M — Support entreprise / Droit (nouveaux métiers)
-  {l:"Avocat",d:"O",fap:"M2Z20",sal:3800,eff:79000,sources:[
+  {l:"Avocat",d:"Q",fap:"M2Z20",sal:3800,eff:79000,reg:["RGPD","LOPJ","IA_Act"],sources:[
     {tier:1,val:8,year:2024,src:"Eloundou et al. — legal tasks LLM exposure (NBER 2023)"},
     {tier:1,val:8,year:2024,src:"Noy & Zhang MIT — legal writing tasks automated"},
     {tier:2,val:7,year:2024,src:"McKinsey — legal automation 2024"},
@@ -1154,7 +1206,7 @@ const D=[
   ,{tier:1,val:3.6,year:2025,src:"ILO WP140 · ISCO 2611 Lawyers · Minimal Exposure (mean 0.36) · Gmyrek et al. mai 2025"}],rat:"Recherche documentaire, rédaction d'actes standard et due diligence : fortement automatisables. Le conseil stratégique, la plaidoirie et les contentieux complexes restent irremplaçables. 79 141 avocats inscrits en janv. 2026 (CNB/Ministère de la Justice).",
   rn:[{t:"Expert régulation IA & AI Act européen",x:"Conformité des systèmes IA : niche urgente et très rare sur le marché."},{t:"Avocat spécialisé LegalTech & droit numérique",x:"Contrats SaaS, cybersécurité, protection données — forte demande PME."},{t:"Arbitre & médiateur digital",x:"Règlement alternatif des litiges en ligne — en forte croissance."}]},
   
-  {l:"Notaire",d:"O",fap:"M2Z30",sal:3600,eff:17000,sources:[
+  {l:"Notaire",d:"Q",fap:"M2Z30",sal:3600,eff:17000,reg:["RGPD","LOPJ"],sources:[
     {tier:1,val:6,year:2024,src:"Eloundou et al. — document drafting & authentication tasks LLM"},
     {tier:2,val:6,year:2023,src:"France Stratégie — professions juridiques réglementées & IA"},
     {tier:2,val:7,year:2024,src:"CSN — rapport IA et notariat 2024"},
@@ -1162,7 +1214,7 @@ const D=[
   ],rat:"Actes immobiliers répétitifs, rédaction de clauses standard : exposés aux LLMs spécialisés. Authentification des actes, responsabilité ministerielle et conseil patrimonial complexe restent des fonctions humaines irremplaçables. 17 000 notaires en France (CSN 2024).",
   rn:[{t:"Notaire spécialisé droit patrimonial & family office",x:"Gestion de patrimoine complexe, structures holdings, transmission."},{t:"Expert immobilier digital & proptech",x:"Due diligence automatisée, blockchain et actes dématérialisés."},{t:"Consultant droit des successions & trust international",x:"Niche internationale pour expatriés et non-résidents."}]},
 
-  {l:"Magistrat",d:"O",fap:"M2Z40",sal:4200,eff:9300,sources:[
+  {l:"Magistrat",d:"P",fap:"M2Z40",sal:4200,eff:9300,reg:["RGPD","LOPJ","IA_Act"],sources:[
     {tier:1,val:4,year:2024,src:"Eloundou et al. — judicial decision tasks LLM exposure"},
     {tier:2,val:4,year:2023,src:"France Stratégie — IA et professions judiciaires"},
     {tier:2,val:5,year:2024,src:"Commission EU — AI Act & justice algorithms"},
@@ -1170,7 +1222,7 @@ const D=[
   ,{tier:1,val:3.1,year:2025,src:"ILO WP140 · ISCO 2612 Judges · Not Exposed (mean 0.31) · Gmyrek et al. mai 2025"}],rat:"L'aide à la décision par IA progresse (jurisprudence, prédiction de peines) mais la décision judiciaire, l'appréciation des faits et la motivation des jugements restent des fonctions constitutionnellement humaines. 9 300 magistrats en France (Ministère de la Justice 2024).",
   rn:[{t:"Magistrat spécialisé IA & cybercriminalité",x:"WP140 ILO 2025 : juges classés 'Not Exposed' (ISCO 0.31) — litiges IA en forte hausse (AI Act, RGPD, fraude IA, deepfakes)."},{t:"Référent e-justice & pilotage outils IA juridictions",x:"Rapport Ministère Justice 2025 : déploiement assistant IA souverain aux magistrats — rôle clé de pilotage humain."},{t:"Formateur ENM & juriste-pédagogue IA",x:"Formation initiale et continue à l'usage éthique et responsable des LLMs dans les juridictions."}]},
 
-  {l:"Juriste d'entreprise",d:"O",fap:"M2Z50",sal:3800,eff:65000,sources:[
+  {l:"Juriste d'entreprise",d:"Q",fap:"M2Z50",sal:3800,eff:65000,reg:["RGPD","LOPJ","IA_Act"],sources:[
     {tier:1,val:7,year:2024,src:"Eloundou et al. — in-house counsel tasks LLM"},
     {tier:2,val:7,year:2024,src:"McKinsey — corporate legal automation 2024"},
     {tier:2,val:7,year:2024,src:"EY LLP — AI in legal departments survey 2024"},
@@ -1179,7 +1231,7 @@ const D=[
   rn:[{t:"Chief Legal Officer IA (CLO numérique)",x:"Pilotage juridique des projets IA, conformité AI Act, gouvernance."},{t:"Juriste spécialisé RGPD & cybersécurité",x:"DPO externalisé, audit conformité, violation de données."},{t:"Contract manager IA-assisté",x:"Gestion de portefeuilles contractuels avec outils LLM."}]},
 
   // M — Justice judiciaire (métiers manquants)
-  {l:"Greffier des services judiciaires",d:"M",fap:"M2Z60",sal:2000,eff:11000,sources:[
+  {l:"Greffier des services judiciaires",d:"P",reg:["RGPD","LOPJ"],fap:"M2Z60",sal:2000,eff:11000,sources:[
     {tier:1,val:7,year:2024,src:"Eloundou et al. — administrative & legal clerical tasks very high LLM exposure (NBER 2023)"},
     {tier:2,val:7,year:2024,src:"Ministère de la Justice — programme numérique des juridictions, LFI 2024"},
     {tier:2,val:7,year:2025,src:"Commission européenne — AI Act, automatisation des procédures judiciaires standardisées"},
@@ -1192,47 +1244,8 @@ const D=[
     {t:"Coordinateur chaîne pénale numérique",x:"Interfaces RPVJ, dématérialisation des dossiers pénaux, interopérabilité SI Justice."}
   ]},
 
-  {l:"Commissaire de justice",d:"M",fap:"M2Z70",sal:4200,eff:4200,sources:[
-    {tier:1,val:6,year:2024,src:"Eloundou et al. — legal enforcement & process serving tasks LLM exposure"},
-    {tier:2,val:7,year:2024,src:"CNCJ — rapport annuel commissaires de justice 2024"},
-    {tier:2,val:6,year:2024,src:"Ministère de la Justice — ordonnance n°2016-728 fusion huissiers-commissaires-priseurs"},
-    {tier:3,val:7,year:2025,src:"Village Justice — LegalTech et commissaires de justice, transformation du métier 2025"},
-    {tier:4,val:7,year:2025,src:"CNCEJ — baromètre usages numériques des commissaires de justice 2025"}
-  ],rat:"Signification d'actes répétitifs, recouvrement de créances standardisé et rédaction de constats simples : fortement automatisables. Profession issue de la fusion huissier de justice + commissaire-priseur judiciaire (loi Macron 2015, ordonnance 2016, entrée en vigueur juillet 2022). ~4 200 commissaires de justice en France (CNCJ 2024). L'authentification sur le terrain, les constats complexes et la vente aux enchères judiciaires restent irremplaçables.",
-  rn:[
-    {t:"Expert constat numérique & cyberfraude",x:"Constats probatoires en ligne, captures de preuves numériques — contentieux digital en forte hausse."},
-    {t:"Spécialiste vente aux enchères judiciaires en ligne",x:"Plateformes d'enchères dématérialisées — nouveau marché post-fusion."},
-    {t:"Commissaire médiateur accrédité",x:"~300 commissaires médiateurs actifs (CNCJ) — développement fort des MARD en France."}
-  ]},
 
-  {l:"Expert judiciaire",d:"M",fap:"M2Z80",sal:4800,eff:22000,sources:[
-    {tier:1,val:5,year:2024,src:"Eloundou et al. — technical expert consulting & report writing tasks LLM exposure"},
-    {tier:2,val:6,year:2024,src:"CNCEJ — rapport IA et pratiques des experts judiciaires France 2024"},
-    {tier:2,val:5,year:2024,src:"Commission européenne — AI Act, article 13 : experts techniques dans les litiges algorithmiques"},
-    {tier:3,val:6,year:2025,src:"Dalloz Actualité — IA générative et expertise judiciaire, impacts sur le rapport d'expert 2025"},
-    {tier:4,val:6,year:2025,src:"CNCEJ — enquête usages IA des experts inscrits aux cours d'appel 2025"}
-  ],rat:"Rédaction de rapports types et recherche documentaire : très exposés. La mission d'expertise est judiciaire et implique une responsabilité personnelle devant la juridiction qui mandate l'expert. L'investigation technique sur le terrain, l'analyse des faits litigieux et le témoignage en audience restent irremplaçables. ~22 000 experts inscrits sur les listes des cours d'appel (CNCEJ 2024).",
-  rn:[
-    {t:"Expert judiciaire spécialisé systèmes IA & algorithmes",x:"Expertise des modèles IA devant les tribunaux — niche quasi inexistante, demande forte dès 2025."},
-    {t:"Expert cybersécurité & forensique numérique",x:"Expertise après cyberattaque, rançongiciel, fraude en ligne — croissance très forte."},
-    {t:"Expert amiable & médiateur technique",x:"MARD, médiation de la consommation — alternative aux longues expertises judiciaires."}
-  ]},
-
-  {l:"Médiateur judiciaire",d:"M",fap:"M2Z90",sal:2800,eff:6000,sources:[
-    {tier:1,val:4,year:2023,src:"Autor — negotiation, empathy & interpersonal work: lowest LLM automatability"},
-    {tier:2,val:4,year:2024,src:"Ministère de la Justice — rapport MARD, développement de la médiation civile et commerciale 2024"},
-    {tier:2,val:4,year:2025,src:"Commission européenne — directive médiation 2008/52/CE, révision 2025"},
-    {tier:3,val:4,year:2025,src:"Village Justice — IA et médiation judiciaire, quelles limites ? 2025"},
-    {tier:4,val:5,year:2025,src:"CNMA (Chambre nationale des médiateurs accrédités) — rapport annuel 2025"}
-  ],rat:"La médiation repose sur la relation humaine, la neutralité perçue, la gestion des émotions et la dynamique de la séance : fondamentalement non-automatisable. L'IA peut préparer les dossiers mais ne peut pas conduire la médiation. ~6 000 médiateurs conventionnels actifs en France (Ministère Justice 2024). Score de 4 = certaines tâches de préparation et de rédaction d'accords assistées, pas le cœur du métier.",
-  rn:[
-    {t:"Médiateur spécialisé droit du numérique & IA",x:"Litiges algorithmes, plateformes, données personnelles — niche en explosion depuis 2023."},
-    {t:"Formateur MARC & médiateur international certifié",x:"Centres de formation ENM/barreau, arbitrage CCI, médiation commerciale internationale."},
-    {t:"Coordinateur conciliation de justice",x:"~2 000 conciliateurs actifs — organisation des ressorts, passerelle vers médiation professionnelle."}
-  ]},
-
-
-  {l:"Professeur des écoles",d:"K",fap:"K6Z20",sal:2380,eff:370000,sources:[
+  {l:"Professeur des écoles",d:"R",fap:"K6Z20",sal:2380,eff:370000,reg:["RGPD","IA_Act"],sources:[
     {tier:1,val:5,year:2024,src:"Noy & Zhang MIT — AI tutoring efficacy & teaching tasks"},
     {tier:2,val:5,year:2024,src:"OCDE — IA et enseignants, rapport 2024"},
     {tier:1,val:4,year:2025,src:"NBER w34851 — productivity gaps GenAI in education"},
@@ -1241,7 +1254,7 @@ const D=[
   ,{tier:1,val:2.6,year:2025,src:"ILO WP140 · ISCO 2341 Primary School Teachers · Not Exposed (mean 0.26) · Gmyrek et al. mai 2025"}],rat:"Tuteurs IA personnalisés (Khan Academy, Khanmigo) progressent mais la relation éducative, la gestion de classe, la socialisation précoce et l'adaptation aux besoins individuels restent irremplaçables. 370 500 professeurs des écoles en France (DEPP 2024).",
   rn:[{t:"Enseignant concepteur de ressources edtech",x:"Création de parcours IA-humain pour plateformes numériques."},{t:"Référent IA & numérique de circonscription",x:"Pilotage des usages IA dans les écoles, formation des collègues."},{t:"Formateur ESPE & académique inclusion numérique",x:"Formation initiale aux pédagogies augmentées par l'IA."}]},
 
-  {l:"Professeur collège-lycée",d:"K",fap:"K6Z30",sal:2680,eff:530000,sources:[
+  {l:"Professeur collège-lycée",d:"R",fap:"K6Z30",sal:2680,eff:530000,reg:["RGPD","IA_Act"],sources:[
     {tier:1,val:5,year:2024,src:"Noy & Zhang MIT — AI tutoring & teacher substitution"},
     {tier:2,val:5,year:2024,src:"OCDE Education at a Glance 2024 — IA & enseignants"},
     {tier:1,val:4,year:2025,src:"NBER w34851 — GenAI productivity gaps education"},
@@ -1250,7 +1263,7 @@ const D=[
   ,{tier:1,val:3.0,year:2025,src:"ILO WP140 · ISCO 2330 Secondary Education Teachers · Not Exposed (mean 0.3) · Gmyrek et al. mai 2025"}],rat:"Production de cours, correction de copies : automatisables. L'animation pédagogique, la relation éducative, la gestion des difficultés d'apprentissage et la mission de socialisation restent irremplaçables. 530 000 enseignants du 2nd degré (DEPP Panorama 2024-2025).",
   rn:[{t:"Enseignant-formateur hybride (blended learning)",x:"Conception de formations mixtes présentiel/distanciel IA-assistées."},{t:"Coordinateur pédagogie par projets & compétences",x:"Baccalauréat 2030, approche compétences — forte demande."},{t:"Expert inclusion scolaire & neurodiversité",x:"TSA, TDAH, dys — accompagnement spécialisé très demandé."}]},
 
-  {l:"Enseignant-chercheur",d:"K",fap:"K6Z40",sal:3400,eff:93000,sources:[
+  {l:"Enseignant-chercheur",d:"R",fap:"K6Z40",sal:3400,eff:93000,reg:["RGPD","IA_Act"],sources:[
     {tier:1,val:6,year:2024,src:"Eloundou et al. — knowledge work tasks LLM exposure"},
     {tier:2,val:6,year:2024,src:"OCDE — IA et recherche académique 2024"},
     {tier:1,val:5,year:2025,src:"Nature — LLMs & scientific discovery 2025"},
@@ -1259,7 +1272,7 @@ const D=[
   ,{tier:1,val:3.7,year:2025,src:"ILO WP140 · ISCO 2310 University & Higher Education Teachers · Minimal Exposure (mean 0.37) · Gmyrek et al. mai 2025"}],rat:"Production de cours et rédaction d'articles standards très exposées. La recherche originale, la direction de thèse, l'évaluation par les pairs et la transmission du raisonnement scientifique restent profondément humaines. 93 000 enseignants du supérieur (MESR 2023).",
   rn:[{t:"Chercheur en IA & éthique algorithmique",x:"Recherche fondamentale IA, biais, explicabilité — forte demande."},{t:"Directeur de programme executive & formation continue",x:"MBA, mastères spécialisés — marché de la formation pro en croissance."},{t:"Expert éducation ouverte & MOOCs avancés",x:"Coursera, edX — monétisation de l'expertise pédagogique."}]},
 
-  {l:"Conseiller d'orientation-psychologue",d:"K",fap:"K6Z50",sal:2500,eff:11000,sources:[
+  {l:"Conseiller d'orientation-psychologue",d:"R",fap:"K6Z50",sal:2500,eff:11000,sources:[
     {tier:1,val:4,year:2023,src:"Autor — social service work & human interaction tasks"},
     {tier:2,val:4,year:2024,src:"OCDE — IA et orientation scolaire & professionnelle"},
     {tier:3,val:5,year:2025,src:"L'Etudiant — IA et orientation scolaire France 2025"},
@@ -1268,7 +1281,7 @@ const D=[
   rn:[{t:"Psychologue scolaire spécialisé neurodiversité",x:"TSA, TDAH, dys — rôle pivot en forte demande avec la loi handicap."},{t:"Conseiller en évolution professionnelle (CEP)",x:"Transitions pro, VAE, bilan de compétences — marché en expansion."},{t:"Expert bien-être scolaire & climat éducatif",x:"Prévention décrochage, harcèlement — missions élargies depuis 2024."}]},
 
   // J — Santé (professions manquantes)
-  {l:"Psychologue clinicien",d:"J",fap:"J8Z10",sal:2200,eff:80000,sources:[
+  {l:"Psychologue clinicien",d:"J",fap:"J8Z10",sal:2200,eff:80000,reg:["RGPD","CSP"],sources:[
     {tier:1,val:3,year:2023,src:"Autor — emotional labor & therapeutic relationship non-automatable"},
     {tier:2,val:3,year:2024,src:"OCDE — IA et santé mentale, limites éthiques 2024"},
     {tier:2,val:4,year:2024,src:"HAS France — encadrement IA en psychologie clinique 2024"},
@@ -1280,7 +1293,7 @@ const D=[
     {t:"Superviseur clinique en e-santé mentale",x:"Contrôle qualité des outils digitaux MonPsy, Doctolib Psy, Woebot."},
     {t:"Chercheur en psychologie cognitive & IA",x:"Effets des IA génératives sur la cognition et le bien-être — domaine émergent."}
   ]},
-  {l:"Chirurgien-dentiste",d:"J",fap:"J9Z10",sal:4200,eff:40000,sources:[
+  {l:"Chirurgien-dentiste",d:"J",fap:"J9Z10",sal:4200,eff:40000,reg:["RGPD","CSP"],sources:[
     {tier:1,val:4,year:2024,src:"Eloundou et al. — physical healthcare tasks low LLM exposure"},
     {tier:2,val:5,year:2024,src:"DREES — IA et imagerie dentaire CBCT 2024"},
     {tier:3,val:4,year:2025,src:"Le Chirurgien-Dentiste de France — IA en cabinet 2025"},
@@ -1291,7 +1304,7 @@ const D=[
     {t:"Dentiste spécialisé implantologie guidée",x:"Chirurgie assistée par logiciel — valorisation des actes complexes."},
     {t:"Consultant transformation numérique cabinets dentaires",x:"Logiciels de gestion, téléconsultation, dossier patient numérique."}
   ]},
-  {l:"Kinésithérapeute",d:"J",fap:"J6Z20",sal:2800,eff:105000,sources:[
+  {l:"Kinésithérapeute",d:"J",fap:"J6Z20",sal:2800,eff:105000,reg:["RGPD","CSP"],sources:[
     {tier:1,val:3,year:2023,src:"Autor — physical therapeutic interaction & tactile skills"},
     {tier:2,val:3,year:2024,src:"HAS — rééducation, IA et actes manuels 2024"},
     {tier:2,val:3,year:2023,src:"OCDE — care workers & automation barriers"},
@@ -1302,7 +1315,7 @@ const D=[
     {t:"Expert téléréhabilitation & wearables",x:"Suivi à distance via capteurs et applications de rééducation guidée par IA."},
     {t:"Formateur biomécanique & prévention TMS",x:"Ateliers entreprise sur prévention des troubles musculosquelettiques."}
   ]},
-  {l:"Sage-femme",d:"J",fap:"J2Z30",sal:2400,eff:24000,sources:[
+  {l:"Sage-femme",d:"J",fap:"J2Z30",sal:2400,eff:24000,reg:["RGPD","CSP"],sources:[
     {tier:1,val:3,year:2023,src:"The Lancet — midwifery clinical judgment non-automatable"},
     {tier:2,val:3,year:2024,src:"WHO — digital health & midwives 2024"},
     {tier:3,val:3,year:2024,src:"Sages-femmes.net — IA et surveillance foetale France 2024"}
@@ -1312,7 +1325,7 @@ const D=[
     {t:"Expert télésurveillance grossesse à risque",x:"Monitoring connecté à domicile — forte croissance post-Covid."},
     {t:"Coordinatrice réseau périnatal & HAD",x:"Parcours complexes, lien ville-hôpital, prématurité — coordination critique."}
   ]},
-  {l:"Vétérinaire",d:"J",fap:"J0Z10",sal:3200,eff:20000,sources:[
+  {l:"Vétérinaire",d:"J",fap:"J0Z10",sal:3200,eff:20000,reg:["RGPD","CSP"],sources:[
     {tier:1,val:4,year:2024,src:"Eloundou et al. — veterinary diagnostic tasks LLM exposure"},
     {tier:2,val:4,year:2024,src:"OCDE — automatisation professions libérales de santé 2024"},
     {tier:3,val:5,year:2025,src:"La Semaine Vétérinaire — IA en diagnostic animal France 2025"},
@@ -1325,7 +1338,7 @@ const D=[
   ]},
 
   // D — Commerce (métiers manquants)
-  {l:"Community manager",d:"D",fap:"D4Z20",sal:2500,eff:95000,sources:[
+  {l:"Community manager",d:"O",fap:"D4Z20",sal:2500,eff:95000,reg:["RGPD","DSA"],sources:[
     {tier:1,val:9,year:2024,src:"Eloundou et al. — social media & content generation LLM exposure"},
     {tier:1,val:9,year:2023,src:"Noy & Zhang MIT — writing & content tasks automated by LLM"},
     {tier:2,val:8,year:2024,src:"McKinsey — marketing content automation 2024"},
@@ -1339,7 +1352,7 @@ const D=[
   ]},
 
   // M — Support entreprise (métier manquant)
-  {l:"Consultant en management",d:"M",fap:"M3Z30",sal:4200,eff:180000,sources:[
+  {l:"Consultant en management",d:"M",fap:"M3Z30",sal:4200,eff:180000,reg:["RGPD","IA_Act"],sources:[
     {tier:1,val:7,year:2024,src:"Eloundou et al. — knowledge worker & strategy tasks LLM exposure"},
     {tier:2,val:7,year:2024,src:"McKinsey — management consulting automation 2024"},
     {tier:2,val:6,year:2024,src:"BCG — AI & consultants internal study 2024"},
@@ -1352,7 +1365,7 @@ const D=[
   ]},
 
   // I — Maintenance (métier manquant)
-  {l:"Mécanicien automobile",d:"I",fap:"I0Z30",sal:2000,eff:120000,sources:[
+  {l:"Mécanicien automobile",d:"H",fap:"I0Z30",sal:2000,eff:120000,sources:[
     {tier:1,val:3,year:2022,src:"Frey & Osborne — skilled manual repairs non-automatable"},
     {tier:2,val:3,year:2023,src:"ANFA — rapport formation automotive & numérisation 2023"},
     {tier:3,val:4,year:2024,src:"L'Argus Pro — IA et diagnostic auto France 2024"},
@@ -1374,7 +1387,17 @@ const D=[
     {t:"Barbier & coiffeur-styliste premium",x:"Montée en gamme, expérience client différenciante — positionnement anti-commodité."},
     {t:"Expert coloration & soins capillaires spécialisés",x:"Kératinisation, traitements cuir chevelu avancés — niche à haute valeur."},
     {t:"Formateur métiers de la beauté & école spécialisée",x:"Formation initiale et continue, certifications professionnelles."}
-  ]}
+  ]},
+  {l:"Conseiller en gestion de patrimoine",d:"C",fap:"C2Z40",sal:4200,eff:32000,reg:["RGPD","AMF","IA_Act"],sources:[{tier:1,val:8,year:2024,src:"Eloundou et al. · financial advisory LLM exposure"},{tier:2,val:8,year:2024,src:"AMF · IA et conseil financier personnalisé"},{tier:2,val:8,year:2025,src:"McKinsey · wealth management automation"},{tier:1,val:7,year:2025,src:"ILO WP140 · ISCO 2412 Financial & Investment Advisers · Gradient 3 (mean 0.57)"}],rat:"Analyse patrimoniale automatisable, mais conseil personnalisé, relation de confiance et responsabilité fiduciaire freinent la substitution totale.",rn:[{t:"Gestionnaire patrimoine ESG & finance durable",x:"Bilan carbone patrimonial, critères ESG dans l'allocation : expertise non automatisable."},{t:"Expert transmission d'entreprise & succession",x:"Structuration juridico-fiscale complexe : valeur du conseil humain maximale."},{t:"Spécialiste private banking & family office IA augmenté",x:"Outils IA pour reporting et allocation — rôle d'orchestration vers le client."}]},
+  {l:"Chargé de conformité (compliance)",d:"C",fap:"C2Z50",sal:4800,eff:18000,reg:["RGPD","AMF","DORA","NIS2","IA_Act"],sources:[{tier:1,val:7,year:2025,src:"ILO WP140 · ISCO 2412 Financial Advisers · Gradient 3 (mean 0.57)"},{tier:2,val:8,year:2024,src:"EBA · IA Act compliance obligations finance"},{tier:2,val:7,year:2025,src:"Autorité Bancaire Européenne · DORA audit 2025"},{tier:1,val:6,year:2024,src:"Eloundou et al. · compliance & legal tasks LLM exposure"}],rat:"Veille réglementaire et détection d'anomalies très automatisables par LLMs. Mais la responsabilité d'interprétation face au régulateur reste humaine. L'IA Act crée une forte demande de ce profil.",rn:[{t:"Expert conformité IA Act (EUAIAA)",x:"L'IA Act impose des auditeurs humains pour les systèmes IA à haut risque — spécialisation en très forte demande."},{t:"Auditeur systèmes IA & risk officer DORA",x:"DORA 2025 : audit des chaînes IT critiques, tests de résilience, responsabilité humaine."},{t:"Responsable conformité RGPD & protection des données (DPO)",x:"DPO externalisé PME, conseil CNIL, privacy by design — demande structurelle."}]},
+  {l:"Analyste crédit / underwriter",d:"C",fap:"C2Z60",sal:3400,eff:25000,reg:["RGPD","AMF","DORA"],sources:[{tier:1,val:8,year:2025,src:"ILO WP140 · ISCO 3312 Credit & Loans Officers · Gradient 4 (mean 0.60)"},{tier:2,val:8,year:2024,src:"BCE · IA scoring crédit Europe"},{tier:1,val:8,year:2024,src:"Eloundou et al. · financial scoring tasks LLM exposure"},{tier:3,val:8,year:2025,src:"Les Échos · IA décision crédit bancaire"}],rat:"Scoring automatisé par IA dans les grands réseaux bancaires. ISCO G4 selon ILO WP140. La valeur migre vers les dossiers complexes et la relation client sur les cas difficiles.",rn:[{t:"Analyste crédit PME & financement structuré",x:"Dossiers complexes, garanties hybrides, financement d'entreprises — jugement humain maintenu."},{t:"Expert risque climat & credit ESG",x:"Scoring climatique des portefeuilles — nouvelle compétence réglementaire (CSRD, stress test BCE)."},{t:"Responsable modèles IA crédit (explainabilité AMF)",x:"L'AMF exige l'explicabilité des algorithmes de décision — rôle de gouvernance des modèles."}]},
+  {l:"Technicien CNC / conducteur de machines",d:"H",fap:"H2Z10",sal:2500,eff:195000,sources:[{tier:1,val:5,year:2025,src:"ILO WP140 · ISCO 8121 Metal Processing Plant Operators · Not Exposed (mean 0.26)"},{tier:2,val:5,year:2024,src:"France Stratégie · automatisation industrie 4.0"},{tier:2,val:5,year:2024,src:"UIMM · compétences industrie du futur"},{tier:1,val:4,year:2024,src:"Acemoglu & Autor · tâches manuelles automatisation physique"}],rat:"Conduite de machines-outils et programmation CFAO partiellement automatisables. La maintenance de premier niveau, le réglage fin et la gestion des aléas de production nécessitent la présence physique.",rn:[{t:"Programmeur CFAO & opérateur cobotique",x:"Collaboration homme-robot (cobotique), programmation FANUC/Siemens : compétence centrale industrie 4.0."},{t:"Technicien maintenance prédictive IoT",x:"Capteurs connectés, analyse vibratoire, jumeaux numériques — évolution naturelle du poste."},{t:"Référent qualité & métrologie numérique",x:"Contrôle dimensionnel assisté par vision, CMM numérique — montée en valeur ajoutée."}]},
+  {l:"Travailleur social / assistant de service social",d:"K",fap:"K1Z10",sal:2150,eff:145000,reg:["RGPD"],sources:[{tier:1,val:2,year:2025,src:"ILO WP140 · ISCO 2635 Social Work & Counselling · Not Exposed (mean 0.28)"},{tier:1,val:2,year:2024,src:"Acemoglu & Autor · tâches relationnelles & non-routinières"},{tier:2,val:3,year:2024,src:"France Stratégie · métiers du lien social résistance IA"},{tier:3,val:2,year:2025,src:"Le Monde Social · IA et travail social"}],rat:"L'accompagnement social individuel, la gestion des crises et la médiation familiale reposent entièrement sur la relation humaine, le jugement contextuel et la confiance. ILO WP140 classifie ces métiers Not Exposed.",rn:[{t:"Référent inclusion numérique & lutte contre la fracture digitale",x:"Accompagnement des publics éloignés du numérique — demande croissante dans les CCAS."},{t:"Coordinateur parcours insertion professionnelle IA",x:"Utilisation des outils IA pour identifier opportunités et adapter les parcours d'insertion."},{t:"Spécialiste protection de l'enfance & travail avec les familles",x:"Évaluations de danger, placements, accueil familial — jugement humain irremplaçable."}]},
+  {l:"Responsable administratif & financier (RAF)",d:"M",fap:"M1Z10",sal:4500,eff:45000,reg:["RGPD","AMF"],sources:[{tier:1,val:7,year:2025,src:"ILO WP140 · ISCO 1211 Finance Managers · Minimal Exposure (mean 0.37)"},{tier:2,val:7,year:2024,src:"McKinsey · finance function automation"},{tier:1,val:6,year:2024,src:"Eloundou et al. · financial management tasks"},{tier:3,val:7,year:2025,src:"Décideurs Magazine · RAF et IA"}],rat:"Consolidation comptable, reporting et trésorerie très automatisables. La supervision des clôtures, la relation avec les commissaires aux comptes et la prise de décision financière stratégique résistent.",rn:[{t:"Directeur administratif & financier IA augmenté",x:"Reporting temps réel, forecasting prédictif — le RAF pilote les outils plutôt que les nourrir."},{t:"Contrôleur de gestion data & business partner",x:"Analyse prédictive via Power BI / Tableau — pivot vers le conseil opérationnel."},{t:"Expert trésorerie & gestion du BFR internationaux",x:"Cash pooling, couverture de change, instruments financiers complexes — valeur experte maintenue."}]},
+  {l:"Directeur de projet / PMO",d:"M",fap:"M1Z20",sal:5500,eff:38000,reg:["RGPD","IA_Act"],sources:[{tier:1,val:5,year:2025,src:"ILO WP140 · ISCO 1219 Business Services Managers NEC · Gradient 2 (mean 0.42)"},{tier:2,val:5,year:2024,src:"PMI · IA et gestion de projet 2024"},{tier:1,val:5,year:2024,src:"Acemoglu · tâches coordination et décision"},{tier:3,val:6,year:2025,src:"Harvard Business Review · IA projet management"}],rat:"Planification et suivi de planning automatisables. La gestion des parties prenantes, la résolution de conflits et l'arbitrage stratégique des projets nécessitent le jugement et l'autorité humaine.",rn:[{t:"Chef de projet transformation digitale & IA",x:"Conduite du changement, intégration IA dans les SI — compétence combinant technique et management."},{t:"PMO IA augmenté & orchestrateur d'agents",x:"Gestion de pipelines d'agents IA autonomes sur des projets complexes — nouveau rôle émergent."},{t:"Responsable programme & portefeuille projets stratégiques",x:"Arbitrage ressources, gouvernance portefeuille, alignement stratégie — valeur humaine maximale."}]},
+  {l:"Gestionnaire paie & administration RH",d:"M",fap:"M1Z30",sal:2800,eff:82000,reg:["RGPD","IA_Act"],sources:[{tier:1,val:8,year:2025,src:"ILO WP140 · ISCO 4313 Payroll Clerks · Gradient 4 (mean 0.61)"},{tier:2,val:9,year:2024,src:"Deloitte · paie & RH automatisation LLM"},{tier:1,val:8,year:2024,src:"Eloundou et al. · payroll processing LLM exposure"},{tier:3,val:8,year:2025,src:"Liaisons Sociales · IA et gestion de paie"}],rat:"Calcul de paie et déclarations sociales = exposition maximale selon ILO WP140 (ISCO Gradient 4). La valeur migre vers la gestion des cas complexes, la veille réglementaire sociale et le conseil.",rn:[{t:"Expert paie internationale & mobilité RH",x:"Gestion de paie multi-pays, conventions fiscales, détachement — complexité non automatisable."},{t:"Responsable SIRH & digitalisation RH",x:"Implémentation Workday, SAP SuccessFactors, intégration IA — pivot vers le conseil système."},{t:"Business partner RH / HRBP stratégique",x:"Accompagnement managers, GPEC, politique salariale — montée vers la RH de valeur ajoutée."}]},
+  {l:"Directeur artistique (DA) / créatif",d:"O",fap:"O1Z10",sal:4000,eff:24000,reg:["RGPD","IA_Act","DSA"],sources:[{tier:1,val:6,year:2025,src:"ILO WP140 · ISCO 2166 Graphic & Multimedia Designers · Gradient 2 (mean 0.49)"},{tier:1,val:7,year:2024,src:"Eloundou et al. · creative direction & visual tasks"},{tier:2,val:6,year:2025,src:"DGMIC · IA et industries créatives France"},{tier:3,val:7,year:2025,src:"CB News · direction artistique et IA générative"}],rat:"Génération d'images IA automatise la production visuelle de base. Mais la direction artistique (cohérence de marque, concept, regard éditorial) reste une compétence humaine de haute valeur.",rn:[{t:"DA brand & IA générative — architecte d'identité visuelle",x:"Définir les contraintes créatives des modèles IA, superviser la cohérence de marque — rôle stratégique."},{t:"Expert prompt design visuel & IA Act conformité",x:"L'IA Act encadre les contenus synthétiques : le DA devient garant de l'éthique visuelle."},{t:"Directeur artistique XR / expériences immersives",x:"Réalité augmentée, métavers de marque, installations interactives — création non substituable."}]},
+  {l:"Formateur professionnel / responsable formation",d:"R",fap:"R1Z10",sal:2950,eff:95000,reg:["RGPD","IA_Act"],sources:[{tier:1,val:5,year:2025,src:"ILO WP140 · ISCO 2356 Information Technology Trainers · Gradient 2 (mean 0.47)"},{tier:2,val:5,year:2024,src:"Caisse des Dépôts CPF · IA et formation professionnelle"},{tier:1,val:4,year:2024,src:"Acemoglu · tâches pédagogie et transmission"},{tier:3,val:5,year:2025,src:"Centre Inffo · IA et ingénierie de formation"}],rat:"Conception de modules e-learning automatisable. Mais l'animation présentielle, l'adaptation pédagogique en temps réel et l'accompagnement des apprenants en difficulté résistent à l'automatisation.",rn:[{t:"Concepteur pédagogique IA & LXP architect",x:"Design d'expériences d'apprentissage personnalisées par IA — Learning Experience Platform."},{t:"Formateur reconversion professionnelle & AFEST",x:"Action de Formation En Situation de Travail — formatrice en immersion, lien terrain-compétences."},{t:"Expert certification & ingénierie de qualification",x:"France Compétences, Qualiopi, blocs de compétences RNCP — architecture de la formation réglementée."}]}
 ];
 
 
@@ -1385,6 +1408,18 @@ function refreshAll(){
   const avg=D.map(j=>getWScore(j)).reduce((a,b)=>a+b,0)/D.length;
   document.getElementById("ba").textContent=avg.toFixed(1);
 }
+
+
+// ── REGULATION FILTER ────────────────────────────────────────────
+const REG_COLORS={RGPD:"#2A6BB5",IA_Act:"#7A3D8F",AMF:"#C07030",CSP:"#C42A2A",LOPJ:"#5C3D8F",DSA:"#1A8A8A",NIS2:"#3A7A3A",DORA:"#8A4A15"};
+document.querySelectorAll("#rchips .reg-chip").forEach(btn=>{
+  btn.addEventListener("click",()=>{
+    arF=btn.dataset.reg;
+    document.querySelectorAll("#rchips .reg-chip").forEach(b=>b.classList.remove("on"));
+    btn.classList.add("on");
+    af();
+  });
+});
 
 // ═══════════════════════════════ TABS ══════════════════════════════════
 document.querySelectorAll(".tab").forEach(t=>{
@@ -1406,9 +1441,9 @@ document.getElementById("thbtn").addEventListener("click",()=>{
 });
 
 // ═══════════════════════════════ MATRIX FILTERS ═══════════════════════
-let all=D,fil=D,adF="all",asF="all",sqF="",sel=null,lv=false;
+let all=D,fil=D,adF="all",asF="all",sqF="",arF="all",sel=null,lv=false;
 const dc2=document.getElementById("dchips");
-Object.entries(DN).forEach(([code,name])=>{const b=document.createElement("div");b.className="chip chip-d";b.dataset.d=code;b.textContent=code;b.title=name;dc2.appendChild(b);});
+Object.entries(DN).forEach(([code,name])=>{const b=document.createElement("div");b.className="chip chip-d";b.dataset.d=code;b.textContent=name;dc2.appendChild(b);});
 dc2.addEventListener("click",e=>{const b=e.target.closest(".chip");if(!b)return;dc2.querySelectorAll(".chip").forEach(x=>x.classList.remove("on"));b.classList.add("on");adF=b.dataset.d;af();});
 document.querySelectorAll("[data-s]").forEach(b=>b.addEventListener("click",()=>{document.querySelectorAll("[data-s]").forEach(x=>x.classList.remove("on"));b.classList.add("on");asF=b.dataset.s;af();}));
 let st2;document.getElementById("srch").addEventListener("input",e=>{clearTimeout(st2);st2=setTimeout(()=>{sqF=e.target.value.trim();af();},180);});
@@ -1423,6 +1458,7 @@ function af(){
   if(adF!=="all")d=d.filter(x=>x.d===adF);
   if(asF!=="all"){const[mn,mx]=asF.split("-").map(Number);d=d.filter(x=>{const ws=getWScore(x);return ws>=mn&&ws<=mx;});}
   if(sqF){const q=sqF.toLowerCase();d=d.filter(x=>x.l.toLowerCase().includes(q)||DN[x.d].toLowerCase().includes(q));}
+  if(arF&&arF!=="all"){d=d.filter(x=>x.reg&&x.reg.includes(arF));}
   fil=d; lv?blist():btreemap(); uStats();
 }
 
@@ -1433,7 +1469,8 @@ function showPopup(job, event){
   const pop=document.getElementById("popup");
   const overlay=document.getElementById("popup-overlay");
   document.getElementById("pop-title").textContent=job.l;
-  document.getElementById("pop-domain").textContent=DN[job.d]+" · FAP "+job.fap;
+  const regBadges=job.reg?job.reg.map(r=>`<span class="reg-badge" style="background:${REG_COLORS[r]||"#888"}">${r.replace("_"," ")}</span>`).join(""):"";
+  document.getElementById("pop-domain").innerHTML=DN[job.d]+" · FAP "+job.fap+(regBadges?" "+regBadges:"");
   document.getElementById("pop-score").textContent=ws.toFixed(1)+"/10";
   document.getElementById("pop-score").style.color=scCol(ws);
   document.getElementById("pop-score-label").textContent=scLab(ws);
@@ -1543,7 +1580,8 @@ function openP(job){
   const ws=getWScore(job);
   document.getElementById("pcode").textContent=DN[job.d]+" · "+ED[job.d]+" · FAP "+job.fap;
   document.getElementById("ptitle").textContent=job.l;
-  document.getElementById("pdom").textContent=DN[job.d]+" · "+TE[job.d]+"% tension recrutement";
+  const regBadgesP=job.reg?job.reg.map(r=>`<span class="reg-badge" style="background:${REG_COLORS[r]||"#888"}">${r.replace("_"," ")}</span>`).join(""):"";
+  document.getElementById("pdom").innerHTML=DN[job.d]+" · "+TE[job.d]+"% tension<br>"+regBadgesP;
   document.getElementById("psn").textContent=ws.toFixed(1)+"/10";
   document.getElementById("psn").style.color=scCol(ws);
   document.getElementById("pslab").textContent="Score"+" · "+scLab(ws);
