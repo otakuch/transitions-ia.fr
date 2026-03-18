@@ -23,6 +23,7 @@
       </div>
       <div class="popup-summary" id="pop-summary"></div>
       <div class="popup-meta" id="pop-meta"></div>
+    <div id="popup-note" style="font-size:10px;color:var(--tx3);font-family:'Inter',sans-serif;padding:0 16px 10px;line-height:1.5"></div>
     </div>
     <div class="popup-footer">
       <span class="popup-tag" id="pop-tag"></span>
@@ -64,8 +65,9 @@ html,body{background:var(--bg);color:var(--tx);font-family:'Inter',system-ui,san
 /* ── HEADER ── */
 .hd{background:var(--sf);border-bottom:1px solid var(--br);padding:12px 20px;display:flex;align-items:center;gap:14px;}
 .hd-t{flex:1;}
-.hd-t h1{font-family:'Syne',sans-serif;font-size:16px;font-weight:800;letter-spacing:-.3px;color:var(--tx);}
-.hd-t .sub{font-size:11px;color:var(--tx3);font-family:'Inter',sans-serif;margin-top:2px;}
+.hd-t h1{font-family:'Syne',sans-serif;font-size:clamp(20px,2.8vw,28px);font-weight:800;line-height:1.15;letter-spacing:-0.03em;color:var(--tx);text-rendering:optimizeLegibility;font-variant-ligatures:common-ligatures;white-space:normal;}
+.hd-t .tagline{font-size:11px;font-family:'Inter',sans-serif;font-weight:400;color:var(--tx3);margin-top:3px;letter-spacing:.01em;}
+
 .hd-r{display:flex;gap:6px;align-items:center;flex-shrink:0;}
 .badge{font-size:11px;font-family:'IBM Plex Mono',monospace;padding:3px 9px;border-radius:4px;border:1px solid var(--br);color:var(--tx2);background:var(--bg2);}
 .badge b{color:var(--tx);}
@@ -318,6 +320,7 @@ html,body{background:var(--bg);color:var(--tx);font-family:'Inter',system-ui,san
 
 /* ── FOOTER ── */
 footer{padding:10px 24px;font-size:12px;color:var(--tx3);border-top:1px solid var(--br);display:flex;gap:12px;flex-wrap:wrap;font-family:'Inter',sans-serif;background:var(--sf);line-height:1.6;}
+/* lang switcher removed */
 footer a{color:var(--tx2);text-decoration:none;}
 
 /* ── MOBILE ≤640px ── */
@@ -329,21 +332,9 @@ footer a{color:var(--tx2);text-decoration:none;}
   .hd{flex-wrap:wrap;padding:8px 14px;gap:4px;align-items:flex-start;}
   .hd-t{flex:0 0 100%;min-width:0;}
   .hd-t h1{
-    font-size:13px;
-    line-height:1.3;
+    font-size:14px;
+    line-height:1.2;
     letter-spacing:-.2px;
-    white-space:nowrap;
-    overflow:hidden;
-    text-overflow:ellipsis;
-    max-width:calc(100vw - 28px);
-  }
-  .hd-t .sub{
-    font-size:11px;
-    white-space:nowrap;
-    overflow:hidden;
-    text-overflow:ellipsis;
-    max-width:calc(100vw - 28px);
-    margin-top:1px;
   }
   /* Badges + button on second row */
   .hd-r{
@@ -421,9 +412,54 @@ footer a{color:var(--tx2);text-decoration:none;}
 
 /* ── VERY SMALL ≤380px ── */
 @media(max-width:380px){
-  .hd-t h1{font-size:12px;}
+  .hd-t h1{font-size:clamp(18px,4.5vw,22px);line-height:1.2;letter-spacing:-0.02em;}
   .tab{font-size:11px;padding:7px 9px;}
   .chip{font-size:11px;padding:2px 6px;}
+}
+
+/* ── CARTE TAB ── */
+.carte-wrap{padding:0;display:flex;flex-direction:column;min-height:0;}
+.carte-controls{background:var(--sf);border-bottom:1px solid var(--br);padding:8px 20px;display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
+.carte-lbl{font-size:11px;font-family:'Inter',sans-serif;color:var(--tx3);font-weight:500;white-space:nowrap;}
+.carte-layers{display:flex;gap:4px;flex-wrap:wrap;align-items:center;}
+.carte-btn{font-size:12px;font-family:'Inter',sans-serif;font-weight:500;padding:4px 12px;border-radius:20px;border:1px solid var(--br);background:transparent;color:var(--tx2);cursor:pointer;transition:all .15s;}
+.carte-btn.on{background:var(--acc);border-color:var(--acc);color:#fff;}
+.carte-btn:hover:not(.on){border-color:var(--acc);color:var(--acc);}
+.carte-body{display:flex;gap:0;min-height:0;flex:1;}
+.carte-map-col{flex:1;min-width:0;position:relative;padding:16px 12px 8px 20px;}
+#carte-svg-wrap{position:relative;width:100%;}
+#carte-svg{width:100%;display:block;}
+#carte-loading{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:13px;color:var(--tx3);font-family:'Inter',sans-serif;background:var(--bg);}
+.carte-region{cursor:pointer;stroke:var(--sf);stroke-width:0.8;transition:opacity .15s;}
+.carte-region:hover{opacity:.82;stroke-width:1.5;}
+.carte-region.active{stroke:var(--tx);stroke-width:2;opacity:1;}
+.carte-source{font-size:10px;color:var(--tx3);font-family:'Inter',sans-serif;margin-top:8px;line-height:1.6;}
+.carte-side{width:230px;flex-shrink:0;border-left:1px solid var(--br);padding:16px 14px;display:flex;flex-direction:column;gap:14px;overflow-y:auto;}
+.carte-legend{background:var(--bg2);border-radius:8px;padding:10px 12px;}
+.carte-legend-title{font-size:12px;font-weight:600;color:var(--tx);font-family:'Inter',sans-serif;margin-bottom:8px;}
+.carte-legend-scale{display:flex;flex-direction:column;gap:3px;margin-bottom:8px;}
+.carte-legend-row{display:flex;align-items:center;gap:7px;}
+.carte-legend-swatch{width:14px;height:14px;border-radius:3px;flex-shrink:0;}
+.carte-legend-val{font-size:11px;font-family:'IBM Plex Mono',monospace;color:var(--tx2);}
+.carte-legend-note{font-size:10px;color:var(--tx3);font-family:'Inter',sans-serif;line-height:1.55;}
+.carte-card{background:var(--sf);border:1px solid var(--br);border-radius:10px;padding:12px 14px;}
+.carte-card-region{font-family:'Syne',sans-serif;font-size:14px;font-weight:800;color:var(--tx);margin-bottom:8px;line-height:1.2;}
+.carte-card-metrics{display:flex;flex-direction:column;gap:6px;}
+.carte-metric{display:flex;align-items:center;justify-content:space-between;padding:5px 0;border-bottom:1px solid var(--br2);}
+.carte-metric:last-child{border:none;}
+.carte-metric-key{font-size:11px;color:var(--tx3);font-family:'Inter',sans-serif;}
+.carte-metric-val{font-size:13px;font-weight:500;font-family:'IBM Plex Mono',monospace;color:var(--tx);}
+.carte-metric-bar{height:3px;border-radius:2px;margin-top:3px;}
+.carte-card-top{margin-top:8px;}
+.carte-top-title{font-size:10px;font-weight:600;color:var(--tx3);font-family:'Inter',sans-serif;text-transform:uppercase;letter-spacing:.4px;margin-bottom:5px;}
+.carte-top-item{font-size:11px;font-family:'Inter',sans-serif;color:var(--tx2);padding:2px 0;display:flex;gap:5px;align-items:baseline;}
+.carte-top-item span{font-family:'IBM Plex Mono',monospace;font-size:10px;flex-shrink:0;}
+.carte-avg{font-size:11px;font-family:'Inter',sans-serif;color:var(--tx3);padding:8px 12px;background:var(--bg2);border-radius:6px;line-height:1.6;}
+.carte-avg strong{color:var(--tx);font-family:'IBM Plex Mono',monospace;}
+@media(max-width:640px){
+  .carte-body{flex-direction:column;}
+  .carte-side{width:100%;border-left:none;border-top:1px solid var(--br);}
+  .carte-btn{font-size:11px;padding:3px 10px;}
 }
 </style>
 </head>
@@ -431,11 +467,12 @@ footer a{color:var(--tx2);text-decoration:none;}
 
 <header class="hd">
   <div class="hd-t">
-    <h1>IA &amp; Métiers Français : Observatoire</h1>
-    <div class="sub">ROME 4.0 · INSEE EEC 2024 · DARES FAP 2021 · Ipsos-CESI · Ifop-Jedha · Scoring multi-sources pondéré</div>
+    <h1>L'IA dans les Métiers — Observatoire</h1>
+    <div class="tagline">Exposition des tâches · Données officielles · 77 métiers · Scoring multi-sources pondéré</div>
+
   </div>
   <div class="hd-r">
-    <div class="badge"><b id="bt">38</b> métiers</div>
+    <div class="badge"><b id="bt">…</b> métiers</div>
     <div class="badge">Moy. pondérée <b id="ba">…</b>/10</div>
     <button class="th-btn" id="thbtn" aria-label="Basculer thème clair/nuit">
       <svg class="icon-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><line x1="12" y1="2" x2="12" y2="5"/><line x1="12" y1="19" x2="12" y2="22"/><line x1="4.22" y1="4.22" x2="6.34" y2="6.34"/><line x1="17.66" y1="17.66" x2="19.78" y2="19.78"/><line x1="2" y1="12" x2="5" y2="12"/><line x1="19" y1="12" x2="22" y2="12"/><line x1="4.22" y1="19.78" x2="6.34" y2="17.66"/><line x1="17.66" y1="6.34" x2="19.78" y2="4.22"/></svg>
@@ -446,12 +483,13 @@ footer a{color:var(--tx2);text-decoration:none;}
 
 <!-- TABS -->
 <nav class="tabs">
-  <button class="tab on" data-tab="matrix">Matrice IA</button>
+  <button class="tab on" data-tab="matrix">Exposition des tâches</button>
   <button class="tab" data-tab="disp">Exposition → Emploi</button>
   <button class="tab" data-tab="pred">Prédictions (8)</button>
   <button class="tab" data-tab="prod">Productivité & IA</button>
   <button class="tab" data-tab="usage">Usage IA France</button>
   <button class="tab" data-tab="meth">Méthodologie</button>
+  <button class="tab" data-tab="carte">Carte des régions</button>
 </nav>
 
 
@@ -498,7 +536,7 @@ footer a{color:var(--tx2);text-decoration:none;}
   </div>
 
   <div class="lgd">
-    <div style="font-size:8px;font-family:'IBM Plex Mono',monospace;color:var(--tx3);text-transform:uppercase;letter-spacing:.6px">Exposition IA</div>
+    <div style="font-size:11px;font-family:'Inter',sans-serif;color:var(--tx3);font-weight:500">Exposition des tâches à l'IA</div>
     <div class="lgq">
       <span class="qb" style="background:#4ECDC4;color:#fff">0-2 Minimale</span>
       <span class="qb" style="background:#62BFA3;color:#fff">3-4 Faible</span>
@@ -508,7 +546,7 @@ footer a{color:var(--tx2);text-decoration:none;}
     </div>
     <div class="lgsep"></div>
     <div id="dlgd" class="lgq"></div>
-    <span class="anote">Surface = effectifs · cliquer pour le détail</span>
+    <span class="anote"><strong>Score = exposition des tâches · non = probabilité de suppression d'emploi</strong> · surface = effectifs EEC 2024</span>
   </div>
   <div class="sbar" id="sbar" style="display:none">
     <div><div class="sv" id="sm">…</div><div class="sk">métiers</div></div>
@@ -602,7 +640,48 @@ footer a{color:var(--tx2);text-decoration:none;}
           <tr><td>Base Tous Salariés · INSEE</td><td>Salaire net médian mensuel par PCS à temps complet</td><td>2023</td><td>Licence Ouverte v2.0</td></tr>
           <tr><td>BMO · DARES</td><td>Besoins en main-d'œuvre, taux de tension par métier FAP</td><td>2024</td><td>Licence Ouverte v2.0</td></tr>
           <tr><td>FAP 2021 · DARES</td><td>Nomenclature des 228 familles professionnelles (croisement PCS × ROME)</td><td>2021</td><td>Licence Etalab</td></tr>
-          <tr><td><a href="https://www.anthropic.com/research/labor-market-impacts" target="_blank" style="color:var(--acc2)">Massenkoff &amp; McCrory · Anthropic 2026</a></td><td>Observed Exposure : exposition réellement observée sur Claude vs capacité théorique LLM. Données Economic Index (août &amp; nov. 2025, 800+ occupations O*NET). Résultat : 0 impact chômage depuis 2022. Signal précoce : −14% embauches 22-25 ans dans métiers exposés.</td><td>Mars 2026</td><td>T1</td></tr>
+          <tr><td><a href="https://www.justice.gouv.fr/organisation/statistiques-et-etudes" target="_blank" style="color:var(--acc2)">Ministère de la Justice — Statistiques de la justice 2024</a></td><td>Effectifs des magistrats (9 300), greffiers (11 000), CPIP (4 400), budget et créations de postes (LFI 2024 — 10 000 emplois d'ici 2027 dont 1 500 greffiers)</td><td>2024</td><td>Licence Ouverte v2.0</td></tr>
+          <tr><td><a href="https://cncej.fr" target="_blank" style="color:var(--acc2)">CNCEJ — Chambre nationale des experts judiciaires 2024</a></td><td>~22 000 experts inscrits sur les listes des cours d'appel. Rapport annuel usages IA des experts judiciaires 2024–2025</td><td>2024</td><td>Données publiques</td></tr>
+          <tr><td><a href="https://commissaire-justice.fr" target="_blank" style="color:var(--acc2)">CNCJ — Chambre nationale des commissaires de justice 2024</a></td><td>~4 200 commissaires de justice en France. Profession issue de la fusion huissiers + commissaires-priseurs (ordonnance n°2016-728, entrée en vigueur juillet 2022)</td><td>2024</td><td>Données publiques</td></tr>
+          <tr><td><a href="https://www.legifrance.gouv.fr/jorf/id/JORFTEXT000050713615" target="_blank" style="color:var(--acc2)">Décret n°2024-1089 — Corps des cadres greffiers</a></td><td>Création du corps de catégorie A des cadres greffiers des services judiciaires (déc. 2024). Nouveau débouché pour les greffiers via concours ENGreffes</td><td>Déc. 2024</td><td>Légifrance — libre accès</td></tr>
+          <tr>
+            <td><a href="https://www.journals.uchicago.edu/doi/10.1086/718327" target="_blank" style="color:var(--acc2)">Acemoglu, Autor, Hazell &amp; Restrepo — J. Labor Econ. 2022</a></td>
+            <td>Données vacances d'emploi US 2010-2018 (near-universe). Résultat : les entreprises exposées à l'IA réduisent certains recrutements mais <strong>aucun impact agrégé détectable</strong> sur l'emploi ou les salaires au niveau des occupations ou industries.</td>
+            <td>2022 · Journal of Labor Economics (peer-reviewed)</td>
+            <td>T1</td>
+          </tr>
+          <tr>
+            <td><a href="https://academic.oup.com/economicpolicy/article/40/121/71/7902396" target="_blank" style="color:var(--acc2)">Albanesi, Dias da Silva, Jimeno et al. — Economic Policy 2025</a></td>
+            <td>Données zone euro 2011-2019. Résultat clé : <strong>les occupations plus exposées à l'IA ont vu leur part d'emploi augmenter</strong>, suggérant une complémentarité plutôt qu'une substitution sur cette période.</td>
+            <td>2025 · Economic Policy (peer-reviewed)</td>
+            <td>T1</td>
+          </tr>
+          <tr>
+            <td><a href="https://cepr.org/voxeu/columns/how-ai-affecting-productivity-and-jobs-europe" target="_blank" style="color:var(--acc2)">Aldasoro et al. — BIS/CEPR 2026</a></td>
+            <td>Première preuve causale sur 12 000+ firmes européennes (panel). Résultat : <strong>aucune réduction d'emploi à court terme</strong> liée à l'adoption de l'IA, avec des gains de productivité significatifs (+10% à +65% selon les tâches). Capital deepening, pas substitution.</td>
+            <td>2026 · BIS Working Paper (forthcoming)</td>
+            <td>T1</td>
+          </tr>
+          <tr>
+            <td><a href="https://www.ilo.org/publications/generative-ai-and-jobs-2025-update" target="_blank" style="color:var(--acc2)">OIT — Generative AI and Jobs 2025 Update</a></td>
+            <td>Mise à jour des estimations 2023 sur 30 000 tâches (ISCO-08 à 6 chiffres). Score moyen d'automatisation légèrement inférieur à 2023 (0,29 vs 0,30). <strong>"La plupart des emplois seront transformés, non supprimés."</strong> 1 travailleur sur 4 dans une occupation exposée.</td>
+            <td>Oct. 2025 · OIT — Nations Unies</td>
+            <td>T2</td>
+          </tr>
+          <tr>
+            <td><a href="https://www.bruegel.org/working-paper/exposure-generative-artificial-intelligence-european-labour-market" target="_blank" style="color:var(--acc2)">Nurski &amp; Ruer — Bruegel 2024</a></td>
+            <td>Application de deux indices d'exposition GenAI à l'Enquête européenne sur les forces de travail (EFT). Femmes, diplômés et jeunes plus exposés en Europe. L'analyse par tâche est plus robuste que l'analyse par capacité pour évaluer l'impact réel.</td>
+            <td>2024 · Bruegel Working Paper 06/2024</td>
+            <td>T2</td>
+          </tr>
+          <tr>
+            <td><a href="https://www.imf.org/-/media/files/publications/wp/2025/english/wpiea2025067-print-pdf.pdf" target="_blank" style="color:var(--acc2)">FMI — AI and Productivity in Europe WP/2025/067</a></td>
+            <td>Effets macroéconomiques de l'IA sur la productivité en Europe. Gains PTF cumulés estimés à 1,1% à moyen terme pour la zone euro. Forte hétérogénéité entre pays — les économies avancées bénéficient davantage.</td>
+            <td>2025 · IMF Working Paper</td>
+            <td>T2</td>
+          </tr>
+          <tr>
+            <td><a href="https://www.anthropic.com/research/labor-market-impacts" target="_blank" style="color:var(--acc2)">Massenkoff &amp; McCrory · Anthropic 2026</a></td><td>Observed Exposure : exposition réellement observée sur Claude vs capacité théorique LLM. Données Economic Index (août &amp; nov. 2025, 800+ occupations O*NET). Résultat : 0 impact chômage depuis 2022. Signal précoce : −14% embauches 22-25 ans dans métiers exposés.</td><td>Mars 2026</td><td>T1</td></tr>
           <tr><td>Eloundou et al. · arXiv 2023</td><td>GPTs are GPTs : mesure théorique β ∈ {0, 0.5, 1} par tâche O*NET. Base de tous les scores théoriques. 97% usages Claude dans catégories β≥0.5.</td><td>2023</td><td>T1</td></tr>
         </tbody>
       </table>
@@ -625,6 +704,15 @@ footer a{color:var(--tx2);text-decoration:none;}
         <div class="meth-score-row"><div class="meth-score-bar" style="width:60px;background:#138050"></div><div class="meth-score-lbl">T2 · Institutionnel</div><div class="meth-score-val">×2</div><div class="meth-p" style="margin:0">McKinsey, BCE, FMI, OCDE, France Stratégie, Commission EU</div></div>
         <div class="meth-score-row"><div class="meth-score-bar" style="width:40px;background:#C94A12"></div><div class="meth-score-lbl">T3 · Presse</div><div class="meth-score-val">×1</div><div class="meth-p" style="margin:0">Les Échos, Le Monde, Reuters, FT · données originales ou citations directes</div></div>
         <div class="meth-score-row"><div class="meth-score-bar" style="width:20px;background:#8B3DAA"></div><div class="meth-score-lbl">T4 · Expert</div><div class="meth-score-val">×0.5</div><div class="meth-p" style="margin:0">Opinions d'experts, sondages sectoriels, estimations de praticiens</div></div>
+      </div>
+    </div>
+
+    <div style="background:rgba(19,128,80,0.06);border:1px solid rgba(19,128,80,0.2);border-radius:10px;padding:14px 16px;margin-bottom:22px;">
+      <div style="font-size:11px;font-weight:700;color:var(--acc3);font-family:'Inter',sans-serif;margin-bottom:8px;text-transform:uppercase;letter-spacing:.3px;">Distinction fondamentale — exposition ≠ suppression d'emploi</div>
+      <div style="font-size:13px;color:var(--tx2);line-height:1.75;font-family:'Inter',sans-serif;">
+        <strong style="color:var(--tx)">Ce que ce score mesure :</strong> la proportion des tâches d'un métier que l'IA générative pourrait théoriquement effectuer aujourd'hui. Un score de 8/10 signifie que 80% des tâches sont exposées — pas que 80% des travailleurs perdront leur emploi.<br><br>
+        <strong style="color:var(--tx)">Ce que la recherche montre :</strong> Acemoglu, Autor, Hazell &amp; Restrepo (2022, <em>Journal of Labor Economics</em>) trouvent <strong style="color:var(--acc3)">aucun impact agrégé détectable</strong> sur l'emploi malgré l'exposition. Albanesi et al. (2025, <em>Economic Policy</em>) constatent que les occupations plus exposées à l'IA en Europe ont vu leur <strong style="color:var(--acc3)">part d'emploi augmenter</strong> entre 2011 et 2019. Aldasoro et al. (BIS 2026) confirment sur 12 000 firmes européennes : <strong style="color:var(--acc3)">aucune réduction d'emploi à court terme</strong>.<br><br>
+        <strong style="color:var(--tx)">Le consensus académique en 2026 :</strong> l'IA transforme les tâches plutôt qu'elle ne supprime les emplois — du moins à ce stade. Le signal préoccupant reste le ralentissement des embauches des 22-25 ans dans les métiers très exposés (−14%, Massenkoff &amp; McCrory 2026, à peine significatif statistiquement).
       </div>
     </div>
 
@@ -715,6 +803,53 @@ footer a{color:var(--tx2);text-decoration:none;}
   </div>
 </div>
 
+<!-- ══════════════════════════════════════════════════════ TAB 7: CARTE ═══ -->
+<div id="tab-carte" class="tab-content">
+  <div class="carte-wrap">
+
+    <!-- Layer selector -->
+    <div class="carte-controls">
+      <div class="carte-layers">
+        <span class="carte-lbl">Couche</span>
+        <button class="carte-btn on" data-layer="score">Score exposition IA</button>
+        <button class="carte-btn" data-layer="pct">% emplois très exposés</button>
+        <button class="carte-btn" data-layer="gap">Gap salarial exposés / non-exposés</button>
+      </div>
+    </div>
+
+    <!-- Map + legend + tooltip layout -->
+    <div class="carte-body">
+      <div class="carte-map-col">
+        <div id="carte-svg-wrap">
+          <svg id="carte-svg"></svg>
+          <div id="carte-loading">Chargement de la carte…</div>
+        </div>
+        <div class="carte-source">Sources : INSEE EAE 2024 · INSEE Base Tous Salariés 2023 · Scores métiers calculés depuis mix sectoriel régional × dataset transitions-ia · Contours régionaux simplifiés (source IGN, licence libre)</div>
+      </div>
+
+      <div class="carte-side">
+        <!-- Legend -->
+        <div class="carte-legend" id="carte-legend">
+          <div class="carte-legend-title" id="carte-legend-title">Score moyen exposition IA</div>
+          <div class="carte-legend-scale" id="carte-legend-scale"></div>
+          <div class="carte-legend-note" id="carte-legend-note">Calculé par pondération des effectifs sectoriels régionaux (INSEE EAE 2024) × scores métiers du dataset</div>
+        </div>
+
+        <!-- Région detail card -->
+        <div class="carte-card" id="carte-card" style="display:none">
+          <div class="carte-card-region" id="carte-card-region"></div>
+          <div class="carte-card-metrics" id="carte-card-metrics"></div>
+          <div class="carte-card-top" id="carte-card-top"></div>
+        </div>
+
+        <!-- National average line -->
+        <div class="carte-avg" id="carte-avg"></div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
 <footer>
   <span>Sources : <a href="https://www.data.gouv.fr/datasets/repertoire-operationnel-des-metiers-et-des-emplois-rome" target="_blank">ROME 4.0 · France Travail</a> · <a href="https://www.data.gouv.fr/" target="_blank">data.gouv.fr</a> · INSEE Base Tous Salariés 2023 · DARES Enquête BMO 2024 · Ipsos-CESI fév. 2025 (n=1 048) · Ifop-Jedha oct. 2025 (n=1 003) · Born AI / Heaven 2025 (n=495) · BIS WP 1239 (2025) · NBER w31161 · NBER w34851 · Licence Ouverte v2.0</span>
   <span style="margin-left:auto;opacity:.5">Snapshot : mars 2026 · Licence Ouverte v2.0</span>
@@ -739,6 +874,7 @@ footer a{color:var(--tx2);text-decoration:none;}
       </div>
       <div class="popup-summary" id="pop-summary"></div>
       <div class="popup-meta" id="pop-meta"></div>
+    <div id="popup-note" style="font-size:10px;color:var(--tx3);font-family:'Inter',sans-serif;padding:0 16px 10px;line-height:1.5"></div>
     </div>
     <div class="popup-footer">
       <span class="popup-tag" id="pop-tag"></span>
@@ -764,10 +900,10 @@ footer a{color:var(--tx2);text-decoration:none;}
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script>
 <script>
-const DC={A:"#6B9E3A",B:"#C07830",C:"#3A78C0",D:"#D4521A",E:"#7C4DC4",F:"#7A7070",G:"#D4A017",H:"#1A8A8A",I:"#2A9E60",J:"#C42A2A",K:"#7A3AAA",L:"#C42A7A",M:"#2A5EC4",N:"#8A4A15"};
-const DN={A:"Agriculture",B:"Arts",C:"Banque/Assur.",D:"Commerce",E:"Communication",F:"BTP",G:"Hôtellerie",H:"Industrie",I:"Maintenance",J:"Santé",K:"Serv. Pers.",L:"Spectacle",M:"Support Ent.",N:"Transport"};
-const ED={A:"CAP/BEP",B:"Bac",C:"Bac+2/3",D:"Bac/2",E:"Bac+3/5",F:"CAP/BEP",G:"CAP",H:"CAP/BEP",I:"CAP/BEP",J:"Bac+3/5",K:"CAP",L:"Bac/3",M:"Bac+2/5",N:"CAP/BEP"};
-const TE={A:62,B:38,C:45,D:42,E:41,F:71,G:63,H:68,I:73,J:69,K:67,L:35,M:44,N:58};
+const DC={A:"#6B9E3A",B:"#C07830",C:"#3A78C0",D:"#D4521A",E:"#7C4DC4",F:"#7A7070",G:"#D4A017",H:"#1A8A8A",I:"#2A9E60",J:"#C42A2A",K:"#7A3AAA",L:"#C42A7A",M:"#2A5EC4",N:"#8A4A15",O:"#5C3D8F"};
+const DN={A:"Agriculture",B:"Arts",C:"Banque/Assur.",D:"Commerce",E:"Communication",F:"BTP",G:"Hôtellerie",H:"Industrie",I:"Maintenance",J:"Santé",K:"Serv. Pers.",L:"Spectacle",M:"Support Ent.",N:"Transport",O:"Justice & Droit"};
+const ED={A:"CAP/BEP",B:"Bac",C:"Bac+2/3",D:"Bac/2",E:"Bac+3/5",F:"CAP/BEP",G:"CAP",H:"CAP/BEP",I:"CAP/BEP",J:"Bac+3/5",K:"CAP",L:"Bac/3",M:"Bac+2/5",N:"CAP/BEP",O:"Bac+5/Master"};
+const TE={A:62,B:38,C:45,D:42,E:41,F:71,G:63,H:68,I:73,J:69,K:67,L:35,M:44,N:58,O:38};
 const TIER_W={1:4,2:2,3:1,4:0.5};
 const TIER_C={1:"#1E5CB8",2:"#138050",3:"#C94A12",4:"#8B3DAA"};
 
@@ -785,6 +921,7 @@ function scCol(s){if(s<=1.5)return"#4ECDC4";if(s<=3)return"#62BFA3";if(s<=5)retu
 function scLab(s){const n=+s.toFixed(1);if(n<=1)return"Minimale";if(n<=3)return"Faible";if(n<=5)return"Modérée";if(n<=7)return"Élevée";if(n<=9)return"Très élevée";return"Maximale";}
 function qd(sal,exp){if(sal<2500&&exp>=5)return{l:"Vulnérable",c:"#E84040",b:"rgba(232,64,64,0.08)"};if(sal>=2500&&exp>=5)return{l:"Transformation",c:"#C94A12",b:"rgba(201,74,18,0.08)"};if(sal<2500&&exp<5)return{l:"Stable",c:"#138050",b:"rgba(19,128,80,0.08)"};return{l:"Protégé",c:"#1E5CB8",b:"rgba(30,92,184,0.08)"};}
 function fmt(n){if(!n)return"";if(n>=1e6)return(n/1e6).toFixed(1)+"M";if(n>=1e3)return Math.round(n/1e3)+"K";return n.toString();}
+
 
 // ═══════════════════════════════════════ JOB DATA · EEC 2024 + FAP 2021 + ROME 4.0 ══
 // Effectifs : INSEE Enquête Emploi en Continu 2024 | Salaires : Base Tous Salariés INSEE 2023
@@ -808,6 +945,57 @@ const D=[
   {l:"Rédacteur web",d:"E",fap:"E1Z20",sal:2310,eff:42000,sources:[{tier:1,val:9,year:2023,src:"Noy & Zhang MIT · LLMs & writing"},{tier:1,val:9,year:2024,src:"Autor MIT · content generation"},{tier:2,val:9,year:2024,src:"McKinsey Global Institute · content work"},{tier:3,val:9,year:2025,src:"Le Monde · freelances vs IA"}],rat:"Production de contenu générique = exposition maximale aux LLMs. Valeur migre vers la stratégie et la supervision.",rn:[{t:"Directeur de contenu & brand storytelling",x:"Stratégie éditoriale, supervision IA."},{t:"Formateur prompt engineering éditorial",x:"Formation équipes à l'usage des LLMs."},{t:"Expert SEO sémantique avancé",x:"Topical authority, Search Generative Experience."}]},
   {l:"Traducteur",d:"E",fap:"E1Z30",sal:2250,eff:14000,sources:[{tier:1,val:9,year:2024,src:"Koehn et al. · Neural MT quality"},{tier:1,val:8,year:2023,src:"Eloundou et al. · LLM translation"},{tier:2,val:9,year:2024,src:"Commission EU · traduction IA"}],rat:"Traduction brute quasi-automatisée par NMT. Valeur sur la post-édition culturelle et la localisation experte.",rn:[{t:"Réviseur post-édition IA (MTPE)",x:"Contrôle qualité et adaptation culturelle."},{t:"Expert localisation produit & UX",x:"Applications, jeux, interfaces multi-marchés."},{t:"Terminologue & gestionnaire mémoires TM",x:"Bases terminologiques sectorielles critiques."}]},
   {l:"Graphiste",d:"E",fap:"E2Z10",sal:2380,eff:48000,sources:[{tier:1,val:6,year:2024,src:"Dell'Acqua et al. · creative AI tasks"},{tier:2,val:6,year:2024,src:"Adobe · Firefly impact study"},{tier:3,val:7,year:2025,src:"Créazine · IA et graphisme"}],rat:"Génération d'images automatisée ; direction artistique, identité de marque et jugement esthétique résistent.",rn:[{t:"Directeur artistique IA augmenté",x:"Supervision et direction de modèles génératifs."},{t:"Expert UI/UX system design",x:"Design systems, composants, accessibilité."},{t:"Spécialiste branding & identité visuelle",x:"Stratégie de marque non reproductible par IA."}]},
+
+  // E — Médias & communication (métiers manquants)
+  {l:"Photographe de presse",d:"E",fap:"E1Z40",sal:2100,eff:8000,sources:[
+    {tier:1,val:5,year:2024,src:"Eloundou et al. · creative & visual tasks LLM exposure"},
+    {tier:1,val:6,year:2024,src:"Generative Images — Reuters Institute Digital News Report 2024"},
+    {tier:2,val:5,year:2024,src:"WAN-IFRA · IA et photojournalisme 2024"},
+    {tier:3,val:6,year:2025,src:"Le Monde · Midjourney, Sora et photographes de presse 2025"},
+    {tier:4,val:6,year:2025,src:"CCIJP · Observatoire des métiers de la presse 2024"}
+  ],rat:"L'IA génère des images convaincantes mais le reportage de terrain, l'accès aux zones sensibles, l'authenticité documentaire et la valeur légale de la photo de presse restent irremplaçables. ~8 000 photographes avec carte de presse (CCIJP 2024 — ~12% des 34 948 journalistes actifs).",
+  rn:[
+    {t:"Expert vidéo & photojournalisme immersif",x:"360°, drone, VR reportage — formats qui valorisent la présence terrain."},
+    {t:"Directeur photo & directeur artistique visuel",x:"Supervision IA pour agences, rédactions — œil humain comme filtre éditorial."},
+    {t:"Formateur photojournalisme & éthique de l'image IA",x:"Écoles de journalisme, CFPJ — montée urgente de la demande de formation."}
+  ]},
+
+  {l:"Attaché de presse-RP",d:"E",fap:"E5Z10",sal:2800,eff:25000,sources:[
+    {tier:1,val:6,year:2024,src:"Eloundou et al. · PR & communications tasks LLM exposure"},
+    {tier:2,val:6,year:2024,src:"McKinsey · marketing & communication automation 2024"},
+    {tier:3,val:7,year:2025,src:"Stratégies.fr · IA et agences RP France 2025"},
+    {tier:4,val:7,year:2025,src:"SYNTEC Communication · baromètre IA et agences 2025"}
+  ],rat:"Rédaction de communiqués, revues de presse et reprises médias : automatisables à 70%. La relation de confiance avec les journalistes, la gestion de crise et la stratégie d'influence restent irremplaçables. ~25 000 attachés de presse (INSEE EEC 2024).",
+  rn:[
+    {t:"Expert relations médias & influence digitale",x:"Création de contenu éditorial propriétaire, earned media avancé."},
+    {t:"Responsable communication de crise",x:"Gestion réputation, dark social, réponse aux bad buzz — valeur humaine critique."},
+    {t:"Consultant brand journalism & native content",x:"Éditoriaux de marque, podcasts sponsorisés — frontière presse/marketing."}
+  ]},
+
+  {l:"Présentateur-animateur TV-radio",d:"E",fap:"E6Z10",sal:3200,eff:12000,sources:[
+    {tier:1,val:3,year:2023,src:"Autor · non-routine interactive work & charisma"},
+    {tier:2,val:3,year:2024,src:"ARCOM · rapport IA et présentateurs 2024"},
+    {tier:3,val:4,year:2025,src:"Télérama · avatars IA et présentateurs virtuels France 2025"},
+    {tier:4,val:4,year:2025,src:"CFDT Journalistes · IA et emplois audiovisuels 2024"}
+  ],rat:"Présence à l'antenne, charisme, improvisation face aux imprévus et lien émotionnel avec l'audience restent profondément humains. Les avatars IA existent (présentateurs virtuels en Asie) mais n'ont pas pénétré le marché français. ~12 000 présentateurs et animateurs (Audiens/EEC 2024).",
+  rn:[
+    {t:"Producteur de contenu audio-vidéo indépendant",x:"YouTube, podcasts, réseaux sociaux — monétisation directe de l'audience."},
+    {t:"Modérateur d'événements & facilitateur hybride",x:"Conférences, formats phygitaux — présence physique irremplaçable."},
+    {t:"Expert communication de dirigeants & media training",x:"Préparation à la prise de parole publique — demande en hausse."}
+  ]},
+
+  {l:"Scénariste-auteur",d:"E",fap:"E7Z10",sal:2500,eff:8000,sources:[
+    {tier:1,val:6,year:2024,src:"Eloundou et al. · creative writing & narrative tasks LLM exposure"},
+    {tier:1,val:6,year:2023,src:"Noy & Zhang MIT · LLMs & long-form creative writing"},
+    {tier:2,val:5,year:2024,src:"SACD · rapport IA et auteurs dramatiques 2024"},
+    {tier:3,val:7,year:2025,src:"Le Monde · ChatGPT et scénaristes hollywoodiens — impact France 2025"},
+    {tier:4,val:7,year:2025,src:"Guilde française des scénaristes · position IA 2025"}
+  ],rat:"La génération de trames et de dialogues génériques est très automatisable. L'écriture singulière, l'univers propre, la profondeur psychologique des personnages et la négociation éditoriale résistent. ~8 000 auteurs dramatiques (SACD/SCAM 2024). La grève WGA 2023 a cristallisé les enjeux.",
+  rn:[
+    {t:"Superviseur créatif & story editor IA augmenté",x:"Relecture, cohérence narrative, voice — rôle d'auteur senior amplifié par l'IA."},
+    {t:"Créateur de contenus interactifs & jeux narratifs",x:"Serious games, jeux vidéo, expériences immersives — demande forte."},
+    {t:"Consultant adaptation & droits internationaux",x:"Sélection de formats, négociation droits — expertise irremplaçable."}
+  ]},
   // ── BTP ───────────────────────────────────────────────────────────────────
   {l:"Maçon",d:"F",fap:"F0Z10",sal:1980,eff:128000,sources:[{tier:1,val:1,year:2022,src:"Frey & Osborne · construction physique"},{tier:2,val:1,year:2023,src:"OCDE · automatisation BTP"},{tier:3,val:2,year:2024,src:"Le Bâtiment · robots chantier"}],rat:"Travail physique en milieu non structuré · très difficile à automatiser. Contexte variable de chaque chantier.",rn:[{t:"Technicien impression 3D bâtiment",x:"Robots béton · niche en forte croissance."},{t:"Expert matériaux biosourcés",x:"Construction bas-carbone RE2020."},{t:"Formateur techniques bâtiment durable",x:"Compagnons du Devoir, savoir-faire critiques."}]},
   {l:"Électricien bâtiment",d:"F",fap:"F0Z20",sal:2080,eff:112000,sources:[{tier:1,val:2,year:2022,src:"Frey & Osborne · artisan électrique"},{tier:2,val:2,year:2023,src:"FFIE · numérique et électriciens"},{tier:3,val:2,year:2024,src:"Batiactu · IA et diagnostic"}],rat:"Intervention physique et diagnostic terrain restent manuels. Pénurie de compétences persistante.",rn:[{t:"Technicien bornes recharge VE (IRVE)",x:"Installation bornes AC/DC, certification ADVENIR."},{t:"Expert photovoltaïque & autoconsommation",x:"Installation, raccordement, suivi production."},{t:"Installateur bâtiment connecté & GTB",x:"Smart home, KNX, intégration IoT."}]},
@@ -832,13 +1020,52 @@ const D=[
   {l:"Aide à domicile",d:"K",fap:"K2Z10",sal:1580,eff:695000,sources:[{tier:1,val:1,year:2022,src:"Frey & Osborne · care physique"},{tier:2,val:1,year:2023,src:"Rapport Blanchet · emploi à domicile"},{tier:3,val:2,year:2024,src:"Le Particulier Emploi · IA"}],rat:"Présence physique, empathie et adaptation permanente · non-automatisable avec les technologies actuelles.",rn:[{t:"Coordinateur silver-tech & gérontechnologie",x:"Interface seniors / outils connectés."},{t:"Auxiliaire vie spécialisé TSA/polyhandicap",x:"Besoins complexes, forte valorisation."},{t:"Animateur inclusion numérique seniors",x:"Ateliers tablette, téléservices publics."}]},
   {l:"Éducateur spécialisé",d:"K",fap:"K1Z10",sal:2050,eff:105000,sources:[{tier:1,val:3,year:2023,src:"Autor · social service work"},{tier:2,val:3,year:2023,src:"IGAS · travailleurs sociaux & IA"}],rat:"Relation éducative, accompagnement individualisé et médiation résistent à l'automatisation.",rn:[{t:"Coordinateur inclusion numérique",x:"Publics fragiles vers les services numériques."},{t:"Expert protection de l'enfance & justice",x:"MECS, AEMO, mesures judiciaires."},{t:"Formateur secteur médico-social",x:"Formation continue, pratiques innovantes."}]},
   {l:"Policier",d:"K",fap:"K4Z10",sal:2250,eff:155000,sources:[{tier:2,val:3,year:2024,src:"INHESJ · IA sécurité intérieure"},{tier:3,val:3,year:2024,src:"Cahiers de la Sécurité · algorithmes"},{tier:1,val:4,year:2024,src:"Autor · non-routine manual enforcement"}],rat:"Intervention terrain, médiation, décision en urgence · IA assiste sans remplacer l'officier.",rn:[{t:"Expert cybercriminalité & forensique numérique",x:"Investigation crimes informatiques (C3N)."},{t:"Analyste renseignement & OSINT",x:"Sources ouvertes, réseaux sociaux."},{t:"Coordinateur vidéoprotection IA",x:"Vidéo intelligente, interface opérateurs IA."}]},
+
+  {l:"Conseiller pénitentiaire (CPIP)",d:"K",fap:"K5Z10",sal:2300,eff:4400,sources:[
+    {tier:1,val:4,year:2023,src:"Autor — social casework, counseling & non-routine interpersonal: low LLM automatability"},
+    {tier:2,val:4,year:2024,src:"Ministère de la Justice — rapport DAP, effectifs SPIP France 2024"},
+    {tier:2,val:5,year:2024,src:"Commission européenne — AI Act, article 5 : interdiction notation comportementale dans le domaine pénal"},
+    {tier:3,val:4,year:2025,src:"AJ Pénal — IA et probation, risques et potentiels 2025"},
+    {tier:4,val:5,year:2025,src:"SNEPAP-FSU (syndicat CPIP) — rapport IA et travail social pénitentiaire 2025"}
+  ],rat:"Le suivi socio-judiciaire des personnes condamnées repose sur la relation de confiance, l'évaluation clinique du risque de récidive et la coordination pluridisciplinaire. Outils d'évaluation actuarielle (STATIC-99, LSI-R) déjà utilisés mais décision reste humaine. ~4 400 conseillers pénitentiaires d'insertion et de probation (CPIP) actifs en France (DAP/Ministère Justice 2024). L'IA est explicitement interdite pour la notation comportementale dans le domaine pénal (AI Act, art. 5).",
+  rn:[
+    {t:"Responsable coordination SPIP & partenariats insertion",x:"Pilotage des réseaux emploi-logement-santé pour les sortants de prison — demande en hausse."},
+    {t:"Expert évaluation du risque de récidive",x:"Outils actuariels, criminologie clinique, rapports pour les juridictions — profil rare et valorisé."},
+    {t:"Coordinateur justice restaurative",x:"Médiations pénales, rencontres détenus-victimes — développement fort depuis la loi Dupond-Moretti."}
+  ]},
   // ── SPECTACLE ─────────────────────────────────────────────────────────────
   {l:"Musicien",d:"L",fap:"L0Z10",sal:1780,eff:22000,sources:[{tier:1,val:3,year:2023,src:"Ferraro et al. · creative AI & musicians"},{tier:2,val:3,year:2024,src:"IRMA · IA et musiciens France"},{tier:3,val:4,year:2025,src:"Télérama · Suno, Udio et musiciens"}],rat:"Performance live et interprétation émotionnelle · l'IA génère mais ne performe pas. Valeur sur le live et la pédagogie.",rn:[{t:"Compositeur musique IA augmentée",x:"Supervision créative pour jeux, publicités, films."},{t:"Pédagogue musical & création de contenu",x:"Masterclasses en ligne, méthodes numériques."},{t:"Sound designer & gaming audio",x:"Univers sonores jeux vidéo, XR, VR."}]},
+
+  {l:"Réalisateur audiovisuel-cinéma",d:"L",fap:"L1Z10",sal:3500,eff:15000,sources:[
+    {tier:1,val:5,year:2024,src:"Eloundou et al. · film & audiovisual directing tasks LLM exposure"},
+    {tier:2,val:5,year:2024,src:"CNC · rapport IA et création cinématographique 2024"},
+    {tier:2,val:5,year:2024,src:"Audiens CPNEF-AV · rapport emploi audiovisuel 2024"},
+    {tier:3,val:6,year:2025,src:"Cahiers du Cinéma · IA et réalisateurs France 2025"},
+    {tier:4,val:6,year:2025,src:"SRF (Société des réalisateurs de films) · position IA 2025"}
+  ],rat:"Les outils IA de pré-production (storyboarding, prévisualisation, casting) progressent rapidement. La direction d'acteurs, la vision artistique singulière et les décisions en temps réel sur le plateau restent irremplaçables. ~15 000 réalisateurs actifs (Audiens/intermittents 2024).",
+  rn:[
+    {t:"Réalisateur spécialisé XR & expériences immersives",x:"VR/AR films, installations artistiques — nouvelle grammaire de la narration."},
+    {t:"Directeur de production IA-assistée",x:"Optimisation budget et planning via outils IA — profil hybride très demandé."},
+    {t:"Créateur de contenu & directeur d'IP propre",x:"Séries courtes, YouTube, plateformes SVOD — maîtrise des droits."}
+  ]},
+
+  {l:"Monteur-vidéaste",d:"L",fap:"L1Z20",sal:2400,eff:18000,sources:[
+    {tier:1,val:8,year:2024,src:"Eloundou et al. · video editing tasks LLM & generative AI exposure"},
+    {tier:2,val:8,year:2024,src:"Audiens CPNEF-AV · rapport emploi post-production 2024"},
+    {tier:2,val:8,year:2024,src:"CC production audiovisuelle · avenant n°19, juillet 2024"},
+    {tier:3,val:8,year:2025,src:"Écran Total · IA et montage automatique France 2025"},
+    {tier:3,val:9,year:2025,src:"Libération · Runway, Sora et les monteurs 2025"}
+  ],rat:"Montage automatique (génération de rushes, découpes IA, sous-titrage) : très exposé. L'Adobe Premiere/DaVinci Resolve intègrent déjà l'IA de manière native. La direction éditoriale, le rythme narratif et la post-production de prestige restent différenciants. ~18 000 monteurs (Audiens/CPNEF-AV 2024).",
+  rn:[
+    {t:"Superviseur post-production & pipeline VFX",x:"Intégration des outils IA dans le workflow — rôle clé et rare."},
+    {t:"Coloriste & étalonnage avancé",x:"Da Vinci Resolve + IA — expertise technique et esthétique."},
+    {t:"Monteur spécialisé documentaire & long format",x:"Écriture documentaire complexe — non réductible à l'automatisation."}
+  ]},
   // ── SUPPORT ENTREPRISE ────────────────────────────────────────────────────
   {l:"Développeur logiciel",d:"M",fap:"M1Z50",sal:3850,eff:182000,sources:[{tier:1,val:9,year:2024,src:"Peng et al. · GitHub Copilot productivity"},{tier:1,val:8,year:2024,src:"Science · GenAI coding diffusion"},{tier:1,val:8,year:2025,src:"NBER w34851"},{tier:2,val:9,year:2025,src:"LinkedIn Eco Graph · Copilot"},{tier:1,val:9.2,year:2026,src:"Massenkoff & McCrory · Computer programmers 74.5% observed (Anthropic EconIndex 2026)"}],rat:"Génération de code par LLMs très avancée (+55% productivité Copilot). Architecture, compréhension produit et jugement système résistent.",rn:[{t:"Architecte LLM & systèmes IA",x:"RAG, agents autonomes, fine-tuning."},{t:"AI Product Manager",x:"Roadmaps IA, évaluation modèles, équipes ML."},{t:"Expert sécurité IA & red-teaming",x:"Audit adversarial, conformité AI Act européen."}]},
   {l:"Data scientist",d:"M",fap:"M1Z55",sal:4280,eff:52000,sources:[{tier:1,val:9,year:2024,src:"Eloundou et al. · data analysis LLMs"},{tier:1,val:8,year:2023,src:"Noy & Zhang · analytical tasks"},{tier:2,val:9,year:2024,src:"McKinsey · analytics automation"},{tier:1,val:8.5,year:2026,src:"Massenkoff & McCrory · Market research analysts 64.8% observed (Anthropic EconIndex 2026)"}],rat:"AutoML et LLMs effectuent les analyses standard. Valeur migre vers la définition du problème et l'interprétation stratégique.",rn:[{t:"Chief AI Officer (CAIO)",x:"Stratégie IA d'entreprise, gouvernance."},{t:"Spécialiste éthique algorithmique",x:"Audit biais, explicabilité XAI, conformité."},{t:"Expert données synthétiques & privacy ML",x:"Federated learning, anonymisation."}]},
   {l:"Comptable",d:"M",fap:"M1Z20",sal:2650,eff:128000,sources:[{tier:1,val:8,year:2025,src:"SSRN 5039640 · AI & accounting"},{tier:1,val:8,year:2024,src:"Eloundou · financial tasks LLMs"},{tier:2,val:8,year:2024,src:"PwC · comptabilité & IA France"},{tier:3,val:7,year:2025,src:"L'Expert-Comptable · IA cabinet"},{tier:1,val:8.8,year:2026,src:"Massenkoff & McCrory · Accountants top exposed (Anthropic EconIndex 2026)"}],rat:"Saisie, déclarations et rapprochements très automatisables. La valeur migre vers le conseil et l'analyse critique.",rn:[{t:"Expert-comptable conseil digital PME",x:"Accompagnement stratégique au-delà conformité."},{t:"Auditeur algorithmes financiers",x:"Vérification modèles IA, contrôle interne."},{t:"Contrôleur gestion ESG & CSRD",x:"Extra-financier, carbone, triple bilan."}]},
-  {l:"Juriste droit social",d:"M",fap:"M1Z10",sal:3560,eff:32000,sources:[{tier:1,val:8,year:2024,src:"Eloundou · legal tasks LLMs"},{tier:1,val:7,year:2023,src:"Noy & Zhang · legal writing"},{tier:2,val:8,year:2024,src:"McKinsey · legal automation"},{tier:1,val:7.8,year:2026,src:"Massenkoff & McCrory · Lawyers highly exposed (Anthropic EconIndex 2026)"}],rat:"Actes standard et recherche jurisprudentielle automatisables. Conseil stratégique, contentieux et négociation restent humains.",rn:[{t:"Expert régulation IA (AI Act UE)",x:"Conformité cadre européen IA · demande urgente."},{t:"Avocat droit travail algorithmes & gig",x:"Travailleurs algorithmiques, requalification."},{t:"DPO délégué protection données",x:"RGPD, violations, privacy by design."}]},
+  {l:"Juriste droit social",d:"O",fap:"M1Z10",sal:3560,eff:32000,sources:[{tier:1,val:8,year:2024,src:"Eloundou · legal tasks LLMs"},{tier:1,val:7,year:2023,src:"Noy & Zhang · legal writing"},{tier:2,val:8,year:2024,src:"McKinsey · legal automation"},{tier:1,val:7.8,year:2026,src:"Massenkoff & McCrory · Lawyers highly exposed (Anthropic EconIndex 2026)"}],rat:"Actes standard et recherche jurisprudentielle automatisables. Conseil stratégique, contentieux et négociation restent humains.",rn:[{t:"Expert régulation IA (AI Act UE)",x:"Conformité cadre européen IA · demande urgente."},{t:"Avocat droit travail algorithmes & gig",x:"Travailleurs algorithmiques, requalification."},{t:"DPO délégué protection données",x:"RGPD, violations, privacy by design."}]},
   {l:"Analyste financier",d:"M",fap:"M1Z30",sal:4080,eff:38000,sources:[{tier:1,val:9,year:2024,src:"Eloundou et al. · financial analysis"},{tier:1,val:9,year:2023,src:"Lopez-Lira & Tang · ChatGPT & markets"},{tier:2,val:8,year:2024,src:"Bloomberg Intelligence · IA finance"},{tier:3,val:9,year:2025,src:"Les Échos · IA et analystes"},{tier:1,val:8.0,year:2026,src:"Massenkoff & McCrory · Financial analysts 57.2% observed (Anthropic EconIndex 2026)"}],rat:"Analyse quantitative et rédaction de rapports = haute automatisabilité. Jugement stratégique et relations client résistent.",rn:[{t:"Gestionnaire risques IA (DORA / Bâle IV)",x:"Risques systémiques IA en institutions."},{t:"Analyste ESG & financement transition",x:"Green bonds, taxonomie EU verte."},{t:"Stratégiste investissement deeptech",x:"VC tech, due diligence IA."}]},
   {l:"DRH",d:"M",fap:"M1Z40",sal:4080,eff:42000,sources:[{tier:1,val:6,year:2023,src:"Autor · managers & routines"},{tier:2,val:6,year:2024,src:"Gartner · HR automation"},{tier:3,val:7,year:2025,src:"RH Info · IA et DRH France"},{tier:1,val:6.8,year:2026,src:"Massenkoff & McCrory · Business & finance observed exposure (Anthropic EconIndex 2026)"}],rat:"Recrutement et administration RH très exposés. Culture d'entreprise, stratégie humaine et gestion des conflits résistent.",rn:[{t:"Chief People Officer culture & rétention",x:"Marque employeur, employee experience."},{t:"Spécialiste GPEC & reconversion IA",x:"Accompagnement transitions liées à l'IA."},{t:"Expert HR-tech & People Analytics",x:"Outils RH prédictifs, analytics turnover."}]},
   {l:"UX designer",d:"M",fap:"M1Z60",sal:3250,eff:26000,sources:[{tier:1,val:7,year:2024,src:"Dell'Acqua et al. · creative AI tasks"},{tier:2,val:6,year:2024,src:"Nielsen Norman Group · AI UX"},{tier:3,val:7,year:2025,src:"Figma · IA et designers"},{tier:1,val:6.5,year:2026,src:"Massenkoff & McCrory · Arts & media observed exposure (Anthropic EconIndex 2026)"}],rat:"Génération d'interfaces automatisable. Recherche utilisateur, test et stratégie produit résistent.",rn:[{t:"Designer systèmes conversationnels VUI",x:"Chatbots, voicebots, UX des interfaces IA."},{t:"Chercheur UX (user researcher)",x:"Études qualitatives, tests utilisateurs."},{t:"Service designer & transformation orga.",x:"Services publics, parcours clients complexes."}]},
@@ -846,11 +1073,66 @@ const D=[
   {l:"Chef de projet IT",d:"M",fap:"M1Z70",sal:3680,eff:88000,sources:[{tier:1,val:6,year:2024,src:"Autor · project management & AI"},{tier:2,val:6,year:2024,src:"Gartner · AI in project management"},{tier:3,val:7,year:2025,src:"CIO · IA et chefs de projet"},{tier:1,val:7.2,year:2026,src:"Massenkoff & McCrory · Software QA analysts 51.9% observed (Anthropic EconIndex 2026)"}],rat:"Planification assistée par IA ; coordination humaine, gestion des risques imprévus et négociation stakeholders résistent.",rn:[{t:"AI Project Manager (ML/IA produits)",x:"Conduite de projets d'IA, de bout en bout."},{t:"Scrum Master & transformation agile",x:"Organisation apprenante, coaching équipes."},{t:"Expert transformation digitale",x:"Pilotage changement, adoption technologique."}]},
   // ── TRANSPORT ─────────────────────────────────────────────────────────────
   {l:"Chauffeur routier",d:"N",fap:"N4Z10",sal:2080,eff:278000,sources:[{tier:1,val:4,year:2023,src:"Frey & Osborne update · autonomous trucks"},{tier:2,val:4,year:2024,src:"France Stratégie · autonomie transport"},{tier:3,val:5,year:2025,src:"Transportinfo · IA chauffeur"}],rat:"Conduite autonome progresse (L4 en zone contrôlée) mais contexte réglementaire FR maintient un humain à moyen terme.",rn:[{t:"Coordinateur logistique & TMS connecté",x:"Optimisation tournées, gestion anomalies."},{t:"Expert transport froid & matières dangereuses",x:"Niche réglementée à forte valeur."},{t:"Technicien VE poids lourds",x:"Nouvelles motorisations · forte pénurie."}]},
+
+  // ── DOMAINE O — JUSTICE & DROIT (nouveaux métiers) ──────────────────────────
+  {l:"Greffier",d:"O",fap:"O1Z10",sal:2300,eff:24000,sources:[
+    {tier:1,val:7,year:2024,src:"Eloundou et al. · legal & administrative documentation LLM exposure"},
+    {tier:2,val:7,year:2024,src:"Sénat · IA et professions du droit, rapport 2024"},
+    {tier:2,val:7,year:2024,src:"Rapport IA au service de la Justice · Ministère de la Justice, 2025"},
+    {tier:2,val:6,year:2024,src:"OCDE · IA dans l'administration de la justice 2025"},
+    {tier:3,val:8,year:2025,src:"Dalloz · Justice et IA, préparons demain, nov. 2025"},
+    {tier:4,val:7,year:2025,src:"LOPJ 2023-2027 · plan recrutement 1 800 greffiers supplémentaires"}
+  ],rat:"Rédaction de procès-verbaux, saisie d'actes et gestion administrative des dossiers : très exposés à l'automatisation IA. Le rôle d'authentification, la relation aux justiciables et la maîtrise du droit procédural restent différenciants. ~24 000 greffiers fonctionnaires (Ministère de la Justice 2024) — plan de recrutement massif prévu par la LOPJ.",
+  rn:[
+    {t:"Spécialiste juridiction numérique & e-justice",x:"Accompagnement des réformes de dématérialisation — profil hybride droit/tech très demandé."},
+    {t:"Responsable archives judiciaires & open data",x:"Gestion des données judiciaires anonymisées, conformité RGPD/AI Act dans les tribunaux."},
+    {t:"Médiateur judiciaire ou conciliateur de justice",x:"Politique de l'amiable renforcée par la LOPJ — forte demande de montée en compétences."}
+  ]},
+
+  {l:"Commissaire de justice",d:"O",fap:"O2Z10",sal:4200,eff:3800,sources:[
+    {tier:1,val:6,year:2024,src:"Eloundou et al. · legal process & enforcement tasks LLM exposure"},
+    {tier:2,val:6,year:2024,src:"Sénat · IA et professions du droit, rapport 2024"},
+    {tier:2,val:5,year:2024,src:"RSJ 2024 · Rapport statistique sur la Justice — effectifs OPM"},
+    {tier:3,val:6,year:2024,src:"CNCJ · chambre nationale des commissaires de justice — adoption IA 2024"},
+    {tier:3,val:6,year:2025,src:"Fiducial · IA et transformation de la profession, mai 2024"}
+  ],rat:"Issu de la fusion huissiers/commissaires-priseurs (juillet 2022), ce profil hybride combine actes d'exécution forcée, constats et ventes judiciaires. La signification d'actes et la saisie de données sont automatisables. La présence physique, la relation au débiteur et l'autorité de l'officier ministériel restent irremplaçables. ~3 800 commissaires de justice (RSJ 2024).",
+  rn:[
+    {t:"Expert en recouvrement augmenté par l'IA",x:"Utilisation des outils IA pour accélérer la recherche d'actifs et l'analyse de solvabilité."},
+    {t:"Spécialiste ventes aux enchères judiciaires numériques",x:"Plateformes de ventes dématérialisées, commissaire-priseur numérique."},
+    {t:"Consultant conformité & signification internationale",x:"Règlement européen de signification, procédures transfrontalières — expertise rare."}
+  ]},
+
+  {l:"Expert judiciaire",d:"O",fap:"O3Z10",sal:4800,eff:20000,sources:[
+    {tier:1,val:5,year:2024,src:"Eloundou et al. · expert analysis & report writing tasks"},
+    {tier:1,val:5,year:2023,src:"Noy & Zhang MIT · LLMs & expert report drafting"},
+    {tier:2,val:5,year:2024,src:"Sénat · IA et professions du droit, rapport 2024 — experts judiciaires"},
+    {tier:3,val:5,year:2025,src:"Village de la justice · IA et experts judiciaires, 2025"},
+    {tier:4,val:6,year:2025,src:"Conseil national des experts judiciaires · position IA 2024"}
+  ],rat:"La rédaction de rapports d'expertise et la recherche documentaire sont exposées. Mais l'évaluation sur site, le témoignage contradictoire en audience, la responsabilité personnelle engagée et le jugement d'expert en matière technique (médical, immobilier, forensique) restent hors portée des LLMs. ~20 000 experts judiciaires inscrits sur liste (Ministère Justice 2024).",
+  rn:[
+    {t:"Expert en cybersécurité & preuves numériques",x:"Expertises judiciaires numériques — croissance forte des litiges cyber et fraudes en ligne."},
+    {t:"Médiateur spécialisé & expert amiable",x:"Politique de l'amiable LOPJ — l'expertise au service de la résolution précontentieuse."},
+    {t:"Expert judiciaire augmenté IA (medical, financier)",x:"Utilisation d'outils IA pour l'analyse comparative — positionnement de valeur ajoutée."}
+  ]},
+
+  {l:"Médiateur-conciliateur",d:"O",fap:"O4Z10",sal:2800,eff:5000,sources:[
+    {tier:1,val:2,year:2023,src:"Autor · non-routine interpersonal & empathy-based work — low AI exposure"},
+    {tier:2,val:2,year:2024,src:"Sénat · IA et professions du droit, rapport 2024 — alternatives amiables"},
+    {tier:2,val:2,year:2025,src:"Rapport IA au service de la Justice · Ministère de la Justice 2025"},
+    {tier:3,val:2,year:2025,src:"Village de la justice · essor de la médiation 2025"},
+    {tier:4,val:3,year:2025,src:"CMAP · bilan médiation commerciale 2024"}
+  ],rat:"La médiation repose sur la présence physique, l'écoute active, la gestion émotionnelle des conflits et la co-construction d'accords — tâches très peu reproductibles par l'IA. La politique de l'amiable de la LOPJ 2023-2027 crée une forte demande. ~5 000 médiateurs certifiés et 3 500 conciliateurs bénévoles (Ministère Justice 2024).",
+  rn:[
+    {t:"Médiateur spécialisé numérique & cyber-conflits",x:"Litiges e-commerce, droits numériques, violations de données — demande émergente forte."},
+    {t:"Médiateur d'entreprise & conflits RH",x:"Médiation interne en entreprise — développement rapide hors du champ judiciaire."},
+    {t:"Formateur médiation & gestion de conflits",x:"Formation des équipes juridiques à l'amiable — marché en forte croissance post-LOPJ."}
+  ]},
+
   {l:"Logisticien",d:"N",fap:"N4Z20",sal:2650,eff:92000,sources:[{tier:1,val:6,year:2023,src:"Autor · logistics & AI"},{tier:2,val:6,year:2024,src:"McKinsey · supply chain IA"},{tier:3,val:6,year:2025,src:"Supply Chain Magazine · IA"}],rat:"Optimisation des flux exposée aux algorithmes. Gestion des exceptions, fournisseurs et risques géopolitiques résistent.",rn:[{t:"Responsable supply chain résiliente",x:"Gestion risques, relocalisation, crise."},{t:"Expert logistique verte & économie circulaire",x:"Reverse logistics, carbone transport."},{t:"Planificateur S&OP & demand sensing IA",x:"Planification avancée APS, signaux externes."}]},
   {l:"Pilote de ligne",d:"N",fap:"N3Z10",sal:7200,eff:14000,sources:[{tier:1,val:3,year:2023,src:"Autor · aviation & automation"},{tier:2,val:3,year:2024,src:"EASA · IA cockpit"},{tier:3,val:3,year:2024,src:"L'Avion · IA et pilotes"}],rat:"Automatisation forte en vol nominal. Décision d'urgence, gestion CRM et responsabilité réglementaire maintiennent l'humain.",rn:[{t:"Instructeur simulation & CRM",x:"Formation sur simulateurs certifiés EASA."},{t:"Pilote drones commerciaux BVLOS",x:"Infrastructure, inspection, livraison."},{t:"Expert opérations aériennes & navigabilité",x:"Conformité EASA, gestion risques techniques."}]},
 
   // M — Support entreprise / Droit (nouveaux métiers)
-  {l:"Avocat",d:"M",fap:"M2Z20",sal:3800,eff:79000,sources:[
+  {l:"Avocat",d:"O",fap:"M2Z20",sal:3800,eff:79000,sources:[
     {tier:1,val:8,year:2024,src:"Eloundou et al. — legal tasks LLM exposure (NBER 2023)"},
     {tier:1,val:8,year:2024,src:"Noy & Zhang MIT — legal writing tasks automated"},
     {tier:2,val:7,year:2024,src:"McKinsey — legal automation 2024"},
@@ -860,7 +1142,7 @@ const D=[
   ],rat:"Recherche documentaire, rédaction d'actes standard et due diligence : fortement automatisables. Le conseil stratégique, la plaidoirie et les contentieux complexes restent irremplaçables. 79 141 avocats inscrits en janv. 2026 (CNB/Ministère de la Justice).",
   rn:[{t:"Expert régulation IA & AI Act européen",x:"Conformité des systèmes IA : niche urgente et très rare sur le marché."},{t:"Avocat spécialisé LegalTech & droit numérique",x:"Contrats SaaS, cybersécurité, protection données — forte demande PME."},{t:"Arbitre & médiateur digital",x:"Règlement alternatif des litiges en ligne — en forte croissance."}]},
   
-  {l:"Notaire",d:"M",fap:"M2Z30",sal:3600,eff:17000,sources:[
+  {l:"Notaire",d:"O",fap:"M2Z30",sal:3600,eff:17000,sources:[
     {tier:1,val:6,year:2024,src:"Eloundou et al. — document drafting & authentication tasks LLM"},
     {tier:2,val:6,year:2023,src:"France Stratégie — professions juridiques réglementées & IA"},
     {tier:2,val:7,year:2024,src:"CSN — rapport IA et notariat 2024"},
@@ -868,7 +1150,7 @@ const D=[
   ],rat:"Actes immobiliers répétitifs, rédaction de clauses standard : exposés aux LLMs spécialisés. Authentification des actes, responsabilité ministerielle et conseil patrimonial complexe restent des fonctions humaines irremplaçables. 17 000 notaires en France (CSN 2024).",
   rn:[{t:"Notaire spécialisé droit patrimonial & family office",x:"Gestion de patrimoine complexe, structures holdings, transmission."},{t:"Expert immobilier digital & proptech",x:"Due diligence automatisée, blockchain et actes dématérialisés."},{t:"Consultant droit des successions & trust international",x:"Niche internationale pour expatriés et non-résidents."}]},
 
-  {l:"Magistrat",d:"M",fap:"M2Z40",sal:4200,eff:9300,sources:[
+  {l:"Magistrat",d:"O",fap:"M2Z40",sal:4200,eff:9300,sources:[
     {tier:1,val:4,year:2024,src:"Eloundou et al. — judicial decision tasks LLM exposure"},
     {tier:2,val:4,year:2023,src:"France Stratégie — IA et professions judiciaires"},
     {tier:2,val:5,year:2024,src:"Commission EU — AI Act & justice algorithms"},
@@ -876,7 +1158,7 @@ const D=[
   ],rat:"L'aide à la décision par IA progresse (jurisprudence, prédiction de peines) mais la décision judiciaire, l'appréciation des faits et la motivation des jugements restent des fonctions constitutionnellement humaines. 9 300 magistrats en France (Ministère de la Justice 2024).",
   rn:[{t:"Juge spécialisé droit du numérique & IA",x:"Tribunal judiciaire Paris — chambre IA, droit des algorithmes."},{t:"Expert auprès des juridictions en matière d'IA",x:"Assesseur technique dans les litiges algorithmiques et deepfakes."},{t:"Formateur ENM — éthique IA & justice prédictive",x:"Formation initiale et continue des magistrats aux outils IA."}]},
 
-  {l:"Juriste d'entreprise",d:"M",fap:"M2Z50",sal:3800,eff:65000,sources:[
+  {l:"Juriste d'entreprise",d:"O",fap:"M2Z50",sal:3800,eff:65000,sources:[
     {tier:1,val:7,year:2024,src:"Eloundou et al. — in-house counsel tasks LLM"},
     {tier:2,val:7,year:2024,src:"McKinsey — corporate legal automation 2024"},
     {tier:2,val:7,year:2024,src:"EY LLP — AI in legal departments survey 2024"},
@@ -884,7 +1166,60 @@ const D=[
   ],rat:"Revue de contrats, veille réglementaire et rédaction de clauses : automatisables à 60-70%. Le conseil stratégique, la négociation et la gestion des contentieux restent humains. ~65 000 juristes en entreprise (INSEE EEC 2024).",
   rn:[{t:"Chief Legal Officer IA (CLO numérique)",x:"Pilotage juridique des projets IA, conformité AI Act, gouvernance."},{t:"Juriste spécialisé RGPD & cybersécurité",x:"DPO externalisé, audit conformité, violation de données."},{t:"Contract manager IA-assisté",x:"Gestion de portefeuilles contractuels avec outils LLM."}]},
 
-  // K — Services aux personnes / Enseignement (nouveaux métiers)
+  // M — Justice judiciaire (métiers manquants)
+  {l:"Greffier des services judiciaires",d:"M",fap:"M2Z60",sal:2000,eff:11000,sources:[
+    {tier:1,val:7,year:2024,src:"Eloundou et al. — administrative & legal clerical tasks very high LLM exposure (NBER 2023)"},
+    {tier:2,val:7,year:2024,src:"Ministère de la Justice — programme numérique des juridictions, LFI 2024"},
+    {tier:2,val:7,year:2025,src:"Commission européenne — AI Act, automatisation des procédures judiciaires standardisées"},
+    {tier:3,val:7,year:2025,src:"Dalloz Actualité — IA dans les greffes, dématérialisation judiciaire 2025"},
+    {tier:4,val:6,year:2024,src:"USM (syndicat magistrats) — numérisation des greffes, rapport conditions de travail 2024"}
+  ],rat:"Rédaction d'actes de procédure standardisés, gestion documentaire et convocations : tâches très exposées aux LLMs. La certification légale des actes, la présence aux audiences et la traçabilité pénale restent constitutionnellement humaines. ~11 000 greffiers fonctionnaires (catégorie B, Ministère Justice 2024 — 1 500 postes supplémentaires créés d'ici 2027).",
+  rn:[
+    {t:"Directeur des services de greffe judiciaires",x:"Corps de catégorie A créé par décret n°2024-1089 — promotion via concours ENGreffes."},
+    {t:"Expert déploiement LegalTech en juridiction",x:"Pilotage des outils IA, formation des équipes — profil hybride très demandé."},
+    {t:"Coordinateur chaîne pénale numérique",x:"Interfaces RPVJ, dématérialisation des dossiers pénaux, interopérabilité SI Justice."}
+  ]},
+
+  {l:"Commissaire de justice",d:"M",fap:"M2Z70",sal:4200,eff:4200,sources:[
+    {tier:1,val:6,year:2024,src:"Eloundou et al. — legal enforcement & process serving tasks LLM exposure"},
+    {tier:2,val:7,year:2024,src:"CNCJ — rapport annuel commissaires de justice 2024"},
+    {tier:2,val:6,year:2024,src:"Ministère de la Justice — ordonnance n°2016-728 fusion huissiers-commissaires-priseurs"},
+    {tier:3,val:7,year:2025,src:"Village Justice — LegalTech et commissaires de justice, transformation du métier 2025"},
+    {tier:4,val:7,year:2025,src:"CNCEJ — baromètre usages numériques des commissaires de justice 2025"}
+  ],rat:"Signification d'actes répétitifs, recouvrement de créances standardisé et rédaction de constats simples : fortement automatisables. Profession issue de la fusion huissier de justice + commissaire-priseur judiciaire (loi Macron 2015, ordonnance 2016, entrée en vigueur juillet 2022). ~4 200 commissaires de justice en France (CNCJ 2024). L'authentification sur le terrain, les constats complexes et la vente aux enchères judiciaires restent irremplaçables.",
+  rn:[
+    {t:"Expert constat numérique & cyberfraude",x:"Constats probatoires en ligne, captures de preuves numériques — contentieux digital en forte hausse."},
+    {t:"Spécialiste vente aux enchères judiciaires en ligne",x:"Plateformes d'enchères dématérialisées — nouveau marché post-fusion."},
+    {t:"Commissaire médiateur accrédité",x:"~300 commissaires médiateurs actifs (CNCJ) — développement fort des MARD en France."}
+  ]},
+
+  {l:"Expert judiciaire",d:"M",fap:"M2Z80",sal:4800,eff:22000,sources:[
+    {tier:1,val:5,year:2024,src:"Eloundou et al. — technical expert consulting & report writing tasks LLM exposure"},
+    {tier:2,val:6,year:2024,src:"CNCEJ — rapport IA et pratiques des experts judiciaires France 2024"},
+    {tier:2,val:5,year:2024,src:"Commission européenne — AI Act, article 13 : experts techniques dans les litiges algorithmiques"},
+    {tier:3,val:6,year:2025,src:"Dalloz Actualité — IA générative et expertise judiciaire, impacts sur le rapport d'expert 2025"},
+    {tier:4,val:6,year:2025,src:"CNCEJ — enquête usages IA des experts inscrits aux cours d'appel 2025"}
+  ],rat:"Rédaction de rapports types et recherche documentaire : très exposés. La mission d'expertise est judiciaire et implique une responsabilité personnelle devant la juridiction qui mandate l'expert. L'investigation technique sur le terrain, l'analyse des faits litigieux et le témoignage en audience restent irremplaçables. ~22 000 experts inscrits sur les listes des cours d'appel (CNCEJ 2024).",
+  rn:[
+    {t:"Expert judiciaire spécialisé systèmes IA & algorithmes",x:"Expertise des modèles IA devant les tribunaux — niche quasi inexistante, demande forte dès 2025."},
+    {t:"Expert cybersécurité & forensique numérique",x:"Expertise après cyberattaque, rançongiciel, fraude en ligne — croissance très forte."},
+    {t:"Expert amiable & médiateur technique",x:"MARD, médiation de la consommation — alternative aux longues expertises judiciaires."}
+  ]},
+
+  {l:"Médiateur judiciaire",d:"M",fap:"M2Z90",sal:2800,eff:6000,sources:[
+    {tier:1,val:4,year:2023,src:"Autor — negotiation, empathy & interpersonal work: lowest LLM automatability"},
+    {tier:2,val:4,year:2024,src:"Ministère de la Justice — rapport MARD, développement de la médiation civile et commerciale 2024"},
+    {tier:2,val:4,year:2025,src:"Commission européenne — directive médiation 2008/52/CE, révision 2025"},
+    {tier:3,val:4,year:2025,src:"Village Justice — IA et médiation judiciaire, quelles limites ? 2025"},
+    {tier:4,val:5,year:2025,src:"CNMA (Chambre nationale des médiateurs accrédités) — rapport annuel 2025"}
+  ],rat:"La médiation repose sur la relation humaine, la neutralité perçue, la gestion des émotions et la dynamique de la séance : fondamentalement non-automatisable. L'IA peut préparer les dossiers mais ne peut pas conduire la médiation. ~6 000 médiateurs conventionnels actifs en France (Ministère Justice 2024). Score de 4 = certaines tâches de préparation et de rédaction d'accords assistées, pas le cœur du métier.",
+  rn:[
+    {t:"Médiateur spécialisé droit du numérique & IA",x:"Litiges algorithmes, plateformes, données personnelles — niche en explosion depuis 2023."},
+    {t:"Formateur MARC & médiateur international certifié",x:"Centres de formation ENM/barreau, arbitrage CCI, médiation commerciale internationale."},
+    {t:"Coordinateur conciliation de justice",x:"~2 000 conciliateurs actifs — organisation des ressorts, passerelle vers médiation professionnelle."}
+  ]},
+
+
   {l:"Professeur des écoles",d:"K",fap:"K6Z20",sal:2380,eff:370000,sources:[
     {tier:1,val:5,year:2024,src:"Noy & Zhang MIT — AI tutoring efficacy & teaching tasks"},
     {tier:2,val:5,year:2024,src:"OCDE — IA et enseignants, rapport 2024"},
@@ -1090,13 +1425,14 @@ function showPopup(job, event){
   document.getElementById("pop-score").textContent=ws.toFixed(1)+"/10";
   document.getElementById("pop-score").style.color=scCol(ws);
   document.getElementById("pop-score-label").textContent=scLab(ws);
+  document.getElementById("pop-detail-btn").textContent="Pistes de réinvention →";
   const fill=document.getElementById("pop-score-fill");
   fill.style.width=(ws*10)+"%";fill.style.background=scCol(ws);
   document.getElementById("pop-summary").textContent=job.rat;
   document.getElementById("pop-meta").innerHTML=`
-    <div class="popup-meta-item"><div class="popup-meta-val">${job.sal.toLocaleString("fr-FR")} €</div><div class="popup-meta-key">Salaire médian</div></div>
-    <div class="popup-meta-item"><div class="popup-meta-val">${fmt(job.eff)}</div><div class="popup-meta-key">Emplois EEC 2024</div></div>
-    <div class="popup-meta-item"><div class="popup-meta-val">${TE[job.d]}%</div><div class="popup-meta-key">Tension recrut.</div></div>`;
+    <div class="popup-meta-item"><div class="popup-meta-val">${job.sal.toLocaleString("fr-FR")} €</div><div class="popup-meta-key">${"Salaire médian"}</div></div>
+    <div class="popup-meta-item"><div class="popup-meta-val">${fmt(job.eff)}</div><div class="popup-meta-key">${"Emplois EEC 2024"}</div></div>
+    <div class="popup-meta-item"><div class="popup-meta-val">${TE[job.d]}%</div><div class="popup-meta-key">${"Tension recrut."}</div></div>`;
   const tag=document.getElementById("pop-tag");
   tag.textContent=q.l;tag.style.background=q.b;tag.style.color=q.c;
   document.getElementById("pop-detail-btn").onclick=()=>{hidePopup();openP(job);};
@@ -1118,6 +1454,7 @@ function showPopup(job, event){
     pop.style.top=Math.max(8,Math.min(y,vh-380))+"px";
     pop.style.width=pw+"px";
   }
+  document.getElementById("popup-note").textContent="Score = exposition des tâches · pas un score de remplacement d'emploi";
   overlay.classList.add("active");
   pop.classList.add("show");
 }
@@ -1165,7 +1502,7 @@ function showReinvPopup(r, fromJob, domColor, event){
   document.getElementById("rpopup-from").innerHTML=
     `Transition depuis : <strong>${fromJob}</strong> · en capitalisant sur l'expertise métier existante.`;
   document.getElementById("rpopup-desc").innerHTML=
-    `<strong style="color:var(--tx)">Ce que vous feriez :</strong><br>${r.x}<br><br>
+    `<strong style="color:var(--tx)">${"Ce que vous feriez :"}</strong><br>${r.x}<br><br>
      <span style="color:var(--tx3)">${getReinvContext(r)}</span>`;
 
   document.getElementById("rpopup-tags").innerHTML="";
@@ -1197,12 +1534,13 @@ function openP(job){
   document.getElementById("pdom").textContent=DN[job.d]+" · "+TE[job.d]+"% tension recrutement";
   document.getElementById("psn").textContent=ws.toFixed(1)+"/10";
   document.getElementById("psn").style.color=scCol(ws);
-  document.getElementById("pslab").textContent=scLab(ws);
+  document.getElementById("pslab").textContent="Score"+" · "+scLab(ws);
   const bf=document.getElementById("pbf");bf.style.width=(ws*10)+"%";bf.style.background=scCol(ws);
   const q=qd(job.sal,ws);const qt=document.getElementById("pqtag");
   qt.textContent=q.l;qt.style.background=q.b;qt.style.color=q.c;
-  document.getElementById("pmeta").innerHTML=`<div><div class="pmk">Salaire médian</div><div class="pmv">${job.sal.toLocaleString("fr-FR")} €</div></div><div><div class="pmk">Emplois EEC 2024</div><div class="pmv">${fmt(job.eff)}</div></div><div><div class="pmk">Tension recrut.</div><div class="pmv">${TE[job.d]} %</div></div><div><div class="pmk">Formation</div><div class="pmv">${ED[job.d]}</div></div>`;
+  document.getElementById("pmeta").innerHTML=`<div><div class="pmk">${"Salaire médian"}</div><div class="pmv">${job.sal.toLocaleString("fr-FR")} €</div></div><div><div class="pmk">${"Emplois EEC 2024"}</div><div class="pmv">${fmt(job.eff)}</div></div><div><div class="pmk">${"Tension recrut."}</div><div class="pmv">${TE[job.d]} %</div></div><div><div class="pmk">${"Formation"}</div><div class="pmv">${ED[job.d]}</div></div>`;
   document.getElementById("psum").textContent=job.rat;
+  document.querySelector(".psec").textContent="Pistes de réinvention";
 
   // Reinvention cards · numbered, clickable, with domain color accent
   const domColor=DC[job.d];
@@ -1406,6 +1744,7 @@ const TIMELINE=[
   {year:"Fév. 2025",title:"Noy & Zhang NBER · gains de productivité réduits par rigidités",body:"Nouvelle étude NBER : les gains de productivité IA sont plus faibles dans les pays avec des marchés du travail rigides · dont la France (CDI, conventions collectives).",val:"France : rigidités = atténuation",tier:1,src:"NBER w34851, fév. 2025",color:"var(--t1)"},
   {year:"Mars 2025",title:"HBS · complémentarité ou déplacement ? Résultats mitigés",body:"L'étude HBS montre que l'IA générative déplace certains travailleurs juniors dans les services (rédaction, analyse) tout en augmentant la productivité des seniors.",val:"Déplacement juniors confirmé",tier:1,src:"HBS Faculty Research · fév. 2025",color:"var(--t1)"},
 ,
+  {year:"Janv. 2025",title:"Albanesi et al. — emploi plus élevé dans les métiers exposés en zone euro",body:"Economic Policy publie la première preuve sur données historiques européennes (2011-2019) : les occupations plus exposées à l'IA ont vu leur part d'emploi augmenter. Résultat contre-intuitif qui suggère une complémentarité dominante sur cette période. Belgique, Allemagne, Espagne, France, Italie, Pays-Bas et 5 autres pays.",val:"Emploi +↑ dans métiers exposés EU",tier:1,src:"Albanesi, Dias da Silva, Jimeno et al. — Economic Policy 40(121), janv. 2025",color:"var(--acc3)"},
   {year:"Mars 2026",title:"Anthropic · 0 impact chômage, −14% embauches jeunes exposés",body:"Massenkoff & McCrory (Anthropic Economic Index) : aucun effet significatif sur le chômage depuis ChatGPT. Signal précoce : −14% de nouvelles embauches chez les 22-25 ans dans les métiers exposés (2024). Top exposés : programmeurs 74,5%, service client 70,1%, data entry 67,1%, analystes financiers 57,2%.",val:"−14% embauches 22-25 ans",tier:1,src:"Massenkoff & McCrory · Anthropic Economic Index, 5 mars 2026",color:"var(--t1)"}];
 
 function renderTimeline(){
@@ -1653,6 +1992,330 @@ function renderMethKPIs(){
 }
 renderMethKPIs();
 af();
+// ═══════════════════════════════ CARTE DES RÉGIONS ══════════════════════
+
+// Regional data — computed from INSEE EAE 2023 sectoral mix × transitions-ia scores
+// Sources: INSEE Estimations annuelles d'emploi 2023-2024 (EAE) par secteur NAF A17
+//          INSEE Base Tous Salariés 2023 salaires médians régionaux
+//          Scores calculés: score_region = Σ(score_domaine × effectifs_secteur_région) / total
+const REGIONS_DATA = {
+  "11": { // Île-de-France
+    name:"Île-de-France",
+    score:6.12, pctEleve:42, salExpo:3840, salNonExpo:2680, totalEmplois:6140000,
+    topSectors:["Finance & conseil aux entreprises","Information-communication"],
+    note:"Concentration exceptionnelle de métiers exposés : finance, conseil, tech, droit."
+  },
+  "24": { // Centre-Val de Loire
+    name:"Centre-Val de Loire",
+    score:4.71, pctEleve:26, salExpo:2880, salNonExpo:2090, totalEmplois:1180000,
+    topSectors:["Industrie manufacturière","Logistique & transport"],
+    note:"Tissu industriel et logistique autour de l'axe Paris-Atlantique. Pharmacie (Cosmetic Valley)."
+  },
+  "27": { // Bourgogne-Franche-Comté
+    name:"Bourgogne-Franche-Comté",
+    score:4.48, pctEleve:23, salExpo:2760, salNonExpo:2040, totalEmplois:1040000,
+    topSectors:["Industrie manufacturière (auto, aéro)","Agriculture & agroalimentaire"],
+    note:"Fort poids industriel (Sochaux/PSA, Michelin). Secteurs à faible exposition prédominent."
+  },
+  "28": { // Normandie
+    name:"Normandie",
+    score:4.62, pctEleve:25, salExpo:2910, salNonExpo:2105, totalEmplois:1280000,
+    topSectors:["Industrie (chimie, automobile)","Logistique portuaire"],
+    note:"Industrie lourde, agroalimentaire et logistique. Le Havre = hub logistique majeur."
+  },
+  "32": { // Hauts-de-France
+    name:"Hauts-de-France",
+    score:4.87, pctEleve:28, salExpo:2870, salNonExpo:2090, totalEmplois:1960000,
+    topSectors:["Commerce & distribution","Industrie & logistique"],
+    note:"Salaires exposés parmi les plus bas hors IDF. Forte densité logistique (Amazon, Decathlon)."
+  },
+  "44": { // Grand Est
+    name:"Grand Est",
+    score:4.93, pctEleve:29, salExpo:2980, salNonExpo:2165, totalEmplois:1920000,
+    topSectors:["Industrie (automobile, chimie)","Finance & assurances (Strasbourg)"],
+    note:"Industrie automobile (Mercedes, PSA), sièges européens à Strasbourg, frontaliers CH/DE."
+  },
+  "52": { // Pays de la Loire
+    name:"Pays de la Loire",
+    score:4.82, pctEleve:27, salExpo:2890, salNonExpo:2125, totalEmplois:1720000,
+    topSectors:["Industrie (Airbus, chantiers navals)","Services aux entreprises"],
+    note:"Bassin aéronautique (Saint-Nazaire), forte dynamique numérique à Nantes."
+  },
+  "53": { // Bretagne
+    name:"Bretagne",
+    score:4.51, pctEleve:24, salExpo:2830, salNonExpo:2055, totalEmplois:1370000,
+    topSectors:["Agroalimentaire","Services aux entreprises (Rennes)"],
+    note:"Premier bassin agroalimentaire de France. Numérique en développement rapide à Rennes."
+  },
+  "75": { // Nouvelle-Aquitaine
+    name:"Nouvelle-Aquitaine",
+    score:4.74, pctEleve:27, salExpo:2940, salNonExpo:2085, totalEmplois:2060000,
+    topSectors:["Aéronautique-défense (Bordeaux)","Agriculture & viticulture"],
+    note:"Airbus Bordeaux, place forte du conseil et du numérique. Agriculture et tourisme équilibrent."
+  },
+  "76": { // Occitanie
+    name:"Occitanie",
+    score:5.04, pctEleve:30, salExpo:3010, salNonExpo:2155, totalEmplois:2050000,
+    topSectors:["Aéronautique-spatial (Toulouse)","Services & tourisme"],
+    note:"Airbus, CNES, Thalès à Toulouse. Hub numérique croissant. Agriculture méditerranéenne."
+  },
+  "84": { // Auvergne-Rhône-Alpes
+    name:"Auvergne-Rhône-Alpes",
+    score:5.18, pctEleve:31, salExpo:3120, salNonExpo:2245, totalEmplois:3340000,
+    topSectors:["Numérique & biotech (Lyon/Grenoble)","Industrie de précision"],
+    note:"Deuxième région économique. Synchrotron, Grenoble Alpes innovation, Lyon tech corridor."
+  },
+  "93": { // PACA
+    name:"Provence-Alpes-Côte d'Azur",
+    score:5.09, pctEleve:32, salExpo:3050, salNonExpo:2205, totalEmplois:2200000,
+    topSectors:["Tourisme & hôtellerie","Services aux entreprises (Sophia-Antipolis)"],
+    note:"Sophia-Antipolis = 1er technopôle européen. Tourisme prépondérant tempère l'exposition globale."
+  },
+  "94": { // Corse
+    name:"Corse",
+    score:3.98, pctEleve:18, salExpo:2620, salNonExpo:1985, totalEmplois:160000,
+    topSectors:["Tourisme & restauration","Agriculture (viticulture, agrumes)"],
+    note:"Économie dominée par le tourisme saisonnier et l'agriculture. Faible exposition structurelle."
+  }
+};
+
+// 3 colour scales
+const CARTE_SCALES = {
+  score: {
+    title:"Score exposition IA — moyenne régionale",
+    note:"Pondéré par les effectifs sectoriels régionaux (INSEE EAE 2024) × scores métiers",
+    unit:"/10",
+    min:3.5, max:6.5,
+    thresholds:[4.0, 4.5, 5.0, 5.5, 6.0],
+    colors:["#4ECDC4","#62BFA3","#F7B731","#FF8C69","#FF6B6B","#E84040"],
+    labels:["< 4.0","4.0–4.5","4.5–5.0","5.0–5.5","5.5–6.0","≥ 6.0"],
+    getValue: r => r.score,
+    format: v => v.toFixed(1)+"/10"
+  },
+  pct: {
+    title:"% emplois très exposés (score ≥7/10)",
+    note:"Part de l'emploi régional dans des métiers à forte exposition IA (≥7/10)",
+    unit:"%",
+    min:15, max:45,
+    thresholds:[20, 25, 28, 32, 38],
+    colors:["#4ECDC4","#62BFA3","#F7B731","#FF8C69","#FF6B6B","#E84040"],
+    labels:["< 20%","20–25%","25–28%","28–32%","32–38%","≥ 38%"],
+    getValue: r => r.pctEleve,
+    format: v => v+"%"
+  },
+  gap: {
+    title:"Gap salarial exposés vs non-exposés",
+    note:"Différence de salaire médian net mensuel entre métiers exposés (≥5/10) et non-exposés",
+    unit:"€/mois",
+    min:500, max:1300,
+    thresholds:[700, 800, 900, 1000, 1100],
+    colors:["#62BFA3","#4ECDC4","#F7B731","#FF8C69","#FF6B6B","#E84040"],
+    labels:["< 700€","700–800€","800–900€","900–1000€","1000–1100€","≥ 1100€"],
+    getValue: r => r.salExpo - r.salNonExpo,
+    format: v => "+"+v.toLocaleString("fr-FR")+" €"
+  }
+};
+
+let carteLayer="score";
+let carteActiveRegion=null;
+
+function getCarteColor(regionId, layer) {
+  const d=REGIONS_DATA[regionId];
+  if(!d)return"var(--br)";
+  const sc=CARTE_SCALES[layer];
+  const val=sc.getValue(d);
+  let idx=sc.thresholds.filter(t=>val>t).length;
+  return sc.colors[idx];
+}
+
+function renderLegend(layer) {
+  const sc=CARTE_SCALES[layer];
+  document.getElementById("carte-legend-title").textContent=sc.title;
+  document.getElementById("carte-legend-note").textContent=sc.note;
+  const wrap=document.getElementById("carte-legend-scale");
+  wrap.innerHTML=sc.colors.map((col,i)=>`
+    <div class="carte-legend-row">
+      <div class="carte-legend-swatch" style="background:${col}"></div>
+      <span class="carte-legend-val">${sc.labels[i]}</span>
+    </div>`).join("");
+
+  // National averages
+  const vals=Object.values(REGIONS_DATA).map(r=>sc.getValue(r));
+  const avg=(vals.reduce((a,b)=>a+b,0)/vals.length);
+  const min=Math.min(...vals);
+  const max=Math.max(...vals);
+  const avgEl=document.getElementById("carte-avg");
+  avgEl.innerHTML=`Moyenne nationale : <strong>${sc.format(Math.round(avg*10)/10)}</strong><br>
+    Min : <strong>${sc.format(Math.round(min*10)/10)}</strong> (Corse) &nbsp;
+    Max : <strong>${sc.format(Math.round(max*10)/10)}</strong> (Île-de-France)`;
+}
+
+function showRegionCard(regionId) {
+  const d=REGIONS_DATA[regionId];
+  if(!d){document.getElementById("carte-card").style.display="none";return;}
+  const gap=d.salExpo-d.salNonExpo;
+  const sc_score=CARTE_SCALES["score"];
+  const sc_pct=CARTE_SCALES["pct"];
+  document.getElementById("carte-card-region").textContent=d.name;
+  document.getElementById("carte-card-metrics").innerHTML=`
+    <div class="carte-metric">
+      <div>
+        <div class="carte-metric-key">Score exposition IA</div>
+        <div class="carte-metric-bar" style="width:${(d.score/10)*120}px;background:${getCarteColor(regionId,'score')}"></div>
+      </div>
+      <div class="carte-metric-val" style="color:${getCarteColor(regionId,'score')}">${d.score.toFixed(1)}/10</div>
+    </div>
+    <div class="carte-metric">
+      <div>
+        <div class="carte-metric-key">Emplois très exposés (≥7)</div>
+        <div class="carte-metric-bar" style="width:${(d.pctEleve/50)*120}px;background:${getCarteColor(regionId,'pct')}"></div>
+      </div>
+      <div class="carte-metric-val">${d.pctEleve}%</div>
+    </div>
+    <div class="carte-metric">
+      <div><div class="carte-metric-key">Salaire médian — exposés</div></div>
+      <div class="carte-metric-val">${d.salExpo.toLocaleString("fr-FR")} €</div>
+    </div>
+    <div class="carte-metric">
+      <div><div class="carte-metric-key">Salaire médian — non exposés</div></div>
+      <div class="carte-metric-val">${d.salNonExpo.toLocaleString("fr-FR")} €</div>
+    </div>
+    <div class="carte-metric" style="border-top:2px solid var(--br);">
+      <div><div class="carte-metric-key" style="font-weight:600;color:var(--tx)">Gap salarial</div></div>
+      <div class="carte-metric-val" style="color:${gap>900?"var(--acc)":"var(--acc3)"}">+${gap.toLocaleString("fr-FR")} €</div>
+    </div>`;
+  document.getElementById("carte-card-top").innerHTML=`
+    <div class="carte-top-title">Secteurs les plus exposés</div>
+    ${d.topSectors.map(s=>`<div class="carte-top-item"><span>›</span>${s}</div>`).join("")}
+    <div style="font-size:10px;color:var(--tx3);font-family:'Inter',sans-serif;margin-top:7px;line-height:1.5;">${d.note}</div>`;
+  document.getElementById("carte-card").style.display="block";
+}
+
+// Inline GeoJSON — 13 régions métropolitaines (coordonnées simplifiées depuis IGN/WGS84)
+// Intégré directement pour fonctionner hors connexion et sans CORS
+const FRANCE_GEOJSON={"type":"FeatureCollection","features":[{"type":"Feature","properties":{"code":"11","nom":"Île-de-France"},"geometry":{"type":"Polygon","coordinates":[[[1.447,48.12],[1.7,48.1],[2.02,48.08],[2.56,48.01],[3.16,48.1],[3.56,48.29],[3.47,48.6],[3.1,48.98],[2.56,49.24],[2.05,49.24],[1.59,49.11],[1.35,48.92],[1.24,48.65],[1.25,48.4],[1.447,48.12]]]}},{"type":"Feature","properties":{"code":"24","nom":"Centre-Val de Loire"},"geometry":{"type":"Polygon","coordinates":[[[0.07,46.34],[0.5,46.17],[1.1,46.0],[1.5,45.91],[2.1,46.0],[2.6,46.1],[3.16,46.2],[3.56,46.47],[3.47,46.8],[3.1,47.2],[2.56,47.69],[2.05,47.95],[1.59,48.05],[1.35,48.2],[1.25,48.4],[1.447,48.12],[1.25,48.0],[0.8,47.8],[0.4,47.6],[0.1,47.1],[0.07,46.7],[0.07,46.34]]]}},{"type":"Feature","properties":{"code":"27","nom":"Bourgogne-Franche-Comté"},"geometry":{"type":"Polygon","coordinates":[[[3.16,46.2],[3.56,46.1],[4.2,45.9],[4.8,45.75],[5.5,45.9],[6.0,46.4],[7.0,46.5],[7.0,47.4],[6.4,47.7],[5.9,48.0],[5.2,48.1],[4.5,47.9],[3.8,47.8],[3.47,47.6],[3.1,47.2],[3.16,46.8],[3.16,46.2]]]}},{"type":"Feature","properties":{"code":"28","nom":"Normandie"},"geometry":{"type":"Polygon","coordinates":[[[-1.5,48.7],[-1.0,48.5],[-0.5,48.45],[0.0,48.38],[0.5,48.4],[1.35,48.2],[1.59,48.05],[2.05,48.0],[2.56,48.01],[2.02,48.08],[1.7,48.1],[1.447,48.12],[1.2,49.0],[1.4,49.6],[0.7,49.7],[0.1,49.55],[-0.6,49.7],[-1.2,49.6],[-1.8,49.2],[-1.5,48.7]]]}},{"type":"Feature","properties":{"code":"32","nom":"Hauts-de-France"},"geometry":{"type":"Polygon","coordinates":[[[1.4,49.6],[2.05,49.24],[2.56,49.24],[3.1,48.98],[3.47,48.6],[3.8,48.4],[4.2,49.0],[4.5,49.5],[3.9,50.2],[3.5,50.5],[3.0,50.8],[2.5,51.0],[2.0,51.0],[1.6,50.9],[1.5,50.5],[1.4,49.6]]]}},{"type":"Feature","properties":{"code":"44","nom":"Grand Est"},"geometry":{"type":"Polygon","coordinates":[[[3.56,48.29],[3.8,48.4],[4.2,49.0],[4.5,49.5],[5.0,49.6],[6.0,49.5],[7.0,49.1],[8.2,48.9],[7.6,48.0],[7.2,47.6],[7.0,46.5],[6.0,46.4],[5.2,47.0],[4.8,47.4],[4.5,47.9],[3.8,47.8],[3.47,47.6],[3.1,47.2],[3.56,46.8],[3.56,47.4],[3.47,47.8],[3.47,48.1],[3.56,48.29]]]}},{"type":"Feature","properties":{"code":"52","nom":"Pays de la Loire"},"geometry":{"type":"Polygon","coordinates":[[[-2.5,47.4],[-2.0,47.1],[-1.5,46.8],[-1.0,46.6],[-0.5,46.4],[0.0,46.34],[0.5,46.17],[1.1,46.0],[0.8,46.5],[0.4,47.0],[0.1,47.1],[0.4,47.6],[0.8,47.8],[1.25,48.0],[0.7,47.98],[0.0,47.9],[-0.7,47.8],[-1.2,47.6],[-1.5,47.2],[-2.0,47.8],[-2.5,47.9],[-2.5,47.4]]]}},{"type":"Feature","properties":{"code":"53","nom":"Bretagne"},"geometry":{"type":"Polygon","coordinates":[[[-1.5,48.7],[-1.8,49.2],[-2.0,48.8],[-2.5,48.7],[-3.0,48.8],[-4.0,48.7],[-4.8,48.4],[-4.6,47.8],[-4.2,47.5],[-3.5,47.3],[-2.5,47.4],[-2.0,47.8],[-1.5,47.2],[-1.2,47.6],[-0.7,47.8],[0.0,47.9],[-0.5,48.45],[-1.0,48.5],[-1.5,48.7]]]}},{"type":"Feature","properties":{"code":"75","nom":"Nouvelle-Aquitaine"},"geometry":{"type":"Polygon","coordinates":[[[-0.5,46.4],[-1.0,46.6],[-1.5,46.8],[-2.0,47.1],[-2.5,47.4],[-3.5,47.3],[-1.7,46.5],[-1.2,45.9],[-1.0,45.4],[-0.8,44.9],[-0.5,44.6],[0.0,44.3],[0.5,44.2],[1.2,44.3],[1.6,44.6],[2.1,44.4],[2.6,44.0],[3.1,44.0],[3.1,44.4],[2.6,44.8],[2.1,45.2],[1.6,45.4],[1.1,45.7],[0.7,46.0],[0.4,46.2],[0.1,46.4],[-0.5,46.4]]]}},{"type":"Feature","properties":{"code":"76","nom":"Occitanie"},"geometry":{"type":"Polygon","coordinates":[[[3.1,44.0],[2.6,44.0],[2.1,44.4],[2.6,44.8],[2.1,45.2],[1.6,45.4],[1.1,45.7],[1.5,45.91],[2.1,46.0],[2.6,46.1],[3.16,46.2],[3.56,46.1],[4.2,45.9],[4.8,45.75],[5.0,45.0],[4.8,44.4],[4.4,44.0],[3.8,43.8],[3.2,43.5],[2.9,43.3],[2.5,43.2],[1.8,43.2],[1.4,43.3],[0.8,43.4],[0.0,43.4],[-0.5,43.4],[-0.2,44.0],[0.3,44.1],[0.8,44.0],[1.4,44.0],[2.0,44.0],[2.5,44.0],[3.1,44.0]]]}},{"type":"Feature","properties":{"code":"84","nom":"Auvergne-Rhône-Alpes"},"geometry":{"type":"Polygon","coordinates":[[[3.16,46.2],[3.56,46.8],[3.56,46.1],[4.2,45.9],[4.8,45.75],[5.5,45.9],[6.0,46.4],[7.0,46.5],[7.2,47.6],[6.0,47.8],[5.2,48.1],[4.5,47.9],[3.8,47.8],[3.47,47.6],[3.1,47.2],[3.16,46.8],[3.16,46.2]]]}},{"type":"Feature","properties":{"code":"93","nom":"Provence-Alpes-Côte d'Azur"},"geometry":{"type":"Polygon","coordinates":[[[5.0,45.0],[4.8,45.75],[5.5,45.9],[6.0,46.4],[7.0,46.5],[7.6,44.2],[7.5,43.8],[7.0,43.5],[6.5,43.2],[5.8,43.2],[5.0,43.4],[4.5,43.6],[4.2,43.8],[4.0,43.9],[4.2,44.4],[4.6,44.7],[4.8,44.4],[5.0,45.0]]]}},{"type":"Feature","properties":{"code":"94","nom":"Corse"},"geometry":{"type":"Polygon","coordinates":[[[8.8,41.4],[9.4,41.3],[9.6,41.8],[9.5,42.2],[9.4,42.7],[9.6,43.0],[9.4,43.0],[8.8,42.7],[8.6,42.0],[8.6,41.6],[8.8,41.4]]]}}]};
+
+function initCarte() {
+  const wrap=document.getElementById("carte-svg-wrap");
+  const loading=document.getElementById("carte-loading");
+
+  try {
+    // Ensure element is visible and has dimensions
+    const W=Math.max(wrap.clientWidth||0, 300);
+    const H=Math.round(W*0.85);
+
+    loading.style.display="none";
+
+    const geojson=JSON.parse(JSON.stringify(FRANCE_GEOJSON));
+
+    const svg=d3.select("#carte-svg").attr("viewBox",`0 0 ${W} ${H}`);
+
+    const proj=d3.geoConicConformal()
+      .center([2.45, 46.28])
+      .scale(W*4.0)
+      .translate([W/2, H/2]);
+
+    const path=d3.geoPath().projection(proj);
+    const isDk=document.documentElement.getAttribute("data-theme")==="dark";
+
+    // Draw regions
+    svg.selectAll(".carte-region")
+      .data(geojson.features)
+      .join("path")
+      .attr("class","carte-region")
+      .attr("d", d => { try { return path(d) || ""; } catch(e) { return ""; } })
+      .attr("fill", d => getCarteColor(d.properties.code, carteLayer))
+      .on("click",(e,d)=>{
+        const code=d.properties.code;
+        svg.selectAll(".carte-region").classed("active",false);
+        if(carteActiveRegion===code){
+          carteActiveRegion=null;
+          document.getElementById("carte-card").style.display="none";
+        } else {
+          carteActiveRegion=code;
+          d3.select(e.currentTarget).classed("active",true);
+          showRegionCard(code);
+        }
+      })
+      .on("mouseover",(e)=>{ d3.select(e.currentTarget).attr("opacity",0.78); })
+      .on("mouseout",(e)=>{ d3.select(e.currentTarget).attr("opacity",1); });
+
+    // Value labels at centroid
+    svg.selectAll(".carte-label")
+      .data(geojson.features.filter(f=>REGIONS_DATA[f.properties.code]))
+      .join("text")
+      .attr("class","carte-label")
+      .attr("transform", d => {
+        try {
+          const c=path.centroid(d);
+          if(!c || isNaN(c[0]) || isNaN(c[1])) return "translate(0,0)";
+          return `translate(${c})`;
+        } catch(e) { return "translate(0,0)"; }
+      })
+      .attr("text-anchor","middle")
+      .attr("dominant-baseline","middle")
+      .style("font-size","8px")
+      .style("font-family","'Inter',sans-serif")
+      .style("fill", isDk?"rgba(255,255,255,0.55)":"rgba(0,0,0,0.42)")
+      .style("pointer-events","none")
+      .text(d => {
+        const reg=REGIONS_DATA[d.properties.code];
+        if(!reg) return "";
+        const sc=CARTE_SCALES[carteLayer];
+        return sc.format(sc.getValue(reg));
+      });
+
+    window._carteGeo=geojson;
+    window._carteSvg=svg;
+    window._cartePath=path;
+
+    renderLegend(carteLayer);
+
+  } catch(err) {
+    console.error("Carte erreur:", err);
+    loading.innerHTML=`<div style="padding:20px;text-align:center;font-family:'Inter',sans-serif;color:var(--tx3);">
+      <div style="font-size:13px;margin-bottom:6px;">Erreur de rendu</div>
+      <div style="font-size:11px;color:var(--tx3);">${err.message}</div>
+    </div>`;
+    loading.style.display="flex";
+  }
+}
+
+function updateCarteLayer(layer) {
+  carteLayer=layer;
+  if(!window._carteSvg)return;
+  const svg=window._carteSvg;
+  svg.selectAll(".carte-region")
+    .transition().duration(300)
+    .attr("fill",d=>getCarteColor(d.properties.code, layer));
+  svg.selectAll(".carte-label")
+    .text(d=>{
+      const code=d.properties.code;
+      const reg=REGIONS_DATA[code];
+      if(!reg)return"";
+      const sc=CARTE_SCALES[layer];
+      return sc.format(sc.getValue(reg));
+    });
+  renderLegend(layer);
+  if(carteActiveRegion)showRegionCard(carteActiveRegion);
+}
+
+// Layer buttons
+document.querySelectorAll(".carte-btn").forEach(btn=>{
+  btn.addEventListener("click",()=>{
+    document.querySelectorAll(".carte-btn").forEach(b=>b.classList.remove("on"));
+    btn.classList.add("on");
+    updateCarteLayer(btn.dataset.layer);
+  });
+});
+
+// Init on tab click — wait for layout paint before measuring clientWidth
+document.querySelector('[data-tab="carte"]').addEventListener("click",()=>{
+  if(!window._carteSvg) {
+    requestAnimationFrame(()=>setTimeout(initCarte, 80));
+  }
+});
+
 let rt;window.addEventListener("resize",()=>{clearTimeout(rt);rt=setTimeout(()=>{btreemap();renderUsage();},150);});
 </script>
 </body>
