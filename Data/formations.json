@@ -1,0 +1,216 @@
+{
+  "_meta": {
+    "version": "1.0",
+    "updated": "2026-03",
+    "description": "Suggestions de formations par métier — sources CPF/MonCompteFormation, AFPA, OpenClassrooms, Jedha, France Travail",
+    "financement_note": "CPF = Compte Personnel de Formation (moncompteformation.gouv.fr) — AIF = Aide Individuelle à la Formation France Travail — PTP = Projet de Transition Professionnelle"
+  },
+  "Développeur logiciel": [
+    {"titre":"Développeur Full-Stack (React + Node.js)","organisme":"OpenClassrooms","type":"reconversion","duree":"12 mois","financement":"CPF","prix":"4 500–8 500 €","lien":"https://openclassrooms.com/fr/paths/899-developpeur-full-stack","note":"Titre RNCP niv.6 · mentorat inclus · 100% en ligne"},
+    {"titre":"Développeur Web Bootcamp","organisme":"Le Wagon","type":"reconversion","duree":"9 semaines","financement":"CPF","prix":"~6 990 €","lien":"https://www.lewagon.com/fr/web-development-course","note":"Bootcamp intensif · présence Paris/Lyon · placement emploi inclus"},
+    {"titre":"Expert Cloud AWS Solutions Architect","organisme":"AWS Training","type":"certification","duree":"40 h","financement":"CPF ou plan formation entreprise","prix":"~900 €","lien":"https://aws.amazon.com/fr/training/","note":"Certification SAA-C03 · très demandée recruteurs"},
+    {"titre":"DevOps & GitOps avec Docker/Kubernetes","organisme":"DataScientest","type":"montee_competence","duree":"3 mois","financement":"CPF","prix":"~3 200 €","lien":"https://datascientest.com/formation-devops","note":"Éligible CPF · 100% distanciel · cert. Microsoft Azure incluse"}
+  ],
+  "Data scientist": [
+    {"titre":"Data Science Fullstack","organisme":"Jedha Bootcamp","type":"reconversion","duree":"450 h · 3 mois","financement":"CPF · AIF France Travail","prix":"~5 990 €","lien":"https://www.jedha.co/formation-data/data-scientist","note":"RNCP niv.6 · Meilleur bootcamp Europe 2025 (Course Report)"},
+    {"titre":"Data Scientist — parcours certifiant","organisme":"DataScientest","type":"reconversion","duree":"9 mois","financement":"CPF · PTP · OPCO","prix":"~5 990 €","lien":"https://datascientest.com/formation-data-science","note":"Co-certifié MINES Paris PSL · 7 sprints pratiques · distanciel"},
+    {"titre":"Machine Learning Engineer Certificate","organisme":"Coursera (Stanford/Google)","type":"certification","duree":"6 mois","financement":"CPF si organisme certifié","prix":"~490 $/an","lien":"https://www.coursera.org/professional-certificates/machine-learning-introduction","note":"Andrew Ng · référence mondiale · en anglais"},
+    {"titre":"MLOps — déploiement de modèles IA","organisme":"OpenClassrooms","type":"montee_competence","duree":"3 mois","financement":"CPF","prix":"~2 800 €","lien":"https://openclassrooms.com/fr/paths/908-machine-learning-engineer","note":"Titre RNCP · focus industrialisation des modèles"}
+  ],
+  "UX designer": [
+    {"titre":"UX Designer — Titre RNCP","organisme":"OpenClassrooms","type":"reconversion","duree":"12 mois","financement":"CPF","prix":"~6 500 €","lien":"https://openclassrooms.com/fr/paths/556-ux-designer","note":"Titre niv.6 · mentorat hebdo · portfolio projet réel"},
+    {"titre":"Google UX Design Certificate","organisme":"Coursera (Google)","type":"certification","duree":"6 mois","financement":"CPF si certifié","prix":"~250 €","lien":"https://www.coursera.org/professional-certificates/google-ux-design","note":"Reconnaissance globale · figma · accessibilité · prototypage"},
+    {"titre":"Design Thinking & Recherche Utilisateur","organisme":"IDEO U / AFPA","type":"montee_competence","duree":"1 mois","financement":"Plan formation","prix":"~1 200 €","lien":"https://www.afpa.fr/formation-adulte","note":"Méthode IDEO · tests utilisateurs · workshops"},
+    {"titre":"UX Writing & Content Design","organisme":"Nielsen Norman Group","type":"certification","duree":"10 h en ligne","financement":"Autofinancement ou plan formation","prix":"~900 €","lien":"https://www.nngroup.com/courses/","note":"Certification NNg · référence mondiale UX research"}
+  ],
+  "Chef de projet IT": [
+    {"titre":"Project Manager IT — Certification PMP","organisme":"PMI / Orsys","type":"certification","duree":"3 jours + exam","financement":"Plan formation entreprise · OPCO","prix":"~2 500 €","lien":"https://www.orsys.fr/formation-pmp.html","note":"PMP = certification dorée du chef de projet · reconnue mondialement"},
+    {"titre":"Product Owner & Agile Scrum","organisme":"Scrum.org / ACCENTURE","type":"certification","duree":"2 jours","financement":"CPF · plan formation","prix":"~1 200 €","lien":"https://www.scrum.org/assessments/professional-scrum-product-owner-i-certification","note":"PSM/PSPO · indispensable en IT agile"},
+    {"titre":"Chef de projet transformation digitale","organisme":"OpenClassrooms","type":"reconversion","duree":"12 mois","financement":"CPF","prix":"~6 000 €","lien":"https://openclassrooms.com/fr/paths/157-chef-de-projet-digital","note":"Titre RNCP · gestion IA, SI, conduite du changement"}
+  ],
+  "Comptable": [
+    {"titre":"DSCG — Diplôme Supérieur de Comptabilité et Gestion","organisme":"Ministère de l'Économie / CNED","type":"reconversion","duree":"2 ans","financement":"CPF · PTP","prix":"~3 000 €","lien":"https://www.economie.gouv.fr/dscg","note":"Niveau M1 · prépare à l'Expertise Comptable · accès concours"},
+    {"titre":"Expert-Comptable Mémoire & Consolidation","organisme":"ENOES / Sup de Co","type":"montee_competence","duree":"1 an","financement":"CPF · plan formation","prix":"~4 500 €","lien":"https://www.enoes.com","note":"Préparation DEC · consolidation IFRS · audit"},
+    {"titre":"Contrôleur de gestion avec Excel/Power BI","organisme":"CEGOS","type":"montee_competence","duree":"3 jours","financement":"CPF · OPCO","prix":"~1 800 €","lien":"https://www.cegos.fr/formation-controle-de-gestion","note":"Power BI reporting · tableaux de bord · IA Excel"},
+    {"titre":"Comptabilité analytique & SIRH automatisée","organisme":"Walter Learning","type":"montee_competence","duree":"2 mois","financement":"CPF","prix":"~1 200 €","lien":"https://www.walter-learning.com/formation-comptabilite","note":"Formation distanciel · automatisation paie · outils RPA"}
+  ],
+  "Analyste financier": [
+    {"titre":"CFA Level 1 — Chartered Financial Analyst","organisme":"CFA Institute","type":"certification","duree":"300 h · autoportant","financement":"Autofinancement ou employeur","prix":"~1 000 $/niveau","lien":"https://www.cfainstitute.org/en/programs/cfa","note":"Certification mondiale de référence · ouvre Private Equity et AM"},
+    {"titre":"Financial Risk Manager (FRM)","organisme":"GARP","type":"certification","duree":"200 h","financement":"Plan formation","prix":"~800 $/partie","lien":"https://www.garp.org/frm","note":"Gestion des risques quantitatifs · IA & modèles de crédit"},
+    {"titre":"Finance verte & Analyse ESG","organisme":"Institut de Finance Durable / Sciences Po","type":"montee_competence","duree":"3 mois","financement":"CPF · PTP","prix":"~4 000 €","lien":"https://www.ifd.fr","note":"CSRD · taxonomie EU · green bonds · forte demande en 2025-26"},
+    {"titre":"Python pour la finance quantitative","organisme":"Coursera (NYU)","type":"montee_competence","duree":"3 mois","financement":"CPF si certifié","prix":"~300 €","lien":"https://www.coursera.org/specializations/finance-python","note":"Algorithmic trading · backtesting · Monte Carlo"}
+  ],
+  "DRH": [
+    {"titre":"Responsable RH — Titre RNCP","organisme":"IGS-RH / CNAM","type":"reconversion","duree":"12 mois","financement":"CPF · PTP","prix":"~6 000 €","lien":"https://www.igs-rh.fr","note":"Titre niv.6 · GPEC · transformation IA · droit social"},
+    {"titre":"Certification SIRH — Workday / SAP SuccessFactors","organisme":"Workday Learning","type":"certification","duree":"40 h","financement":"Plan formation employeur","prix":"~2 000 €","lien":"https://training.workday.com","note":"Compétence très demandée · IA Act en RH · automatisation paie"},
+    {"titre":"IA et Gestion du Talent","organisme":"ANDRH / EDHEC","type":"montee_competence","duree":"2 jours","financement":"OPCO · plan formation","prix":"~1 500 €","lien":"https://www.andrh.fr/formations","note":"Recrutement augmenté · People Analytics · conformité IA Act"},
+    {"titre":"Droit social et IA — nouvelles obligations","organisme":"EFE (Formations Juridiques)","type":"montee_competence","duree":"2 jours","financement":"OPCO","prix":"~1 600 €","lien":"https://www.efe.fr/formation-droit-social","note":"IA Act + RGPD RH + licenciement algorithme · très demandé"}
+  ],
+  "Contrôleur de gestion": [
+    {"titre":"Business Analyst & Power BI","organisme":"DataScientest","type":"montee_competence","duree":"2 mois","financement":"CPF","prix":"~2 500 €","lien":"https://datascientest.com/formation-power-bi","note":"Tableaux de bord · DAX · intégration ERP · présentation direction"},
+    {"titre":"Contrôleur de Gestion Avancé","organisme":"CEGOS","type":"montee_competence","duree":"5 jours","financement":"OPCO · plan formation","prix":"~2 800 €","lien":"https://www.cegos.fr","note":"Forecasting IA · ABC costing · consolidation multisite"},
+    {"titre":"Business Partner Financier","organisme":"HEC Paris Executive","type":"montee_competence","duree":"3 jours","financement":"Plan formation","prix":"~3 800 €","lien":"https://www.hec.edu/fr/executive-education","note":"Co-pilotage stratégique · communication direction · KPI ESG"}
+  ],
+  "Consultant en management": [
+    {"titre":"MBA Management & Transformation","organisme":"HEC / ESCP / INSEAD","type":"reconversion","duree":"12-18 mois","financement":"CPF · PTP · financement personnel","prix":"~25 000–60 000 €","lien":"https://www.hec.edu","note":"Réseau puissant · international · carrière senior"},
+    {"titre":"Change Management — Prosci","organisme":"Prosci France","type":"certification","duree":"3 jours","financement":"Plan formation · OPCO","prix":"~3 200 €","lien":"https://www.prosci.com/fr","note":"ADKAR method · conduite du changement IA · référence internationale"},
+    {"titre":"Consultant IA Act & Gouvernance","organisme":"Sciences Po Paris Executive","type":"montee_competence","duree":"3 jours","financement":"Plan formation","prix":"~2 800 €","lien":"https://www.sciencespo.fr/executive-education","note":"Conformité IA Act 2025 · due diligence IA · audit systèmes"}
+  ],
+  "Gestionnaire paie & administration RH": [
+    {"titre":"Gestionnaire de Paie — Titre RNCP","organisme":"Studi / CNAM","type":"reconversion","duree":"8-12 mois","financement":"CPF","prix":"~3 500 €","lien":"https://www.studi.com/formation/gestionnaire-de-paie","note":"Titre niv.5 · 100% en ligne · certification SIRH incluse"},
+    {"titre":"Expert Paie Internationale","organisme":"ISGRH / EFE","type":"montee_competence","duree":"3 jours","financement":"OPCO","prix":"~1 800 €","lien":"https://www.isgrh.com","note":"Paie multi-pays · détachement · mobilité internationale · fuite G4"},
+    {"titre":"SIRH & Automatisation Paie (Workday/SAP)","organisme":"Workday Learning","type":"certification","duree":"40 h","financement":"Plan formation","prix":"~2 000 €","lien":"https://training.workday.com","note":"Pivot technologique clé pour ce métier G4"},
+    {"titre":"Business Partner RH / HRBP","organisme":"IGS-RH","type":"montee_competence","duree":"3 jours","financement":"OPCO · CPF","prix":"~2 000 €","lien":"https://www.igs-rh.fr","note":"Montée vers rôle stratégique — loin du périmètre automatisé"}
+  ],
+  "Responsable administratif & financier (RAF)": [
+    {"titre":"DAF de Transition — Certification","organisme":"DFCG / EFE","type":"montee_competence","duree":"3 jours","financement":"Plan formation","prix":"~2 200 €","lien":"https://www.dfcg.fr/formations","note":"DAF temps partagé · reporting IA · gouvernance financière PME"},
+    {"titre":"Finance pour non-financiers","organisme":"HEC Paris Executive","type":"montee_competence","duree":"3 jours","financement":"Plan formation","prix":"~3 200 €","lien":"https://www.hec.edu/fr/executive-education","note":"Pour RAF souhaitant s'orienter Direction Générale"},
+    {"titre":"Reporting ESG & CSRD","organisme":"IFRS Foundation / EFE","type":"montee_competence","duree":"2 jours","financement":"OPCO · plan formation","prix":"~1 800 €","lien":"https://www.efe.fr","note":"Directive CSRD 2025 obligatoire ETI · nouveau périmètre RAF"}
+  ],
+  "Directeur de projet / PMO": [
+    {"titre":"PMO & Portfolio Management","organisme":"Project Management Institute","type":"certification","duree":"PMP exam","financement":"Plan formation","prix":"~2 500 €","lien":"https://www.pmi.org","note":"PMP = certification gold standard chef de projet"},
+    {"titre":"Transformation Digitale & IA","organisme":"MIT Sloan Executive","type":"montee_competence","duree":"3 mois · distanciel","financement":"Plan formation","prix":"~4 500 €","lien":"https://executive.mit.edu","note":"Stratégie IA · ROI digital · gouvernance · international"},
+    {"titre":"OKR & Pilotage par objectifs","organisme":"Objectives & Key Results Institute","type":"certification","duree":"2 jours","financement":"Plan formation","prix":"~1 500 €","lien":"https://www.okrinstitute.org","note":"Google, Intel, LinkedIn utilisent OKR · très demandé PMO"}
+  ],
+  "Journaliste": [
+    {"titre":"Journalisme data & dataviz","organisme":"ESJ Paris / CFJ","type":"montee_competence","duree":"5 jours","financement":"OPCO médias","prix":"~2 500 €","lien":"https://www.esj-paris.fr","note":"Datawrapper · Python journalisme · FOIA requests · fact-checking"},
+    {"titre":"Podcasting & production audio","organisme":"Sorbonne / France Médias Monde","type":"montee_competence","duree":"3 jours","financement":"Plan formation","prix":"~1 800 €","lien":"https://www.francetvformation.fr","note":"Format longue durée · monétisation Spotify/Apple · radio digitale"},
+    {"titre":"Investigation numérique & OSINT","organisme":"Bellingcat / SCAM","type":"montee_competence","duree":"2 jours","financement":"OPCO","prix":"~1 200 €","lien":"https://www.scam.fr/formation","note":"Open source intelligence · vérification sources · enquêtes digitales"}
+  ],
+  "Rédacteur web": [
+    {"titre":"Stratège SEO & Content Marketing","organisme":"Formation YNOV / SEMrush Academy","type":"montee_competence","duree":"3 mois","financement":"CPF","prix":"~2 200 €","lien":"https://fr.semrush.com/academy/","note":"SEO avancé · Search Generative Experience · contenu augmenté IA"},
+    {"titre":"Content Strategy & Brand Storytelling","organisme":"Coursera (Northwestern)","type":"montee_competence","duree":"2 mois","financement":"CPF si certifié","prix":"~300 €","lien":"https://www.coursera.org/specializations/content-strategy","note":"Stratégie éditoriale · audience building · supervision IA"},
+    {"titre":"Prompt Engineering & supervision LLMs éditoriaux","organisme":"deeplearning.ai","type":"montee_competence","duree":"1 mois","financement":"Autofinancement","prix":"~50 €","lien":"https://www.deeplearning.ai/short-courses/","note":"ChatGPT API · éditorial augmenté · rôle superviseur rédactionnel"}
+  ],
+  "Traducteur": [
+    {"titre":"Post-édition de traduction automatique (MTPE)","organisme":"ESIT Paris 3 / SDL","type":"montee_competence","duree":"3 jours","financement":"OPCO","prix":"~1 500 €","lien":"https://www.univ-paris3.fr/esit","note":"ISO 18587 MTPE · SDL Trados · DeepL Pro · nouveau standard marché"},
+    {"titre":"Localisation de logiciels & jeux vidéo","organisme":"Acolad / Lionbridge Academy","type":"montee_competence","duree":"2 jours","financement":"Plan formation","prix":"~1 200 €","lien":"https://www.acolad.com","note":"UI localization · QA testing · marché jeux vidéo en croissance"},
+    {"titre":"Terminologie & gestion de mémoires TM","organisme":"SDL Trados Academy","type":"certification","duree":"2 jours","financement":"Plan formation","prix":"~900 €","lien":"https://www.sdltrados.com/training","note":"Certification SDL · TM management · bases terminologiques sectorielles"}
+  ],
+  "Graphiste": [
+    {"titre":"UX/UI Design — Transition de graphiste","organisme":"OpenClassrooms","type":"reconversion","duree":"12 mois","financement":"CPF","prix":"~6 500 €","lien":"https://openclassrooms.com/fr/paths/556-ux-designer","note":"Pivot naturel vers UX · titre RNCP · Figma · accessibilité"},
+    {"titre":"Motion Design & After Effects","organisme":"CIFACOM / VideoFormation","type":"montee_competence","duree":"3 mois","financement":"CPF","prix":"~3 000 €","lien":"https://cifacom.com","note":"Animation · vidéo sociale · formats immersifs · AR filters"},
+    {"titre":"Prompt Design Visuel & Midjourney","organisme":"GOBELINS Paris","type":"montee_competence","duree":"3 jours","financement":"Plan formation","prix":"~1 800 €","lien":"https://www.gobelins.fr","note":"GOBELINS = référence image France · IA générative dans le studio"}
+  ],
+  "Community manager": [
+    {"titre":"Growth Hacking & Social Media Strategy","organisme":"YNOV / Simplon","type":"montee_competence","duree":"3 mois","financement":"CPF","prix":"~3 500 €","lien":"https://www.simplon.co","note":"Analytics · Social Selling · automation · certif. Meta & TikTok"},
+    {"titre":"Meta Blueprint Certification","organisme":"Meta","type":"certification","duree":"40 h en ligne","financement":"Autofinancement","prix":"~150 €","lien":"https://www.facebook.com/business/learn/certification","note":"Certification officielle Meta Ads · crédit crédibilité marché"},
+    {"titre":"Community Manager — Titre RNCP","organisme":"Studi / ICADEMIE","type":"reconversion","duree":"12 mois","financement":"CPF","prix":"~4 500 €","lien":"https://www.studi.com","note":"Titre niv.5 · 100% distanciel · stratégie de contenu & analytics"}
+  ],
+  "Médecin généraliste": [
+    {"titre":"Diplôme Interuniversitaire IA en santé","organisme":"Université Paris Cité","type":"montee_competence","duree":"1 an","financement":"FIF-PL","prix":"~2 500 €","lien":"https://odf.u-paris.fr","note":"DIU IA & santé · 150 h · diagnostic augmenté · FDA/CE AI devices"},
+    {"titre":"Médecine de précision & génomique","organisme":"Institut Curie / APHP","type":"montee_competence","duree":"3 jours","financement":"FIF-PL","prix":"~900 €","lien":"https://www.aphp.fr/formation","note":"Oncologie moléculaire · NGS · théranostique · recherche clinique"},
+    {"titre":"Télémédecine & e-santé","organisme":"CNOM / URPS","type":"montee_competence","duree":"1 jour","financement":"FIF-PL","prix":"~300 €","lien":"https://www.conseil-national.medecin.fr","note":"DPC obligatoire · téléconsultation · Mon Espace Santé · MSS"}
+  ],
+  "Infirmier": [
+    {"titre":"Infirmier de Pratique Avancée (IPA)","organisme":"IFSI / Université","type":"reconversion","duree":"2 ans (Master)","financement":"Congé formation employeur · ANFH","prix":"Financé employeur","lien":"https://www.infirmiers.com/votre-carriere/ipa.html","note":"Master niv.7 · prescriptions · suivi maladies chroniques · forte revalorisation"},
+    {"titre":"Simulation en santé & formation","organisme":"CESU / HAS","type":"montee_competence","duree":"3 jours","financement":"ANFH","prix":"~800 €","lien":"https://www.has-sante.fr/formation","note":"Mannequins HF · e-learning santé · formateur terrain"},
+    {"titre":"Coordination de soins complexes","organisme":"EHESP","type":"montee_competence","duree":"5 jours","financement":"ANFH","prix":"~2 000 €","lien":"https://www.ehesp.fr","note":"Case manager · parcours patients complexes · lien ville-hôpital"}
+  ],
+  "Radiologue": [
+    {"titre":"DIU IA en Imagerie Médicale","organisme":"Université Paris Cité / SFR","type":"montee_competence","duree":"1 an","financement":"FIF-PL · Plan formation","prix":"~3 500 €","lien":"https://sfr.radiologie.fr","note":"SFR recommande formation IA · supervision algorithmes · régulation CE AI"},
+    {"titre":"Radiologie interventionnelle avancée","organisme":"CERF / SFR","type":"montee_competence","duree":"3 jours","financement":"FIF-PL","prix":"~1 200 €","lien":"https://www.cerf.fr","note":"Gestes sous imagerie · non automatisable · forte valeur"},
+    {"titre":"Leadership clinique & chef de service","organisme":"EHESP","type":"montee_competence","duree":"5 jours","financement":"ANFH","prix":"~2 500 €","lien":"https://www.ehesp.fr","note":"Gouvernance service · management équipes · supervision IA médicale"}
+  ],
+  "Avocat": [
+    {"titre":"LegalTech & Droit du Numérique","organisme":"Paris II Panthéon-Assas / EFB","type":"montee_competence","duree":"6 mois","financement":"FIFPL","prix":"~4 000 €","lien":"https://www.u-paris2.fr","note":"AI Act contentieux · RGPD · contrats IA · innovation juridique"},
+    {"titre":"Arbitrage international","organisme":"ICC Paris / CMS","type":"montee_competence","duree":"3 jours","financement":"FIFPL","prix":"~2 500 €","lien":"https://iccwbo.org/training","note":"ADR · arbitrage commercial · médiation internationale"},
+    {"titre":"Compliance IA & Due Diligence","organisme":"EFB / AJF","type":"montee_competence","duree":"2 jours","financement":"FIFPL","prix":"~1 800 €","lien":"https://www.efb.fr","note":"IA Act obligations · systèmes IA haut risque · audit conformité cabinet"}
+  ],
+  "Magistrat": [
+    {"titre":"Formation continue ENM — IA et Justice","organisme":"École Nationale de la Magistrature","type":"montee_competence","duree":"3 jours","financement":"MJ (formation continue)","prix":"Gratuit","lien":"https://www.enm.justice.fr","note":"Formation initiale et continue ENM · IA au service de la justice · LOPJ"},
+    {"titre":"Droit des technologies et IA","organisme":"ENM / Université","type":"montee_competence","duree":"2 jours","financement":"MJ","prix":"Gratuit","lien":"https://www.enm.justice.fr/formation-continue","note":"Preuve numérique · deepfakes · IA Act pénal"}
+  ],
+  "Policier": [
+    {"titre":"Investigation numérique & OSINT","organisme":"IRCGN / INHESJ","type":"montee_competence","duree":"5 jours","financement":"Plan formation PN/Gendarmerie","prix":"Institutionnel","lien":"https://www.gendarmerie.interieur.gouv.fr","note":"Cybercriminalité · analyse forensique · OSINT · veille réseaux"},
+    {"titre":"Droit de l'IA en sécurité publique","organisme":"ENSP / EOGN","type":"montee_competence","duree":"2 jours","financement":"Formation institutionnelle","prix":"Institutionnel","lien":"https://www.ensp.interieur.fr","note":"IA Act · reconnaissance faciale · drones · responsabilité"}
+  ],
+  "Professeur des écoles": [
+    {"titre":"PIX & Compétences Numériques des Enseignants","organisme":"Ministère Éducation Nationale","type":"montee_competence","duree":"Autoformation","financement":"Gratuit","prix":"Gratuit","lien":"https://pix.fr","note":"Certification PIX obligatoire · outils ENT · usages IA pédagogique"},
+    {"titre":"IA et Pédagogie — MOOC DANE","organisme":"Réseau CANOPÉ / DANE","type":"montee_competence","duree":"20 h","financement":"Gratuit (Educ. Nat.)","prix":"Gratuit","lien":"https://www.reseau-canope.fr","note":"Formation continuée MEN · IA générative en classe · enjeux éthiques"},
+    {"titre":"Enseigner avec les outils numériques","organisme":"France Université Numérique (FUN)","type":"montee_competence","duree":"6 semaines","financement":"Gratuit","prix":"Gratuit","lien":"https://www.fun-mooc.fr","note":"MOOC certifiant · pédagogie inversée · évaluation numérique"}
+  ],
+  "Professeur collège-lycée": [
+    {"titre":"DIU Enseignement & IA","organisme":"Université de Lorraine / ENS","type":"montee_competence","duree":"1 an","financement":"Plan formation MEN","prix":"~2 000 €","lien":"https://www.univ-lorraine.fr","note":"Recherche-action en classe · enjeux IA éducation · publication"},
+    {"titre":"MOOC IA & Éducation","organisme":"France Université Numérique (FUN)","type":"montee_competence","duree":"4 semaines","financement":"Gratuit","prix":"Gratuit","lien":"https://www.fun-mooc.fr","note":"Comprendre les LLMs · usages pédagogiques · prévention plagiat IA"}
+  ],
+  "Enseignant-chercheur": [
+    {"titre":"IA et Recherche Académique","organisme":"CNRS Formation","type":"montee_competence","duree":"3 jours","financement":"Plan formation établissement","prix":"~1 500 €","lien":"https://www.cnrs.fr/fr/formation","note":"LLMs pour la recherche · reproducibility · IA Act · publication ouverte"},
+    {"titre":"Data Science pour Chercheurs (R/Python)","organisme":"Software Carpentry / Huma-Num","type":"montee_competence","duree":"2 jours","financement":"Gratuit ou plan formation","prix":"Gratuit–1 000 €","lien":"https://carpentries.org","note":"Open science · traitement corpus · visualisation · reproductibilité"}
+  ],
+  "Formateur professionnel / responsable formation": [
+    {"titre":"Concepteur Pédagogique IA & LXP","organisme":"Istf / Thot Cursus","type":"montee_competence","duree":"3 mois","financement":"CPF · OPCO","prix":"~3 500 €","lien":"https://www.istf.fr","note":"Learning Experience Platform · IA adaptive · authoring tools IA"},
+    {"titre":"Certification Qualiopi — Responsable Qualité Formation","organisme":"AFNOR","type":"certification","duree":"2 jours","financement":"OPCO","prix":"~1 400 €","lien":"https://www.afnor.org","note":"Obligatoire pour financement public · CPF · audit qualité"},
+    {"titre":"Ingénierie AFEST","organisme":"AFDAS / CNAM","type":"montee_competence","duree":"3 jours","financement":"OPCO","prix":"~1 800 €","lien":"https://www.afdas.com","note":"Action de Formation En Situation de Travail · nouvelle approche réglementée"}
+  ],
+  "Artiste plasticien / peintre": [
+    {"titre":"Art Numérique & IA Générative — GOBELINS","organisme":"GOBELINS Paris","type":"montee_competence","duree":"3 jours","financement":"CPF · AFDAS","prix":"~2 200 €","lien":"https://www.gobelins.fr","note":"Midjourney · Stable Diffusion · installations interactives · résidences France 2030"},
+    {"titre":"Gestion carrière artiste & droits d'auteur","organisme":"SAIF / ADAGP","type":"montee_competence","duree":"2 jours","financement":"AFDAS","prix":"~800 €","lien":"https://www.adagp.fr","note":"Droits image IA · licences · revenus données entraînement · NFT"},
+    {"titre":"Arts Visuels & Numériques — Master","organisme":"Université Paris 8 / ENSBA","type":"reconversion","duree":"2 ans","financement":"CPF · PTP","prix":"~3 000 €","lien":"https://www.univ-paris8.fr","note":"Master Arts niv.7 · recherche artistique · création numérique"}
+  ],
+  "Illustrateur / dessinateur BD": [
+    {"titre":"Direction Artistique & Identité de Marque","organisme":"GOBELINS / ECV","type":"montee_competence","duree":"5 jours","financement":"CPF · AFDAS","prix":"~2 800 €","lien":"https://www.gobelins.fr","note":"Passage DA · supervision IA créative · brand system"},
+    {"titre":"Storyboarding & Production Animée","organisme":"Les Gobelins / Supinfocom","type":"montee_competence","duree":"3 mois","financement":"CPF · AFDAS","prix":"~4 000 €","lien":"https://www.gobelins.fr","note":"Séquences animées · storyboard IA · production série animée"}
+  ],
+  "Musicien": [
+    {"titre":"Production Musicale & STAN (DAW)","organisme":"CIFMD / IMEP","type":"montee_competence","duree":"3 mois","financement":"CPF · AFDAS","prix":"~3 500 €","lien":"https://www.imep.fr","note":"Ableton/Logic Pro · production · sync music · placements pub/film"},
+    {"titre":"Direction Artistique & Direction de Label","organisme":"IRMA / Université Paris","type":"montee_competence","duree":"3 jours","financement":"AFDAS","prix":"~1 800 €","lien":"https://www.irma.asso.fr","note":"Curation · A&R · droits voisins IA · nouvelle économie du streaming"}
+  ],
+  "Comédien / acteur": [
+    {"titre":"Coaching Voix & Doublage","organisme":"AFDAS / Cours Florent","type":"montee_competence","duree":"3 mois","financement":"AFDAS","prix":"~3 000 €","lien":"https://www.courssflorent.fr","note":"Voix de synthèse · doublage IA · audiobooks · IA Act droits image"},
+    {"titre":"Droits à l'image & Contrats IA pour artistes","organisme":"UDA / SFA","type":"montee_competence","duree":"1 jour","financement":"AFDAS","prix":"~400 €","lien":"https://www.uda.fr","note":"Deepfakes · clause de non-utilisation IA · négociation contrats 2025"}
+  ],
+  "Chauffeur routier": [
+    {"titre":"Formation FCO Marchandises","organisme":"AFTRAL","type":"certification","duree":"35 h","financement":"CPF · OPCO Mobilités","prix":"~600 €","lien":"https://www.aftral.com","note":"FCO obligatoire tous les 5 ans · ADR · écoconduite"},
+    {"titre":"Logisticien & Supply Chain Manager","organisme":"AFTRAL / CNAM","type":"reconversion","duree":"12 mois","financement":"CPF · PTP","prix":"~5 000 €","lien":"https://www.cnam.fr","note":"Titre RNCP niv.6 · TMS · WMS · préparation poste sédentaire"},
+    {"titre":"Permis CE + ADR Citerne","organisme":"Auto-école professionnelle","type":"certification","duree":"5 jours","financement":"CPF · OPCO Mobilités","prix":"~2 500 €","lien":"https://www.moncompteformation.gouv.fr","note":"Élargissement accréditations · matières dangereuses · valorisation salariale"}
+  ],
+  "Logisticien": [
+    {"titre":"Supply Chain Manager","organisme":"CNAM / ISC Paris","type":"montee_competence","duree":"6 mois","financement":"CPF · plan formation","prix":"~5 000 €","lien":"https://www.cnam.fr","note":"Titre RNCP niv.6 · transport multimodal · S&OP · résilience"},
+    {"titre":"Logistique 4.0 & WMS Automatisés","organisme":"ASLOG","type":"montee_competence","duree":"3 jours","financement":"OPCO · plan formation","prix":"~1 800 €","lien":"https://www.aslog.org","note":"WMS · cobotique entrepôt · jumeaux numériques · NIS2 supply chain"},
+    {"titre":"Green Logistics & RSE Transport","organisme":"FNTR / CCI","type":"montee_competence","duree":"2 jours","financement":"OPCO","prix":"~900 €","lien":"https://www.fntr.fr","note":"Bilan carbone flux · CSRD transport · label OFP · demande forte"}
+  ],
+  "Maçon": [
+    {"titre":"Chef d'Équipe BTP","organisme":"CCCA-BTP / AFT","type":"montee_competence","duree":"5 jours","financement":"CPF · OPCA BTP","prix":"~1 500 €","lien":"https://www.ccca-btp.fr","note":"Titre RNCP · coordination équipe · planification · relation client"},
+    {"titre":"Référent RE2020 & Construction Durable","organisme":"CERIB / OPPBTP","type":"certification","duree":"3 jours","financement":"CPF · OPCA BTP","prix":"~900 €","lien":"https://www.oppbtp.fr","note":"Réglementation environnementale · matériaux biosourcés · chantiers verts"}
+  ],
+  "Électricien bâtiment": [
+    {"titre":"Habilitation électrique & BT/HTA","organisme":"AFPA / Schneider Training","type":"certification","duree":"5 jours","financement":"CPF · OPCA BTP","prix":"~800 €","lien":"https://www.afpa.fr","note":"Habilitations B2V · BT · HTA · obligatoires et valorisantes"},
+    {"titre":"Électricien Smart Building & Domotique","organisme":"AFPA / IRVE Formation","type":"montee_competence","duree":"5 jours","financement":"CPF","prix":"~1 500 €","lien":"https://www.afpa.fr","note":"Protocoles KNX/LON · IRVE (bornes recharge VE) · très demandé"},
+    {"titre":"Installation Photovoltaïque (QualiPV)","organisme":"Enerplan / QUALISOL","type":"certification","duree":"3 jours","financement":"CPF","prix":"~900 €","lien":"https://www.qualibat.com","note":"RGE QualiPV · forte demande transition énergétique · +20% emplois 2025"}
+  ],
+  "Aide à domicile": [
+    {"titre":"Assistant de Vie aux Familles — DEAES","organisme":"AFPA / CFA MSA","type":"reconversion","duree":"1 an","financement":"CPF · France Compétences","prix":"~3 500 €","lien":"https://www.afpa.fr/content/formation-assistant-de-vie-aux-familles","note":"Titre RNCP niv.3 · accès infirmier après · perspectives secteur en tension"},
+    {"titre":"Auxiliaire de vie sociale — VAE","organisme":"CNAM / DREETS","type":"certification","duree":"Variable","financement":"Gratuit · aide RQTH","prix":"Gratuit ou ~500 €","lien":"https://vae.gouv.fr","note":"VAE = valider l'expérience terrain · accès DEAVS · revalorisation salariale"}
+  ],
+  "Éducateur spécialisé": [
+    {"titre":"CAFERUIS — Cadre de direction social","organisme":"IRTS / CAFDES","type":"reconversion","duree":"1 an","financement":"CPF · PTP · employeur","prix":"~5 000 €","lien":"https://www.irts.fr","note":"Prise de poste direction ESMS · niv.6 · fortement recommandé"},
+    {"titre":"Numérique en travail social","organisme":"UNAFORIS / IRTS","type":"montee_competence","duree":"3 jours","financement":"OPCO","prix":"~900 €","lien":"https://www.unaforis.eu","note":"Inclusion numérique · fracture digitale · accompagnement publics vulnérables"}
+  ],
+  "Cuisinier": [
+    {"titre":"BTM Cuisine & Gestion","organisme":"CFA Ferrandi / CNAM","type":"reconversion","duree":"1 an","financement":"CPF","prix":"~3 500 €","lien":"https://www.ferrandi-paris.fr","note":"Brevet Technique Métiers · gestion d'un établissement · chef étoilé"},
+    {"titre":"Cuisine végétale & alimentation durable","organisme":"INRAE / FERRANDI","type":"montee_competence","duree":"3 jours","financement":"CPF · OPCO Café-Hôtellerie","prix":"~1 200 €","lien":"https://www.ferrandi-paris.fr","note":"Cuisine végétale en forte croissance · food tech · restaurants ESS"}
+  ],
+  "Conseiller bancaire": [
+    {"titre":"AMF Certification — Activité Conseil","organisme":"CFPB / Revela'Pro","type":"certification","duree":"5 jours","financement":"OPCO ATLAS","prix":"~1 500 €","lien":"https://www.cfpb.fr","note":"Certification AMF obligatoire conseillers · régulation IA financière"},
+    {"titre":"Conseil en Gestion de Patrimoine (CGP)","organisme":"AUREP / Formations Patrimoine","type":"reconversion","duree":"12 mois","financement":"CPF · PTP","prix":"~6 000 €","lien":"https://www.aurep.com","note":"Titre niv.6 · spécialisation haute valeur · éloigné automatisation"},
+    {"titre":"Fintech & Innovation bancaire","organisme":"EBF / CFPB","type":"montee_competence","duree":"3 jours","financement":"OPCO ATLAS","prix":"~2 000 €","lien":"https://www.cfpb.fr","note":"Open banking · API DORA · robo-advisors · enjeux réglementaires"}
+  ],
+  "Actuaire": [
+    {"titre":"Membre Institut des Actuaires","organisme":"Institut des Actuaires France","type":"certification","duree":"3 ans","financement":"Plan formation ou autofinancement","prix":"~8 000 €/an","lien":"https://www.institutdesactuaires.com","note":"Certification IA (pas IA générative — Actuaire) · indispensable pour la profession"},
+    {"titre":"Climate Risk Actuarial Modelling","organisme":"IFoA / Actuaries Climate Index","type":"certification","duree":"40 h","financement":"Plan formation","prix":"~1 500 €","lien":"https://www.actuaries.org.uk","note":"Stress tests ORSA · risques physiques · CSRD assurance · forte demande"}
+  ],
+  "Analyste risques": [
+    {"titre":"FRM — Financial Risk Manager","organisme":"GARP","type":"certification","duree":"200 h","financement":"Plan formation","prix":"~1 500 €","lien":"https://www.garp.org/frm","note":"Certification mondiale risque · quant · DORA · NIS2 risque cyber"},
+    {"titre":"Cybersécurité & Gestion des Risques SI","organisme":"CISA / Alphabit","type":"certification","duree":"40 h","financement":"CPF · OPCO","prix":"~2 500 €","lien":"https://www.isaca.org/credentialing/cisa","note":"CISA · NIS2 conformité · audit SI · très forte demande 2025-26"}
+  ],
+  "Chargé de conformité (compliance)": [
+    {"titre":"Certification DPO — Délégué à la Protection des Données","organisme":"CNIL / AFNOR","type":"certification","duree":"5 jours","financement":"CPF · OPCO","prix":"~3 500 €","lien":"https://www.cnil.fr/fr/certification-des-competences-du-dpo","note":"ISO 27701 · RGPD · IA Act données · DPO externalisé = service vendable"},
+    {"titre":"IA Act Compliance Officer","organisme":"IAPP / PwC Academy","type":"certification","duree":"3 jours","financement":"Plan formation","prix":"~2 800 €","lien":"https://iapp.org","note":"Certification IA Act 2025 · registre systèmes haut risque · audit"},
+    {"titre":"DORA & Résilience Opérationnelle","organisme":"EBF / BNP Paribas Academy","type":"montee_competence","duree":"2 jours","financement":"OPCO","prix":"~2 000 €","lien":"https://www.eba.europa.eu","note":"DORA 2025 · tests de pénétration · ICT tiers · pivot haute valeur"}
+  ],
+  "Agent immobilier": [
+    {"titre":"Mastère Immobilier & Gestion de Patrimoine","organisme":"ESSEC / IMSI","type":"reconversion","duree":"1 an","financement":"CPF · PTP","prix":"~8 000 €","lien":"https://www.essec.edu","note":"Transaction complexe · expertise immobilière · fonds immobiliers"},
+    {"titre":"PropTech & Transformation Digitale Immo","organisme":"FNAIM / ESPI","type":"montee_competence","duree":"3 jours","financement":"CPF · OPCO","prix":"~1 500 €","lien":"https://www.fnaim.fr","note":"Outils CRM IA · Home staging digital · DPE automatisé · modèles AVE"}
+  ]
+}
