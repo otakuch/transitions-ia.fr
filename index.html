@@ -4,35 +4,6 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>IA & Métiers France : Observatoire des données</title>
-
-<!-- ── POPUP SUMMARY ── -->
-<div class="popup-overlay" id="popup-overlay">
-  <div class="popup" id="popup">
-    <button class="popup-close" id="popup-close">✕</button>
-    <div class="popup-header">
-      <div class="popup-title" id="pop-title"></div>
-      <div class="popup-domain" id="pop-domain"></div>
-    </div>
-    <div class="popup-body">
-      <div class="popup-score-row">
-        <div class="popup-score" id="pop-score"></div>
-        <div class="popup-score-info">
-          <div class="popup-score-label" id="pop-score-label"></div>
-          <div class="popup-score-bar"><div class="popup-score-fill" id="pop-score-fill"></div></div>
-        </div>
-      </div>
-      <div class="popup-summary" id="pop-summary"></div>
-      <div class="popup-meta" id="pop-meta"></div>
-    <div id="popup-note" style="font-size:10px;color:var(--tx3);font-family:'Inter',sans-serif;padding:0 16px 10px;line-height:1.5"></div>
-    </div>
-    <div class="popup-footer">
-      <span class="popup-tag" id="pop-tag"></span>
-      <button class="popup-btn" id="pop-detail-btn">Pistes de réinvention →</button>
-    </div>
-  </div>
-</div>
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@700;900&family=Syne:wght@800&family=IBM+Plex+Mono:wght@400;500&family=Inter:wght@400;500;600;700&display=swap');
 /* Typography system · Datawrapper + Nightingale principles
@@ -197,7 +168,7 @@ html,body{background:var(--bg);color:var(--tx);font-family:'Inter',system-ui,san
 /* ── MON DIAGNOSTIC ── */
 .diag-wrap{width:100%;max-width:700px;margin:0 auto;padding:clamp(14px,4vw,32px) clamp(12px,3vw,20px) 56px;box-sizing:border-box;}
 .diag-hero{text-align:center;margin-bottom:24px;}
-.diag-hero h2{font-family:'Syne',sans-serif;font-size:clamp(20px,5vw,30px);font-weight:800;color:var(--tx);margin-bottom:8px;}
+.diag-hero h2{font-family:'Roboto',sans-serif;font-size:clamp(16px,4vw,22px);font-weight:900;text-transform:uppercase;letter-spacing:.06em;color:var(--tx);margin-bottom:8px;}
 .diag-hero p{font-size:13px;color:var(--tx3);font-family:'Inter',sans-serif;line-height:1.6;}
 .diag-search-wrap{position:relative;margin-bottom:8px;}
 .diag-input{width:100%;box-sizing:border-box;font-size:14px;font-family:'Inter',sans-serif;padding:12px 14px 12px 42px;border-radius:10px;border:1px solid var(--br);background:var(--bg2);color:var(--tx);outline:none;transition:border-color .15s;}
@@ -512,6 +483,231 @@ html,body{background:var(--bg);color:var(--tx);font-family:'Inter',system-ui,san
 .spill{display:flex;align-items:center;gap:6px;white-space:nowrap;}
 .sdot{width:8px;height:8px;border-radius:50%;flex-shrink:0;}
 .rpill{font-size:11px;font-family:'Inter',sans-serif;font-weight:600;padding:2px 9px;border-radius:12px;background:var(--bg2);border:1px solid var(--br);color:var(--tx2);white-space:nowrap;}
+
+/* ── LEGEND ── */
+.lgd{padding:8px 20px;display:flex;gap:10px;flex-wrap:wrap;border-top:1px solid var(--br);font-size:12px;align-items:center;background:var(--sf);font-family:'Inter',sans-serif;}
+.lgsep{width:1px;height:11px;background:var(--br);}
+.lgi{display:flex;align-items:center;gap:3px;color:var(--tx2);}
+.lgsw{width:8px;height:8px;border-radius:50%;}
+.lgq{display:flex;gap:5px;flex-wrap:wrap;}
+.qb{font-size:11px;font-family:'Inter',sans-serif;font-weight:600;padding:3px 8px;border-radius:4px;}
+.anote{margin-left:auto;font-size:11px;color:var(--tx3);font-family:'Inter',sans-serif;}
+.sbar{padding:7px 20px;display:flex;gap:14px;flex-wrap:wrap;border-top:1px solid var(--br);}
+.sv{font-family:'IBM Plex Mono',monospace;font-size:18px;font-weight:500;color:var(--tx);}
+.sk{font-size:11px;color:var(--tx3);margin-top:2px;font-family:'Inter',sans-serif;}
+
+
+/* ── PREDICTIONS TAB ── */
+.pred-wrap{padding:20px 24px;}
+.pred-intro{font-size:14px;color:var(--tx2);line-height:1.7;max-width:760px;margin-bottom:20px;}
+.pred-intro b{color:var(--tx);font-weight:700;}
+.pred-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:12px;}
+.pred-tile{background:var(--sf);border:1px solid var(--br);border-radius:10px;padding:14px 16px;cursor:pointer;transition:border-color .15s,box-shadow .15s;position:relative;}
+.pred-tile:hover{border-color:var(--br3);box-shadow:var(--shadow);}
+.pred-tile.expanded{border-color:var(--acc);box-shadow:var(--shadow);}
+.pred-tile-header{display:flex;align-items:flex-start;gap:10px;margin-bottom:8px;}
+.pred-num{font-family:'IBM Plex Mono',monospace;font-size:26px;font-weight:500;color:var(--tx);line-height:1;flex-shrink:0;}
+.pred-num-unit{font-size:13px;font-weight:400;color:var(--tx2);margin-left:2px;font-family:'IBM Plex Mono',monospace;}
+.pred-title{font-family:'Inter',sans-serif;font-size:13px;font-weight:600;color:var(--tx);line-height:1.35;flex:1;}
+.pred-trend{font-size:14px;flex-shrink:0;}
+.pred-desc{font-size:13px;color:var(--tx2);line-height:1.6;margin-bottom:8px;font-family:'Inter',sans-serif;}
+.pred-sources{display:none;margin-top:8px;border-top:1px solid var(--br2);padding-top:8px;}
+.pred-tile.expanded .pred-sources{display:block;}
+.pred-src-row{display:flex;align-items:center;gap:6px;padding:4px 0;font-size:11px;font-family:'IBM Plex Mono',monospace;}
+.pred-src-tier{width:6px;height:6px;border-radius:50%;flex-shrink:0;}
+.pred-src-name{color:var(--tx2);flex:1;}
+.pred-src-val{color:var(--tx);font-weight:500;}
+.pred-src-year{color:var(--tx3);}
+.pred-tier-dist{display:flex;gap:3px;margin-top:6px;}
+.ptd-seg{height:4px;border-radius:2px;transition:width .3s;}
+
+
+/* ── PRODUCTIVITY TAB ── */
+.prod-wrap{padding:20px 24px;}
+.prod-intro{font-size:14px;color:var(--tx2);line-height:1.7;max-width:760px;margin-bottom:20px;}
+.prod-intro b{color:var(--tx);font-weight:700;}
+.prod-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-bottom:20px;}
+@media(max-width:640px){.prod-grid{grid-template-columns:1fr 1fr;}}
+.prod-bar-col{display:flex;flex-direction:column;align-items:center;gap:6px;}
+.prod-bar-wrap{width:100%;display:flex;flex-direction:column;justify-content:flex-end;height:200px;position:relative;}
+.prod-bar-fill{width:100%;border-radius:4px 4px 0 0;transition:height .4s;cursor:pointer;position:relative;}
+.prod-bar-fill:hover{opacity:.85;}
+.prod-bar-label{font-size:12px;font-family:'Inter',sans-serif;color:var(--tx2);text-align:center;line-height:1.4;}
+.prod-bar-pct{font-family:'IBM Plex Mono',monospace;font-size:14px;font-weight:500;color:var(--tx);}
+.prod-economists{background:var(--sf);border:1px solid var(--br);border-radius:10px;padding:14px 16px;}
+.prod-econ-title{font-family:'Inter',sans-serif;font-size:12px;font-weight:600;color:var(--tx);margin-bottom:10px;}
+.prod-econ-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:8px;}
+.prod-econ-card{background:var(--bg2);border-radius:6px;padding:8px 10px;}
+.prod-econ-name{font-family:'Inter',sans-serif;font-size:12px;font-weight:600;color:var(--tx);margin-bottom:2px;}
+.prod-econ-inst{font-size:11px;color:var(--tx3);font-family:'Inter',sans-serif;margin-bottom:5px;}
+.prod-econ-bars{display:flex;flex-direction:column;gap:2px;}
+.prod-econ-bar{display:flex;align-items:center;gap:5px;}
+.prod-econ-bar-fill{height:4px;border-radius:2px;}
+.prod-econ-bar-pct{font-size:11px;font-family:'IBM Plex Mono',monospace;color:var(--tx3);min-width:28px;}
+
+
+/* ── USAGE TAB ── */
+.usage-wrap{padding:16px 20px;}
+.usage-intro{font-size:14px;color:var(--tx2);line-height:1.7;max-width:760px;margin-bottom:16px;}
+.usage-intro b{color:var(--tx);font-weight:700;}
+.usage-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+@media(max-width:600px){.usage-grid{grid-template-columns:1fr;}}
+.usage-card{background:var(--sf);border:1px solid var(--br);border-radius:8px;padding:12px 14px;min-width:0;overflow:hidden;}
+.usage-card-title{font-family:'Inter',sans-serif;font-size:13px;font-weight:600;color:var(--tx);margin-bottom:4px;}
+.usage-card-src{font-size:11px;color:var(--tx3);font-family:'Inter',sans-serif;margin-bottom:10px;}
+#age-svg,#freq-svg,#tools-svg,#tasks-svg{width:100%;display:block;overflow:visible;}
+
+
+/* ── DISPLACEMENT TAB ── */
+.disp-wrap{padding:20px 24px;}
+.disp-intro{font-size:14px;color:var(--tx2);line-height:1.7;max-width:760px;margin-bottom:20px;}
+.disp-intro b{color:var(--tx);font-weight:700;}
+.timeline-wrap{position:relative;padding-left:28px;max-width:760px;}
+.timeline-line{position:absolute;left:10px;top:0;bottom:0;width:1px;background:var(--br);}
+.timeline-item{position:relative;margin-bottom:16px;}
+.tl-dot{position:absolute;left:-22px;top:4px;width:10px;height:10px;border-radius:50%;border:2px solid var(--sf);z-index:1;}
+.tl-year{font-size:11px;font-family:'IBM Plex Mono',monospace;color:var(--tx3);margin-bottom:4px;}
+.tl-title{font-family:'Inter',sans-serif;font-size:14px;font-weight:600;color:var(--tx);margin-bottom:4px;}
+.tl-body{font-size:13px;color:var(--tx2);line-height:1.65;font-family:'Inter',sans-serif;}
+.tl-meta{display:flex;align-items:center;gap:6px;margin-top:4px;flex-wrap:wrap;}
+.tl-source{font-size:11px;font-family:'IBM Plex Mono',monospace;color:var(--tx3);}
+.tl-value{font-size:12px;font-family:'IBM Plex Mono',monospace;font-weight:500;}
+
+
+/* ── METHODOLOGY TAB ── */
+.meth-wrap{padding:20px 24px;max-width:820px;}
+.meth-kpi{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:24px;}
+@media(max-width:600px){.meth-kpi{grid-template-columns:1fr 1fr;}}
+.meth-kpi-card{background:var(--sf);border:1px solid var(--br);border-radius:8px;padding:12px 14px;}
+.meth-kpi-val{font-family:'IBM Plex Mono',monospace;font-size:24px;font-weight:500;color:var(--tx);line-height:1;}
+.meth-kpi-lbl{font-size:11px;color:var(--tx3);margin-top:4px;font-family:'Inter',sans-serif;}
+.meth-section{margin-bottom:22px;}
+.meth-h{font-family:'Inter',sans-serif;font-size:13px;font-weight:600;color:var(--acc);margin-bottom:10px;padding-bottom:6px;border-bottom:1px solid var(--br);}
+.meth-p{font-size:14px;color:var(--tx2);line-height:1.75;margin-bottom:10px;font-family:'Inter',sans-serif;}
+.meth-p b{color:var(--tx);}
+.meth-table{width:100%;border-collapse:collapse;font-size:13px;margin-bottom:8px;}
+.meth-table th{font-size:11px;font-weight:600;color:var(--tx3);padding:7px 10px;border-bottom:2px solid var(--br);text-align:left;font-family:'Inter',sans-serif;}
+.meth-table td{padding:8px 10px;border-bottom:1px solid var(--br2);vertical-align:top;color:var(--tx2);line-height:1.6;font-family:'Inter',sans-serif;}
+.meth-table td:first-child{color:var(--tx);font-weight:600;white-space:nowrap;}
+.meth-swatch{display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:4px;vertical-align:middle;}
+.meth-score-row{display:flex;align-items:center;gap:8px;padding:5px 0;border-bottom:1px solid var(--br2);}
+.meth-score-bar{height:8px;border-radius:4px;}
+.meth-score-lbl{font-size:12px;font-family:'Inter',sans-serif;color:var(--tx2);min-width:90px;}
+.meth-score-val{font-size:12px;font-family:'IBM Plex Mono',monospace;font-weight:500;color:var(--tx);min-width:36px;}
+.meth-vs{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px;}
+@media(max-width:500px){.meth-vs{grid-template-columns:1fr;}}
+.meth-vs-col{background:var(--sf);border:1px solid var(--br);border-radius:7px;padding:10px 12px;}
+.meth-vs-title{font-family:'Inter',sans-serif;font-size:13px;font-weight:600;color:var(--tx);margin-bottom:7px;}
+.meth-vs-item{font-size:12px;font-family:'Inter',sans-serif;color:var(--tx2);padding:3px 0;display:flex;gap:6px;}
+.meth-vs-item span{color:var(--acc3);}
+.meth-vs-item.minus span{color:var(--tx3);}
+.meth-snapshot{font-size:12px;font-family:'Inter',sans-serif;color:var(--tx3);margin-top:16px;padding:10px 14px;background:var(--bg2);border-radius:5px;border-left:3px solid var(--br3);}
+
+
+/* ── FOOTER ── */
+footer{padding:10px 24px;font-size:12px;color:var(--tx3);border-top:1px solid var(--br);display:flex;gap:12px;flex-wrap:wrap;font-family:'Inter',sans-serif;background:var(--sf);line-height:1.6;}
+/* lang switcher removed */
+footer a{color:var(--tx2);text-decoration:none;}
+
+
+
+
+/* ── MOBILE ≤640px ── */
+@media(max-width:640px){
+  /* Padding reduction */
+  .tb,.lgd,.sbar,footer,.pred-wrap,.prod-wrap,.usage-wrap,.disp-wrap,.meth-wrap{padding-left:14px;padding-right:14px;}
+
+  /* Header: 2-row compact layout */
+  .hd{flex-wrap:wrap;padding:8px 14px;gap:4px;align-items:flex-start;}
+  .hd-t{flex:0 0 100%;min-width:0;}
+  .hd-t h1{
+    font-size:14px;
+    line-height:1.2;
+    letter-spacing:-.2px;
+  }
+  /* Badges + button on second row */
+  .hd-r{
+    flex:0 0 100%;
+    flex-direction:row;
+    align-items:center;
+    gap:6px;
+    margin-top:4px;
+  }
+  .hd-r .badge{font-size:11px;padding:2px 7px;}
+  .hd-r .badge:nth-child(2){display:none;}
+  .th-btn{width:28px;height:28px;margin-left:auto;}
+  .th-btn svg{width:15px;height:15px;}
+
+  /* Tabs */
+  .tab{font-size:11px;padding:9px 11px;}
+
+  /* Toolbar */
+  .tb{gap:5px;padding-top:6px;padding-bottom:6px;}
+  .tbl{font-size:11px;}
+  .reg-bar{padding:5px 14px;gap:4px;}
+  .chip{font-size:11px;padding:2px 9px;}
+  .chip-d{font-size:11px;padding:2px 6px;}
+  .srch{width:110px;font-size:12px;}
+
+  /* Treemap + panel */
+  .panel.open{width:100%;border-left:none;border-top:1px solid var(--br);}
+  .main-wrap{flex-direction:column;}
+  .pin{padding:12px 12px 12px;}
+  .ptitle{font-size:14px;}
+  .psn{font-size:20px;}
+  .pmeta{grid-template-columns:1fr 1fr 1fr;gap:4px;}
+  .pmk{font-size:11px;}
+  .pmv{font-size:12px;}
+  .psum{font-size:12px;}
+  .reinv-card{padding:9px 10px 9px 12px;}
+  .reinv-title{font-size:12px;}
+  .reinv-desc{font-size:11px;}
+  .reinv-hint{display:none;}
+
+  /* Legend */
+  .lgd{padding-top:6px;padding-bottom:6px;gap:6px;}
+  .qb{font-size:11px;padding:2px 6px;}
+  .anote{display:none;}
+
+  /* Popup */
+  .popup{width:calc(100vw - 24px) !important;left:12px !important;}
+  .popup-title{font-size:14px;}
+  .popup-score{font-size:24px;}
+  .popup-summary{font-size:12px;}
+
+  /* Reinvention popup */
+  .rpopup{width:calc(100vw - 24px) !important;left:12px !important;top:50% !important;transform:translateY(-50%) scale(.97) !important;}
+  .rpopup.show{transform:translateY(-50%) scale(1) !important;}
+  .rpopup-title{font-size:15px;}
+  .rpopup-desc{font-size:12px;}
+
+  /* Other tabs */
+  .pred-grid{grid-template-columns:1fr;}
+  .pred-num{font-size:22px;}
+  .pred-title{font-size:12px;}
+  .pred-desc{font-size:12px;}
+  .prod-grid{grid-template-columns:1fr 1fr;}
+  .prod-bar-label{font-size:11px;}
+  .prod-econ-grid{grid-template-columns:1fr 1fr;}
+  .usage-grid{grid-template-columns:1fr;}
+  .meth-kpi{grid-template-columns:1fr 1fr;}
+  .meth-kpi-val{font-size:20px;}
+  .meth-p{font-size:13px;}
+  .meth-table{font-size:12px;}
+  .meth-table td:first-child{white-space:normal;}
+  .tl-title{font-size:13px;}
+  .tl-body{font-size:12px;}
+  footer{font-size:11px;}
+}
+
+
+/* ── VERY SMALL ≤380px ── */
+@media(max-width:380px){
+  .hd-t h1{font-size:clamp(18px,4.5vw,22px);line-height:1.2;letter-spacing:-0.02em;}
+  .tab{font-size:11px;padding:7px 9px;}
+  .chip{font-size:11px;padding:2px 6px;}
+}
+
 
 </style>
 </head>
@@ -2458,5 +2654,35 @@ document.addEventListener('click', e => {
   window.addEventListener("resize",()=>{clearTimeout(_rd);_rd=setTimeout(_rv,100);});
 })();
 </script>
+
+<!-- ── POPUP SUMMARY ── -->
+<div class="popup-overlay" id="popup-overlay">
+  <div class="popup" id="popup">
+    <button class="popup-close" id="popup-close">✕</button>
+    <div class="popup-header">
+      <div class="popup-title" id="pop-title"></div>
+      <div class="popup-domain" id="pop-domain"></div>
+    </div>
+    <div class="popup-body">
+      <div class="popup-score-row">
+        <div class="popup-score" id="pop-score"></div>
+        <div class="popup-score-info">
+          <div class="popup-score-label" id="pop-score-label"></div>
+          <div class="popup-score-bar"><div class="popup-score-fill" id="pop-score-fill"></div></div>
+        </div>
+      </div>
+      <div class="popup-summary" id="pop-summary"></div>
+      <div class="popup-meta" id="pop-meta"></div>
+    <div id="popup-note" style="font-size:10px;color:var(--tx3);font-family:'Inter',sans-serif;padding:0 16px 10px;line-height:1.5"></div>
+    </div>
+    <div class="popup-footer">
+      <span class="popup-tag" id="pop-tag"></span>
+      <button class="popup-btn" id="pop-detail-btn">Pistes de réinvention →</button>
+    </div>
+  </div>
+</div>
+
+
+
 </body>
 </html>
