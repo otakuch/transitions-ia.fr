@@ -2536,6 +2536,9 @@ function initCarte() {
     loading.style.display="none";
 
     const geojson=JSON.parse(JSON.stringify(FRANCE_GEOJSON));
+    // Régions métropolitaines uniquement (codes INSEE >= 11) : la projection est
+    // centrée sur la métropole, les DROM (01-06) tomberaient hors cadre.
+    const featuresMetro=geojson.features.filter(f=>+f.properties.code>=11);
 
     const svg=d3.select("#carte-svg").attr("viewBox",`0 0 ${W} ${H}`);
 
@@ -2571,7 +2574,7 @@ function initCarte() {
 
     // Value labels at centroid
     svg.selectAll(".carte-label")
-      .data(geojson.features.filter(f=>REGIONS_DATA[f.properties.code]))
+      .data(featuresMetro.filter(f=>REGIONS_DATA[f.properties.code]))
       .join("text")
       .attr("class","carte-label")
       .attr("transform", d => {
